@@ -74,11 +74,22 @@ class pe_metrics_dashboard::install {
   ## install / enable telegraf
   package {'telegraf':
     ensure => present,
-  }  
+  }->  
 
   service {'telegraf':
     ensure  => running,
     enable  => true,
+  }
+
+  ## install / enable chronograf
+
+  package {'chronograf':
+    ensure => present,
+  }->
+
+  service 'chronograf':
+    ensure => running,
+    enabled => true,
   }
 
 }
