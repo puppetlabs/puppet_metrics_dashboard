@@ -87,9 +87,9 @@ class pe_metrics_dashboard::install {
     ensure => present,
   }->
 
-  service 'chronograf':
+  service {'chronograf':
     ensure => running,
-    enabled => true,
+    enable => true,
   }
 
 }
