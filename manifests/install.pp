@@ -60,5 +60,16 @@ class pe_metrics_dashboard::install {
     grafana_password => 'admin',
     require          => Service['grafana-server'],
   }
+ 
+  ## install kapacitor
+  package {'kapacitor':
+    ensure => present,
+    source => 'https://dl.influxdata.com/kapacitor/releases/kapacitor-1.3.1.x86_64.rpm',
+    provider => 'rpm',
+  }->
 
+  service {'kapacitor':
+    ensure  => running,
+    enable  => true,
+  }
 }
