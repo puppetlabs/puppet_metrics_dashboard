@@ -16,6 +16,16 @@ class pe_metrics_dashboard::install {
   service {'influxdb':
     ensure  => running,
     require => Package['influxdb'],
+  }->
+
+  exec {'create influxdb admin user':
+    command => '/usr/bin/influx -execute "CREATE USER admin WITH PASSWORD \'puppet\' WITH ALL PRIVILEGES"',
+    unless => '/usr/bin/influx -username admin -password puppet -execute \'show users\' | grep \'admin true\''
+  }->
+
+  exec {'create influxdb pe_metrics database':
+    command => '/usr/bin/influx -username admin -password puppet -execute "create database pe_metrics"',
+    unless => '/usr/bin/influx -username admin -password puppet -execute \'show databases\' | grep pe_metrics'
   }
 
   yumrepo { 'grafana-repo':
