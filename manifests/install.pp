@@ -61,15 +61,24 @@ class pe_metrics_dashboard::install {
     require          => Service['grafana-server'],
   }
  
-  ## install kapacitor
+  ## install / enable kapacitor
   package {'kapacitor':
     ensure => present,
-    source => 'https://dl.influxdata.com/kapacitor/releases/kapacitor-1.3.1.x86_64.rpm',
-    provider => 'rpm',
   }->
 
   service {'kapacitor':
     ensure  => running,
     enable  => true,
   }
+
+  ## install / enable telegraf
+  package {'telegraf':
+    ensure => present,
+  }  
+
+  service {'telegraf':
+    ensure  => running,
+    enable  => true,
+  }
+
 }
