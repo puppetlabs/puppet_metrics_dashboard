@@ -1,4 +1,4 @@
-class pe_metrics_dashboard::install {
+class pe_metrics_dashboard::install ($add_dashboard_examples = false,){
 
   yumrepo {'influxdb':
     ensure   => present,
@@ -61,25 +61,27 @@ class pe_metrics_dashboard::install {
     require          => Service['grafana-server'],
   }
 
-  grafana_dashboard { 'PuppetDB Performance':
-    grafana_url       => 'http://localhost:3000',
-    grafana_user      => 'admin',
-    grafana_password  => 'admin',
-    content           => file('pe_metrics_dashboard/PuppetDB_Performance.json'),
-  }
+  if $add_dashboard_examples {
+    grafana_dashboard { 'PuppetDB Performance':
+      grafana_url       => 'http://localhost:3000',
+      grafana_user      => 'admin',
+      grafana_password  => 'admin',
+      content           => file('pe_metrics_dashboard/PuppetDB_Performance.json'),
+    }
 
-  grafana_dashboard { 'PuppetDB Workload':
-    grafana_url       => 'http://localhost:3000',
-    grafana_user      => 'admin',
-    grafana_password  => 'admin',
-    content           => file('pe_metrics_dashboard/PuppetDB_Workload.json'),
-  }
+    grafana_dashboard { 'PuppetDB Workload':
+      grafana_url       => 'http://localhost:3000',
+      grafana_user      => 'admin',
+      grafana_password  => 'admin',
+      content           => file('pe_metrics_dashboard/PuppetDB_Workload.json'),
+    }
  
-  grafana_dashboard { 'Puppetserver Performance':
-    grafana_url       => 'http://localhost:3000',
-    grafana_user      => 'admin',
-    grafana_password  => 'admin',
-    content           => file('pe_metrics_dashboard/Puppetserver_Performance.json'),
+    grafana_dashboard { 'Puppetserver Performance':
+      grafana_url       => 'http://localhost:3000',
+      grafana_user      => 'admin',
+      grafana_password  => 'admin',
+      content           => file('pe_metrics_dashboard/Puppetserver_Performance.json'),
+    }
   }
 
   ## install / enable kapacitor
