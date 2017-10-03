@@ -54,7 +54,7 @@ class pe_metrics_dashboard::install(
         http_port      => $grafana_http_port,
       },
     },
-  }
+  }->
 
   # Configure grafana to use InfluxDB
   grafana_datasource { "influxdb":
