@@ -8,7 +8,9 @@ class pe_metrics_dashboard::install(
   case $::osfamily {
 
     'RedHat': {  
-   
+       
+       $influx_db_service_name = 'influxdb'
+       
        yumrepo {'influxdb':
           ensure   => present,
           enabled  => 1,
@@ -33,7 +35,8 @@ class pe_metrics_dashboard::install(
     }
     
     'Debian': {
-      
+     
+      $influx_db_service_name = 'influxd' 
       $_operatingsystem = downcase($::operatingsystem)	
 
       apt::source { 'influxdb':
@@ -68,7 +71,7 @@ class pe_metrics_dashboard::install(
     ensure  => present,
   }
 
-  service {'influxdb':
+  service {"${influx_db_service_name}":
     ensure  => running,
     require => Package['influxdb'],
   }->
