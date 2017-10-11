@@ -138,6 +138,7 @@ class pe_metrics_dashboard::install(
   ## install / enable kapacitor
   package {'kapacitor':
     ensure => present,
+    require => Class['grafana'],
   }->
 
   service {'kapacitor':
@@ -148,6 +149,7 @@ class pe_metrics_dashboard::install(
   ## install / enable telegraf
   package {'telegraf':
     ensure => present,
+    require => Class['grafana'],
   }->  
 
   service {'telegraf':
@@ -159,6 +161,7 @@ class pe_metrics_dashboard::install(
 
   package {'chronograf':
     ensure => present,
+    require => Class['grafana'],
   }->
 
   service {'chronograf':
