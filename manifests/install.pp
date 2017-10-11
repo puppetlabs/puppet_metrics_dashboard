@@ -40,6 +40,39 @@ class pe_metrics_dashboard::install(
     },
   }->
 
+  ## install / enable kapacitor
+  package {'kapacitor':
+    ensure => present,
+    require => Class['pe_metrics_dashboard::repos'],
+  }->
+
+  service {'kapacitor':
+    ensure  => running,
+    enable  => true,
+  }
+
+  ## install / enable telegraf
+  package {'telegraf':
+    ensure => present,
+    require => Class['pe_metrics_dashboard::repos'],
+  }->
+
+  service {'telegraf':
+    ensure  => running,
+    enable  => true,
+  }
+
+  ## install / enable chronograf
+  package {'chronograf':
+    ensure => present,
+    require => Class['pe_metrics_dashboard::repos'],
+  }->
+
+  service {'chronograf':
+    ensure => running,
+    enable => true,
+  }
+
   exec {'create influxdb admin user':
     command => '/usr/bin/influx -execute "CREATE USER admin WITH PASSWORD \'puppet\' WITH ALL PRIVILEGES"',
     unless => '/usr/bin/influx -username admin -password puppet -execute \'show users\' | grep \'admin true\''
@@ -86,40 +119,6 @@ class pe_metrics_dashboard::install(
       grafana_password  => 'admin',
       content           => file('pe_metrics_dashboard/Puppetserver_Performance.json'),
     }
-  }
-
-  ## install / enable kapacitor
-  package {'kapacitor':
-    ensure => present,
-    require => Class['pe_metrics_dashboard::repos'],
-  }->
-
-  service {'kapacitor':
-    ensure  => running,
-    enable  => true,
-  }
-
-  ## install / enable telegraf
-  package {'telegraf':
-    ensure => present,
-    require => Class['pe_metrics_dashboard::repos'],
-  }->  
-
-  service {'telegraf':
-    ensure  => running,
-    enable  => true,
-  }
-
-  ## install / enable chronograf
-
-  package {'chronograf':
-    ensure => present,
-    require => Class['pe_metrics_dashboard::repos'],
-  }->
-
-  service {'chronograf':
-    ensure => running,
-    enable => true,
   }
 
 }
