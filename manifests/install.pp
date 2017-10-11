@@ -29,16 +29,6 @@ class pe_metrics_dashboard::install(
     require => Package['influxdb'],
   }->
 
-  exec {'create influxdb admin user':
-    command => '/usr/bin/influx -execute "CREATE USER admin WITH PASSWORD \'puppet\' WITH ALL PRIVILEGES"',
-    unless => '/usr/bin/influx -username admin -password puppet -execute \'show users\' | grep \'admin true\''
-  }->
-
-  exec {'create influxdb pe_metrics database':
-    command => "/usr/bin/influx -username admin -password puppet -execute \"create database ${influxdb_database_name}\"",
-    unless => "/usr/bin/influx -username admin -password puppet -execute \'show databases\' | grep ${$influxdb_database_name}"
-  }
-
   class { 'grafana':
     install_method => 'repo',
     manage_package_repo => false,
@@ -48,6 +38,16 @@ class pe_metrics_dashboard::install(
         http_port      => $grafana_http_port,
       },
     },
+  }->
+
+  exec {'create influxdb admin user':
+    command => '/usr/bin/influx -execute "CREATE USER admin WITH PASSWORD \'puppet\' WITH ALL PRIVILEGES"',
+    unless => '/usr/bin/influx -username admin -password puppet -execute \'show users\' | grep \'admin true\''
+  }->
+
+  exec {'create influxdb pe_metrics database':
+    command => "/usr/bin/influx -username admin -password puppet -execute \"create database ${influxdb_database_name}\"",
+    unless => "/usr/bin/influx -username admin -password puppet -execute \'show databases\' | grep ${$influxdb_database_name}"
   }->
 
   # Configure grafana to use InfluxDB
