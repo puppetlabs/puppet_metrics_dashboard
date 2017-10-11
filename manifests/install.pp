@@ -49,7 +49,7 @@ class pe_metrics_dashboard::install(
   service {'kapacitor':
     ensure  => running,
     enable  => true,
-  }
+  }->
 
   ## install / enable telegraf
   package {'telegraf':
@@ -60,7 +60,7 @@ class pe_metrics_dashboard::install(
   service {'telegraf':
     ensure  => running,
     enable  => true,
-  }
+  }->
 
   ## install / enable chronograf
   package {'chronograf':
@@ -71,7 +71,7 @@ class pe_metrics_dashboard::install(
   service {'chronograf':
     ensure => running,
     enable => true,
-  }
+  }->
 
   exec {'create influxdb admin user':
     command => '/usr/bin/influx -execute "CREATE USER admin WITH PASSWORD \'puppet\' WITH ALL PRIVILEGES"',
