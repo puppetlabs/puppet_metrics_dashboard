@@ -1,48 +1,32 @@
 class pe_metrics_dashboard::install(
   $add_dashboard_examples =   false,
   $influxdb_database_name =   'pe_metrics',
-  $grafana_version =          '4.4.3',
+  $grafana_version =          '4.5.2',
   $grafana_http_port =        '3000',
 ) {
 
-  yumrepo {'influxdb':
-    ensure   => present,
-    enabled  => 1,
-    gpgcheck => 1,
-    baseurl  => 'https://repos.influxdata.com/rhel/$releasever/$basearch/stable',
-    gpgkey   => 'https://repos.influxdata.com/influxdb.key',
+  case $::osfamily {
+
+    'RedHat': {  
+       $influx_db_service_name = 'influxdb'
+    }
+    'Debian': {
+      $influx_db_service_name = 'influxd'
+    }
+    default: {
+      fail("$::osfamily installation not supported")
+    }
   }
+
+  class {'pe_metrics_dashboard::repos':}->
 
   package {'influxdb':
     ensure  => present,
-    require => Yumrepo['influxdb'],
-  }
+  }->
 
-  service {'influxdb':
+  service {"${influx_db_service_name}":
     ensure  => running,
     require => Package['influxdb'],
-  }->
-
-  exec {'create influxdb admin user':
-    command => '/usr/bin/influx -execute "CREATE USER admin WITH PASSWORD \'puppet\' WITH ALL PRIVILEGES"',
-    unless => '/usr/bin/influx -username admin -password puppet -execute \'show users\' | grep \'admin true\''
-  }->
-
-  exec {'create influxdb pe_metrics database':
-    command => "/usr/bin/influx -username admin -password puppet -execute \"create database ${influxdb_database_name}\"",
-    unless => "/usr/bin/influx -username admin -password puppet -execute \'show databases\' | grep ${$influxdb_database_name}"
-  }
-
-  yumrepo { 'grafana-repo':
-    ensure        => 'present',
-    baseurl       => 'https://packagecloud.io/grafana/stable/el/6/$basearch',
-    descr         => 'grafana-repository',
-    enabled       => '1',
-    repo_gpgcheck => '1',
-    gpgcheck      => '1',
-    gpgkey        => 'https://packagecloud.io/gpg.key https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana',
-    sslverify     => '1',
-    sslcacert     => '/etc/pki/tls/certs/ca-bundle.crt',
   }->
 
   class { 'grafana':
@@ -54,6 +38,49 @@ class pe_metrics_dashboard::install(
         http_port      => $grafana_http_port,
       },
     },
+  }->
+
+  ## install / enable kapacitor
+  package {'kapacitor':
+    ensure => present,
+    require => Class['pe_metrics_dashboard::repos'],
+  }->
+
+  service {'kapacitor':
+    ensure  => running,
+    enable  => true,
+  }->
+
+  ## install / enable telegraf
+  package {'telegraf':
+    ensure => present,
+    require => Class['pe_metrics_dashboard::repos'],
+  }->
+
+  service {'telegraf':
+    ensure  => running,
+    enable  => true,
+  }->
+
+  ## install / enable chronograf
+  package {'chronograf':
+    ensure => present,
+    require => Class['pe_metrics_dashboard::repos'],
+  }->
+
+  service {'chronograf':
+    ensure => running,
+    enable => true,
+  }->
+
+  exec {'create influxdb admin user':
+    command => '/usr/bin/influx -execute "CREATE USER admin WITH PASSWORD \'puppet\' WITH ALL PRIVILEGES"',
+    unless => '/usr/bin/influx -username admin -password puppet -execute \'show users\' | grep \'admin true\''
+  }->
+
+  exec {'create influxdb pe_metrics database':
+    command => "/usr/bin/influx -username admin -password puppet -execute \"create database ${influxdb_database_name}\"",
+    unless => "/usr/bin/influx -username admin -password puppet -execute \'show databases\' | grep ${$influxdb_database_name}"
   }->
 
   # Configure grafana to use InfluxDB
@@ -92,37 +119,6 @@ class pe_metrics_dashboard::install(
       grafana_password  => 'admin',
       content           => file('pe_metrics_dashboard/Puppetserver_Performance.json'),
     }
-  }
-
-  ## install / enable kapacitor
-  package {'kapacitor':
-    ensure => present,
-  }->
-
-  service {'kapacitor':
-    ensure  => running,
-    enable  => true,
-  }
-
-  ## install / enable telegraf
-  package {'telegraf':
-    ensure => present,
-  }->  
-
-  service {'telegraf':
-    ensure  => running,
-    enable  => true,
-  }
-
-  ## install / enable chronograf
-
-  package {'chronograf':
-    ensure => present,
-  }->
-
-  service {'chronograf':
-    ensure => running,
-    enable => true,
   }
 
 }
