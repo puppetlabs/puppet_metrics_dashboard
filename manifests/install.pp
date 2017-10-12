@@ -67,7 +67,7 @@ class pe_metrics_dashboard::install(
   ->exec { 'wait for influxdb':
     command => '/bin/sleep 5',
     unless  => '/usr/bin/influx -execute "SHOW DATABASES"',
-    require => Service['influxdb'],
+    require => Service[$influx_db_service_name],
   }
 
   ->exec { 'create influxdb admin user':
