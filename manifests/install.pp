@@ -5,7 +5,10 @@ class pe_metrics_dashboard::install(
   String $grafana_version          =  $pe_metrics_dashboard::params::grafana_version,
   Integer $grafana_http_port       =  $pe_metrics_dashboard::params::grafana_http_port,
   String $influx_db_password       =  $pe_metrics_dashboard::params::influx_db_password,
-  String $grafana_password         =  $pe_metrics_dashboard::params::grafana_password
+  String $grafana_password         =  $pe_metrics_dashboard::params::grafana_password,
+  Boolean $enable_kapacitor        =  $pe_metrics_dashboard::params::enable_kapacitor,
+  Boolean $enable_chronograf       =  $pe_metrics_dashboard::params::enable_chronograf,
+  Boolean $enable_telegraf         =  $pe_metrics_dashboard::params::enable_telegraf,
 ) inherits pe_metrics_dashboard::params {
 
   include pe_metrics_dashboard::repos
@@ -32,57 +35,66 @@ class pe_metrics_dashboard::install(
     require             => Service[$influx_db_service_name],
   }
 
-  ## install / enable kapacitor
-  ->package { 'kapacitor':
-    ensure  => present,
-    require => Class['pe_metrics_dashboard::repos'],
+  if $enable_kapacitor {
+    package { 'kapacitor':
+      ensure  => present,
+      require => Class['pe_metrics_dashboard::repos'],
+    }
+
+    service { 'kapacitor':
+      ensure  => running,
+      enable  => true,
+      require => [Package['kapacitor'], Service[$influx_db_service_name]],
+    }
   }
 
-  ->service { 'kapacitor':
-    ensure => running,
-    enable => true,
-  }
-  -> package { 'telegraf':
-    ensure  => present,
-    require => Class['pe_metrics_dashboard::repos'],
+  if $enable_telegraf {
+    package { 'telegraf':
+      ensure  => present,
+      require => Class['pe_metrics_dashboard::repos'],
+    }
+
+    service { 'telegraf':
+      ensure  => running,
+      enable  => true,
+      require => [Package['telegraf'], Service[$influx_db_service_name]],
+    }
   }
 
-  ->service { 'telegraf':
-    ensure => running,
-    enable => true,
-  }
+  if $enable_chronograf {
+    package { 'chronograf':
+      ensure  => present,
+      require => Class['pe_metrics_dashboard::repos'],
+    }
 
-  ## install / enable chronograf
-  ->package { 'chronograf':
-    ensure  => present,
-    require => Class['pe_metrics_dashboard::repos'],
-  }
-
-  ->service { 'chronograf':
-    ensure => running,
-    enable => true,
+    service { 'chronograf':
+      ensure  => running,
+      enable  => true,
+      require => [Package['chronograf'], Service[$influx_db_service_name]],
+    }
   }
 
   # Fix a timing issue where influxdb does not start fully before creating users
-  ->exec { 'wait for influxdb':
+  exec { 'wait for influxdb':
     command => '/bin/sleep 5',
     unless  => '/usr/bin/influx -execute "SHOW DATABASES"',
     require => Service[$influx_db_service_name],
   }
 
-  ->exec { 'create influxdb admin user':
+  exec { 'create influxdb admin user':
     command => "/usr/bin/influx -execute \"CREATE USER admin WITH PASSWORD '${influx_db_password}' WITH ALL PRIVILEGES\"",
     unless  => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \'show users\' | grep \'admin true\'",
     require => Exec['wait for influxdb'],
   }
 
-  ->exec { 'create influxdb pe_metrics database':
+  exec { 'create influxdb pe_metrics database':
     command => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \"create database ${influxdb_database_name}\"",
     unless  => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \'show databases\' | grep ${$influxdb_database_name}",
+    require => Exec['create influxdb admin user'],
   }
 
   # Configure grafana to use InfluxDB
-  ->grafana_datasource { 'influxdb':
+  grafana_datasource { 'influxdb':
     grafana_url      => "http://localhost:${grafana_http_port}",
     type             => 'influxdb',
     database         => $influxdb_database_name,
