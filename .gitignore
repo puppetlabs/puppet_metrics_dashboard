@@ -3,3 +3,6 @@ pkg
 .bundle
 .yardoc
 Gemfile.lock
+*.swp
+.vagrant
+.rspec
