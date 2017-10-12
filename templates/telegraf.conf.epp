@@ -1,0 +1,48 @@
+[global_tags]
+[agent]
+  interval = "10s"
+  round_interval = true
+  metric_batch_size = 1000
+  metric_buffer_limit = 10000
+  collection_jitter = "0s"
+  flush_interval = "10s"
+  flush_jitter = "0s"
+  precision = ""
+  debug = false
+  quiet = false
+  logfile = ""
+  hostname = ""
+  omit_hostname = false
+[[outputs.influxdb]]
+  urls = ["http://localhost:8086"] # required
+  database = "telegraf" # required
+  retention_policy = ""
+  write_consistency = "any"
+  timeout = "5s"
+
+[[inputs.httpjson]]
+  name = "puppet_stats"
+  servers = [
+    <%# -%>
+    <% unless $pe_metrics_dashboard::install::master_list.empty {-%>
+    <% $pe_metrics_dashboard::install::master_list.each |$master_list| {-%>
+    "https://<%= $master_list %>:8140/status/v1/services?level=debug",
+    <% } -%>
+    <% } -%>
+    <%# -%>
+  ]
+  method = "GET"
+  insecure_skip_verify = true
+[[inputs.httpjson]]
+  name = "puppetdb_stats"
+  servers = [
+    <%# -%>
+    <% unless $pe_metrics_dashboard::install::puppetdb_list.empty {-%>
+    <% $pe_metrics_dashboard::install::puppetdb_list.each |$puppetdb_list| {-%>
+    "https://<%= $puppetdb_list %>:8081/status/v1/services?level=debug",
+    <% } -%>
+    <% } -%>
+    <%# -%>
+  ]
+  method = "GET"
+  insecure_skip_verify = true

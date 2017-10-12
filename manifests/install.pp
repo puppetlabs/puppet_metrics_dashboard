@@ -9,6 +9,9 @@ class pe_metrics_dashboard::install(
   Boolean $enable_kapacitor        =  $pe_metrics_dashboard::params::enable_kapacitor,
   Boolean $enable_chronograf       =  $pe_metrics_dashboard::params::enable_chronograf,
   Boolean $enable_telegraf         =  $pe_metrics_dashboard::params::enable_telegraf,
+  Boolean $configure_telegraf      =  $pe_metrics_dashboard::params::configure_telegraf,
+  Array[String] $master_list       =  $pe_metrics_dashboard::params::master_list,
+  Array[String] $puppetdb_list     =  $pe_metrics_dashboard::params::puppetdb_list  
 ) inherits pe_metrics_dashboard::params {
 
   include pe_metrics_dashboard::repos
@@ -53,6 +56,17 @@ class pe_metrics_dashboard::install(
       ensure  => present,
       require => Class['pe_metrics_dashboard::repos'],
     }
+
+    if $configure_telegraf {
+      
+      file {'/etc/telegraf/telegraf.conf':
+        ensure  => file,
+        owner   => 0,
+        group   => 0,
+        content => epp('pe_metrics_dashboard/telegraf.conf.epp'),
+        notify  => Service['telegraf'],
+      }
+    }    
 
     service { 'telegraf':
       ensure  => running,
