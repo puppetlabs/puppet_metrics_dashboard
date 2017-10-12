@@ -10,5 +10,4 @@ fixtures:
         ref: 4.3.0
       grafana: 
         repo: https://github.com/voxpupuli/puppet-grafana.git
-        ref: 4.0.2
     forge_modules:

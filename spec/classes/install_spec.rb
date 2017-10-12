@@ -14,7 +14,7 @@ describe 'pe_metrics_dashboard::install' do
       {
         :add_dashboard_examples => false,
         :influx_db_service_name => "influxdb",
-        :influxdb_database_name => "pe_metrics",
+        :influxdb_database_name => ["pe_metrics"],
         :grafana_version => '4.5.2',
         :grafana_http_port => 3000,
         :influx_db_password => "puppet",
@@ -51,15 +51,14 @@ describe 'pe_metrics_dashboard::install' do
     end
       
     it do
-      is_expected.to contain_package("kapacitor")
+      is_expected.not_to contain_package("kapacitor")
           .with({
             "ensure" => "present",
-            "require" => "Class[Pe_metrics_dashboard::Repos]",
              })
     end
       
     it do
-      is_expected.to contain_service("kapacitor")
+      is_expected.not_to contain_service("kapacitor")
           .with({
             "ensure" => "running",
             "enable" => true,
@@ -83,7 +82,7 @@ describe 'pe_metrics_dashboard::install' do
     end
       
     it do
-      is_expected.to contain_package("chronograf")
+      is_expected.not_to contain_package("chronograf")
           .with({
             "ensure" => "present",
             "require" => "Class[Pe_metrics_dashboard::Repos]",
@@ -91,7 +90,7 @@ describe 'pe_metrics_dashboard::install' do
     end
       
     it do
-      is_expected.to contain_service("chronograf")
+      is_expected.not_to contain_service("chronograf")
           .with({
             "ensure" => "running",
             "enable" => true,
@@ -117,7 +116,7 @@ describe 'pe_metrics_dashboard::install' do
     end
       
     it do
-      is_expected.to contain_exec("create influxdb pe_metrics database")
+      is_expected.to contain_exec("create influxdb pe_metrics database pe_metrics")
           .with({
             "command" => "/usr/bin/influx -username admin -password puppet -execute \"create database pe_metrics\"",
             "unless" => "/usr/bin/influx -username admin -password puppet -execute 'show databases' | grep pe_metrics",
@@ -125,54 +124,22 @@ describe 'pe_metrics_dashboard::install' do
     end
       
     it do
-      is_expected.to contain_grafana_datasource("influxdb")
+      is_expected.to contain_grafana_datasource("influxdb_pe_metrics")
           .with({
             "grafana_url" => "http://localhost:3000",
             "type" => "influxdb",
             "database" => "pe_metrics",
             "url" => "http://localhost:8086",
             "access_mode" => "proxy",
-            "is_default" => true,
+            "is_default" => false,
             "user" => "admin",
             "password" => "puppet",
             "grafana_user" => "admin",
             "grafana_password" => "admin",
-            "require" => ["Service[grafana-server]", "Exec[create influxdb pe_metrics database]"],
+            "require" => ["Service[grafana-server]", "Exec[create influxdb pe_metrics database pe_metrics]"],
             })
     end
       
-    it do
-      is_expected.not_to contain_grafana_dashboard("PuppetDB Performance")
-          .with({
-            "grafana_url" => "http://localhost:3000",
-            "grafana_user" => "admin",
-            "grafana_password" => "admin",
-            "content" => [],
-            "require" => "Grafana_datasource[influxdb]",
-            })
-    end
-      
-    it do
-      is_expected.not_to contain_grafana_dashboard("PuppetDB Workload")
-          .with({
-            "grafana_url" => "http://localhost:3000",
-            "grafana_user" => "admin",
-            "grafana_password" => "admin",
-            "content" => [],
-            "require" => "Grafana_datasource[influxdb]",
-            })
-    end
-      
-    it do
-      is_expected.not_to contain_grafana_dashboard("Puppetserver Performance")
-          .with({
-            "grafana_url" => "http://localhost:3000",
-            "grafana_user" => "admin",
-            "grafana_password" => "admin",
-            "content" => [],
-            "require" => "Grafana_datasource[influxdb]",
-            })
-    end
   end
 
   context "With dashboard exmples on Ubuntu" do
@@ -204,32 +171,32 @@ describe 'pe_metrics_dashboard::install' do
     end
     
     it do
-      is_expected.to contain_grafana_dashboard("PuppetDB Performance")
+      is_expected.to contain_grafana_dashboard("Archive PuppetDB Performance")
           .with({
             "grafana_url" => "http://localhost:3000",
             "grafana_user" => "admin",
             "grafana_password" => "admin",
-            "require" => "Grafana_datasource[influxdb]",
+            "require" => "Grafana_datasource[influxdb_pe_metrics]",
             })
     end
       
     it do
-      is_expected.to contain_grafana_dashboard("PuppetDB Workload")
+      is_expected.to contain_grafana_dashboard("Archive PuppetDB Workload")
           .with({
             "grafana_url" => "http://localhost:3000",
             "grafana_user" => "admin",
             "grafana_password" => "admin",
-            "require" => "Grafana_datasource[influxdb]",
+            "require" => "Grafana_datasource[influxdb_pe_metrics]",
             })
     end
       
     it do
-      is_expected.to contain_grafana_dashboard("Puppetserver Performance")
+      is_expected.to contain_grafana_dashboard("Archive Puppetserver Performance")
           .with({
             "grafana_url" => "http://localhost:3000",
             "grafana_user" => "admin",
             "grafana_password" => "admin",
-            "require" => "Grafana_datasource[influxdb]",
+            "require" => "Grafana_datasource[influxdb_pe_metrics]",
             })
     end
   end
