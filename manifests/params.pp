@@ -15,9 +15,13 @@ class pe_metrics_dashboard::params {
   $influx_db_password     =  'puppet'
   $grafana_password       =  'admin'
   # Influxdb TICK stack
-  $enable_telegraf        = true
-  $enable_kapacitor       = false
-  $enable_chronograf      = false
+  $enable_telegraf        =  true
+  $enable_kapacitor       =  false
+  $enable_chronograf      =  false
+  # telegraf config
+  $configure_telegraf     =  false
+  $master_list            =  []
+  $puppetdb_list          =  []
 
 
   case $::osfamily {
