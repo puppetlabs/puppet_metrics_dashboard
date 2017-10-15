@@ -101,15 +101,17 @@ class pe_metrics_dashboard::install(
     require => Exec['wait for influxdb'],
   }
 
-  exec { 'create influxdb pe_metrics database':
-    command => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \"create database ${influxdb_database_name}\"",
-    unless  => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \'show databases\' | grep ${$influxdb_database_name}",
-    require => Exec['create influxdb admin user'],
+  $influxdb_database_name.each |$db_name| {
+    exec { "create influxdb pe_metrics database ${db_name}":
+      command => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \"create database ${db_name}\"",
+      unless  => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \'show databases\' | grep ${$influxdb_database_name}",
+      require => Exec['create influxdb admin user'],
+    }
   }
 
   # Configure grafana to use InfluxDB with any number of database names
   $influxdb_database_name.each |$db_name| {
-    grafana_datasource { 'influxdb':
+    grafana_datasource { "influxdb_${db_name}":
       grafana_url      => "http://localhost:${grafana_http_port}",
       type             => 'influxdb',
       database         => $db_name,
