@@ -122,6 +122,7 @@ class pe_metrics_dashboard::install(
       grafana_password => 'admin',
       require          => [Service['grafana-server'], Exec['create influxdb pe_metrics database']],
     }
+  }
 
   if $add_dashboard_examples {
     grafana_dashboard { 'PuppetDB Performance':
