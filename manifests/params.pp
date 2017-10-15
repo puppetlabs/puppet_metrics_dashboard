@@ -14,6 +14,7 @@ class pe_metrics_dashboard::params {
   $grafana_http_port      =  3000
   $influx_db_password     =  'puppet'
   $grafana_password       =  'admin'
+  $consume_graphite       =  false
   # Influxdb TICK stack
   $enable_telegraf        =  true
   $enable_kapacitor       =  false

@@ -10,6 +10,7 @@ class pe_metrics_dashboard::install(
   Boolean $enable_chronograf              =  $pe_metrics_dashboard::params::enable_chronograf,
   Boolean $enable_telegraf                =  $pe_metrics_dashboard::params::enable_telegraf,
   Boolean $configure_telegraf             =  $pe_metrics_dashboard::params::configure_telegraf,
+  Boolean $consume_graphite               =  $pe_metrics_dashboard::params::consume_graphite,
   Array[String] $master_list              =  $pe_metrics_dashboard::params::master_list,
   Array[String] $puppetdb_list            =  $pe_metrics_dashboard::params::puppetdb_list  
 ) inherits pe_metrics_dashboard::params {
@@ -21,6 +22,17 @@ class pe_metrics_dashboard::install(
     require => Class['pe_metrics_dashboard::repos'],
   }
 
+  if $consume_graphite {
+
+    file {'/etc/influxdb/influxdb.conf':
+      ensure  => file,
+      owner   => 0,
+      group   => 0,
+      content => file('pe_metrics_dashboard/influxdb.conf'),
+      notify  => Service["${influx_db_service_name}"],
+    }
+  }
+ 
   service { $influx_db_service_name:
     ensure  => running,
     require => Package['influxdb'],
