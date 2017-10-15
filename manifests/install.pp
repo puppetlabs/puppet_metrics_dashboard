@@ -104,7 +104,7 @@ class pe_metrics_dashboard::install(
   $influxdb_database_name.each |$db_name| {
     exec { "create influxdb pe_metrics database ${db_name}":
       command => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \"create database ${db_name}\"",
-      unless  => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \'show databases\' | grep ${$influxdb_database_name}",
+      unless  => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \'show databases\' | grep ${db_name}",
       require => Exec['create influxdb admin user'],
     }
   }
