@@ -1,17 +1,17 @@
 class pe_metrics_dashboard::install(
-  Boolean $add_dashboard_examples  =  $pe_metrics_dashboard::params::add_dashboard_examples,
-  String $influx_db_service_name   =  $pe_metrics_dashboard::params::influx_db_service_name,
-  String $influxdb_database_name   =  $pe_metrics_dashboard::params::influxdb_database_name,
-  String $grafana_version          =  $pe_metrics_dashboard::params::grafana_version,
-  Integer $grafana_http_port       =  $pe_metrics_dashboard::params::grafana_http_port,
-  String $influx_db_password       =  $pe_metrics_dashboard::params::influx_db_password,
-  String $grafana_password         =  $pe_metrics_dashboard::params::grafana_password,
-  Boolean $enable_kapacitor        =  $pe_metrics_dashboard::params::enable_kapacitor,
-  Boolean $enable_chronograf       =  $pe_metrics_dashboard::params::enable_chronograf,
-  Boolean $enable_telegraf         =  $pe_metrics_dashboard::params::enable_telegraf,
-  Boolean $configure_telegraf      =  $pe_metrics_dashboard::params::configure_telegraf,
-  Array[String] $master_list       =  $pe_metrics_dashboard::params::master_list,
-  Array[String] $puppetdb_list     =  $pe_metrics_dashboard::params::puppetdb_list  
+  Boolean $add_dashboard_examples         =  $pe_metrics_dashboard::params::add_dashboard_examples,
+  String $influx_db_service_name          =  $pe_metrics_dashboard::params::influx_db_service_name,
+  Array[String] $influxdb_database_name   =  $pe_metrics_dashboard::params::influxdb_database_name,
+  String $grafana_version                 =  $pe_metrics_dashboard::params::grafana_version,
+  Integer $grafana_http_port              =  $pe_metrics_dashboard::params::grafana_http_port,
+  String $influx_db_password              =  $pe_metrics_dashboard::params::influx_db_password,
+  String $grafana_password                =  $pe_metrics_dashboard::params::grafana_password,
+  Boolean $enable_kapacitor               =  $pe_metrics_dashboard::params::enable_kapacitor,
+  Boolean $enable_chronograf              =  $pe_metrics_dashboard::params::enable_chronograf,
+  Boolean $enable_telegraf                =  $pe_metrics_dashboard::params::enable_telegraf,
+  Boolean $configure_telegraf             =  $pe_metrics_dashboard::params::configure_telegraf,
+  Array[String] $master_list              =  $pe_metrics_dashboard::params::master_list,
+  Array[String] $puppetdb_list            =  $pe_metrics_dashboard::params::puppetdb_list  
 ) inherits pe_metrics_dashboard::params {
 
   include pe_metrics_dashboard::repos
@@ -101,25 +101,29 @@ class pe_metrics_dashboard::install(
     require => Exec['wait for influxdb'],
   }
 
-  exec { 'create influxdb pe_metrics database':
-    command => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \"create database ${influxdb_database_name}\"",
-    unless  => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \'show databases\' | grep ${$influxdb_database_name}",
-    require => Exec['create influxdb admin user'],
+  $influxdb_database_name.each |$db_name| {
+    exec { "create influxdb pe_metrics database ${db_name}":
+      command => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \"create database ${db_name}\"",
+      unless  => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \'show databases\' | grep ${db_name}",
+      require => Exec['create influxdb admin user'],
+    }
   }
 
-  # Configure grafana to use InfluxDB
-  grafana_datasource { 'influxdb':
-    grafana_url      => "http://localhost:${grafana_http_port}",
-    type             => 'influxdb',
-    database         => $influxdb_database_name,
-    url              => 'http://localhost:8086',
-    access_mode      => 'proxy',
-    is_default       => true,
-    user             => 'admin',
-    password         => $influx_db_password,
-    grafana_user     => 'admin',
-    grafana_password => 'admin',
-    require          => [Service['grafana-server'], Exec['create influxdb pe_metrics database']],
+  # Configure grafana to use InfluxDB with any number of database names
+  $influxdb_database_name.each |$db_name| {
+    grafana_datasource { "influxdb_${db_name}":
+      grafana_url      => "http://localhost:${grafana_http_port}",
+      type             => 'influxdb',
+      database         => $db_name,
+      url              => 'http://localhost:8086',
+      access_mode      => 'proxy',
+      is_default       => false,
+      user             => 'admin',
+      password         => $influx_db_password,
+      grafana_user     => 'admin',
+      grafana_password => 'admin',
+      require          => [Service['grafana-server'], Exec["create influxdb pe_metrics database ${db_name}"]],
+    }
   }
 
   if $add_dashboard_examples {
