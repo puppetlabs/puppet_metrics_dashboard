@@ -122,7 +122,7 @@ class pe_metrics_dashboard::install(
       password         => $influx_db_password,
       grafana_user     => 'admin',
       grafana_password => 'admin',
-      require          => [Service['grafana-server'], Exec['create influxdb pe_metrics database']],
+      require          => [Service['grafana-server'], Exec["create influxdb pe_metrics database ${db_name}"]],
     }
   }
 
