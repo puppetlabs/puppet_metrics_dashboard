@@ -55,7 +55,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_INFLUXDB_PE_METRICS}",
+          "datasource": "influxdb_pe_metrics",
           "fill": 1,
           "id": 1,
           "legend": {
@@ -178,7 +178,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_INFLUXDB_PE_METRICS}",
+          "datasource": "influxdb_pe_metrics",
           "fill": 1,
           "id": 2,
           "legend": {
@@ -289,7 +289,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_INFLUXDB_PE_METRICS}",
+          "datasource": "influxdb_pe_metrics",
           "fill": 1,
           "id": 3,
           "legend": {
@@ -400,7 +400,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_INFLUXDB_PE_METRICS}",
+          "datasource": "influxdb_pe_metrics",
           "fill": 1,
           "id": 4,
           "legend": {
@@ -523,7 +523,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_INFLUXDB_PE_METRICS}",
+          "datasource": "influxdb_pe_metrics",
           "fill": 1,
           "id": 5,
           "legend": {
@@ -628,7 +628,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_INFLUXDB_PE_METRICS}",
+          "datasource": "influxdb_pe_metrics",
           "fill": 1,
           "id": 6,
           "legend": {
@@ -733,7 +733,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_INFLUXDB_PE_METRICS}",
+          "datasource": "influxdb_pe_metrics",
           "fill": 1,
           "id": 7,
           "legend": {
@@ -850,7 +850,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_INFLUXDB_PE_METRICS}",
+          "datasource": "influxdb_pe_metrics",
           "fill": 1,
           "id": 8,
           "legend": {
@@ -955,7 +955,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_INFLUXDB_PE_METRICS}",
+          "datasource": "influxdb_pe_metrics",
           "fill": 1,
           "id": 9,
           "legend": {
