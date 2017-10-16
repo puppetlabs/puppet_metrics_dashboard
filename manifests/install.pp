@@ -138,13 +138,13 @@ class pe_metrics_dashboard::install(
     }
   }
 
-  if $add_dashboard_examples {
+  if ($add_dashboard_examples) and ('pe_metrics' in $influxdb_database_name){
     grafana_dashboard { 'PuppetDB Performance':
       grafana_url      => "http://localhost:${grafana_http_port}",
       grafana_user     => 'admin',
       grafana_password => $grafana_password,
       content          => file('pe_metrics_dashboard/PuppetDB_Performance.json'),
-      require          => Grafana_datasource['influxdb'],
+      require          => Grafana_datasource['influxdb_pe_metrics'],
     }
 
     grafana_dashboard { 'PuppetDB Workload':
@@ -152,7 +152,7 @@ class pe_metrics_dashboard::install(
       grafana_user     => 'admin',
       grafana_password => $grafana_password,
       content          => file('pe_metrics_dashboard/PuppetDB_Workload.json'),
-      require          => Grafana_datasource['influxdb'],
+      require          => Grafana_datasource['influxdb_pe_metrics'],
     }
 
     grafana_dashboard { 'Puppetserver Performance':
@@ -160,7 +160,7 @@ class pe_metrics_dashboard::install(
       grafana_user     => 'admin',
       grafana_password => $grafana_password,
       content          => file('pe_metrics_dashboard/Puppetserver_Performance.json'),
-      require          => Grafana_datasource['influxdb'],
+      require          => Grafana_datasource['influxdb_pe_metrics'],
     }
   }
 
