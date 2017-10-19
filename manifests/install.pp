@@ -139,28 +139,20 @@ class pe_metrics_dashboard::install(
   }
 
   if ($add_dashboard_examples) and ('pe_metrics' in $influxdb_database_name){
-    grafana_dashboard { 'PuppetDB Performance':
-      grafana_url      => "http://localhost:${grafana_http_port}",
-      grafana_user     => 'admin',
-      grafana_password => $grafana_password,
-      content          => file('pe_metrics_dashboard/PuppetDB_Performance.json'),
-      require          => Grafana_datasource['influxdb_pe_metrics'],
+    class {'pe_metrics_dashboard::dashboards::pe_metrics':
+      grafana_port => $grafana_http_port,
+    }  
+  }
+ 
+  if ($add_dashboard_examples) and ('telegraf' in $influxdb_database_name){
+    class {'pe_metrics_dashboard::dashboards::telegraf':
+       grafana_port => $grafana_http_port,
     }
+  }
 
-    grafana_dashboard { 'PuppetDB Workload':
-      grafana_url      => "http://localhost:${grafana_http_port}",
-      grafana_user     => 'admin',
-      grafana_password => $grafana_password,
-      content          => file('pe_metrics_dashboard/PuppetDB_Workload.json'),
-      require          => Grafana_datasource['influxdb_pe_metrics'],
-    }
-
-    grafana_dashboard { 'Puppetserver Performance':
-      grafana_url      => "http://localhost:${grafana_http_port}",
-      grafana_user     => 'admin',
-      grafana_password => $grafana_password,
-      content          => file('pe_metrics_dashboard/Puppetserver_Performance.json'),
-      require          => Grafana_datasource['influxdb_pe_metrics'],
+  if ($add_dashboard_examples) and ('graphite' in $influxdb_database_name){
+    class {'pe_metrics_dashboard::dashboards::graphite':
+       grafana_port => $grafana_http_port,
     }
   }
 
