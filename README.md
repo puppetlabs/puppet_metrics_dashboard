@@ -14,70 +14,74 @@
 
 ## Description
 
-Start with a one- or two-sentence summary of what the module does and/or what
-problem it solves. This is your 30-second elevator pitch for your module.
-Consider including OS/Puppet version it works with.
+This module is used to configure grafana, telegraf, and influxdb to consume metrics from Puppet Enterprise.  
 
-You can give more descriptive information in a second paragraph. This paragraph
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?" If your module has a range of functionality (installation, configuration,
-management, etc.), this is the time to mention it.
+You have the option of getting metrics from any or all of three of these methods:
+
+* the [npwalker/pe_metric_curl_cron_jobs](https://forge.puppet.com/npwalker/pe_metric_curl_cron_jobs) module 
+* Natively, via Puppetserver's [built-in graphite support](https://puppet.com/docs/pe/2017.3/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support)
+* Through telegraf, which polls several of PE's metrics endpoints
 
 ## Setup
 
-### What pe_metrics_dashboard affects **OPTIONAL**
-
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
-
-If there's more that they should know about, though, this is the place to mention:
-
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section
-here.
-
 ### Beginning with pe_metrics_dashboard
 
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most
-basic use of the module.
+#### Minimal configuration 
+
+Configures grafana-server, influxdb, and telegraf, with an influxdb datasource and a database called "pe_metrics"
+
+```
+include pe_metrics_dashboard::install
+```
 
 ## Usage
 
-This section is where you describe how to customize, configure, and do the
-fancy stuff with your module here. It's especially helpful if you include usage
-examples and code samples for doing things with your module.
+#### To install example dashboards for each of the collection methods:
+
+```
+class { 'pe_metrics_dashboard::install':
+  add_dashboard_examples => true,
+  influxdb_database_name => ['pe_metrics','telegraf','graphite'],
+}
+```
+
+*add_dashboard_examples enforces state on the dashboards.  Remove this later if you want to make edits to the examples.
+
+#### Configure telegraf for one or more masters / puppetdb nodes:
+
+```
+class { 'pe_metrics_dashboard::install':
+  configure_telegraf  => true,
+  master_list         => ['master1.com','master2.com'],
+  puppetdb_list       => ['puppetdb1','puppetdb2'],
+}
+```
+
+#### Enable Graphite support 
+
+```
+class { 'pe_metrics_dashboard::install':
+  consume_graphite   => true,
+}
+```
+
+*requires enabling on the master side as described [here](https://puppet.com/docs/pe/2017.3/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support)
+
+#### Other possibilities
+
+```
+class { 'pe_metrics_dashboard::install':
+  influx_db_password  => 'secret',
+  grafana_password    => 'secret',
+  grafana_http_port   => 8080,
+  grafana_version     => '4.5.2',
+  enable_chronograf   => true,
+  enable_kapacitor    => true,
+}
+```
 
 ## Reference
 
-Here, include a complete list of your module's classes, types, providers,
-facts, along with the parameters for each. Users refer to this section (thus
-the name "Reference") to find specific details; most users don't read it per
-se.
-
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc. If there
-are Known Issues, you might want to include them under their own heading here.
-
 ## Development
-
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You can also add any additional sections you feel
-are necessary or important to include here. Please use the `## ` header.
