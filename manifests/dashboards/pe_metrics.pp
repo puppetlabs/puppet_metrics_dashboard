@@ -1,7 +1,8 @@
-class pe_metrics_dashboard::dashboards::pe_metrics(  
-  Integer $grafana_port  =  $pe_metrics_dashboard::params::grafana_http_port,
+class pe_metrics_dashboard::dashboards::pe_metrics(
+  Integer $grafana_port     =  $pe_metrics_dashboard::params::grafana_http_port,
+  String $grafana_password  =  $pe_metrics_dashboard::params::grafana_password,
 ) inherits pe_metrics_dashboard::params {
-   
+
   grafana_dashboard { 'Archive PuppetDB Performance':
     grafana_url      => "http://localhost:${grafana_port}",
     grafana_user     => 'admin',
