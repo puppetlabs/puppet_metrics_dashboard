@@ -38,6 +38,18 @@ class pe_metrics_dashboard::install(
     require => Package['influxdb'],
   }
 
+  # Hacky workaround for #12
+  if $facts['os']['family'] == 'RedHat' and !defined(File['/var/run/grafana']) {
+
+    file { '/var/run/grafana' :
+      ensure  => directory,
+      owner   => 'grafana',
+      group   => 'grafana',
+      require => Package['grafana'],
+      before  => Service['grafana-server'],
+    }
+  }
+
   class { 'grafana':
     install_method      => 'repo',
     manage_package_repo => false,
