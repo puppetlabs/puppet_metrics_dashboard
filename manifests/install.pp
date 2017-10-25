@@ -12,7 +12,7 @@ class pe_metrics_dashboard::install(
   Boolean $configure_telegraf             =  $pe_metrics_dashboard::params::configure_telegraf,
   Boolean $consume_graphite               =  $pe_metrics_dashboard::params::consume_graphite,
   Array[String] $master_list              =  $pe_metrics_dashboard::params::master_list,
-  Array[String] $puppetdb_list            =  $pe_metrics_dashboard::params::puppetdb_list  
+  Array[String] $puppetdb_list            =  $pe_metrics_dashboard::params::puppetdb_list
 ) inherits pe_metrics_dashboard::params {
 
   include pe_metrics_dashboard::repos
@@ -29,10 +29,10 @@ class pe_metrics_dashboard::install(
       owner   => 0,
       group   => 0,
       content => file('pe_metrics_dashboard/influxdb.conf'),
-      notify  => Service["${influx_db_service_name}"],
+      notify  => Service[$influx_db_service_name],
     }
   }
- 
+
   service { $influx_db_service_name:
     ensure  => running,
     require => Package['influxdb'],
@@ -70,7 +70,7 @@ class pe_metrics_dashboard::install(
     }
 
     if $configure_telegraf {
-      
+
       file {'/etc/telegraf/telegraf.conf':
         ensure  => file,
         owner   => 0,
@@ -78,7 +78,7 @@ class pe_metrics_dashboard::install(
         content => epp('pe_metrics_dashboard/telegraf.conf.epp'),
         notify  => Service['telegraf'],
       }
-    }    
+    }
 
     service { 'telegraf':
       ensure  => running,
@@ -102,7 +102,7 @@ class pe_metrics_dashboard::install(
 
   # Fix a timing issue where influxdb does not start fully before creating users
   exec { 'wait for influxdb':
-    command => '/bin/sleep 5',
+    command => '/bin/sleep 10',
     unless  => '/usr/bin/influx -execute "SHOW DATABASES"',
     require => Service[$influx_db_service_name],
   }
@@ -141,18 +141,18 @@ class pe_metrics_dashboard::install(
   if ($add_dashboard_examples) and ('pe_metrics' in $influxdb_database_name){
     class {'pe_metrics_dashboard::dashboards::pe_metrics':
       grafana_port => $grafana_http_port,
-    }  
+    }
   }
- 
+
   if ($add_dashboard_examples) and ('telegraf' in $influxdb_database_name){
     class {'pe_metrics_dashboard::dashboards::telegraf':
-       grafana_port => $grafana_http_port,
+      grafana_port => $grafana_http_port,
     }
   }
 
   if ($add_dashboard_examples) and ('graphite' in $influxdb_database_name){
     class {'pe_metrics_dashboard::dashboards::graphite':
-       grafana_port => $grafana_http_port,
+      grafana_port => $grafana_http_port,
     }
   }
 
