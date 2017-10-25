@@ -1,5 +1,6 @@
 class pe_metrics_dashboard::dashboards::telegraf(
-  Integer $grafana_port              =  $pe_metrics_dashboard::params::grafana_http_port,
+  Integer $grafana_port     =  $pe_metrics_dashboard::params::grafana_http_port,
+  String $grafana_password  =  $pe_metrics_dashboard::params::grafana_password,
 ) inherits pe_metrics_dashboard::params {
 
   grafana_dashboard { 'Telegraf PuppetDB Performance':
