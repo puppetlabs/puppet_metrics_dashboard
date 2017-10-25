@@ -30,3 +30,8 @@ task :test do
     Rake::Task[test].invoke
   end
 end
+
+desc "Run acceptance tests"
+RSpec::Core::RakeTask.new(:acceptance) do |t|
+      t.pattern = 'spec/acceptance'
+end
