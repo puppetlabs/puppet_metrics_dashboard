@@ -49,8 +49,8 @@
   insecure_skip_verify = true
 
 <%# -%>
-<% unless $pe_metrics_dashboard::telegraf::metrics.empty {-%>
-<% $pe_metrics_dashboard::telegraf::metrics.each | $metric| {-%>
+<% unless $puppetdb_metrics.empty {-%>
+<% $puppetdb_metrics.each | $metric| {-%>
 [[inputs.httpjson]]
   name = "puppetdb_<%= $metric['name'] %>"
   servers = [

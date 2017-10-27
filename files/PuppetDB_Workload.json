@@ -37,7 +37,18 @@
   "graphTooltip": 0,
   "hideControls": false,
   "id": null,
-  "links": [],
+  "links": [
+    {
+      "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [
+        "archive"
+      ],
+      "targetBlank": true,
+      "type": "dashboards"
+    }
+  ],
   "refresh": false,
   "rows": [
     {
@@ -1060,7 +1071,9 @@
   ],
   "schemaVersion": 14,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "archive"
+  ],
   "templating": {
     "list": []
   },
@@ -1094,6 +1107,6 @@
     ]
   },
   "timezone": "",
-  "title": "PuppetDB Workload",
-  "version": 3
+  "title": "Archive PuppetDB Workload",
+  "version": 4
 }

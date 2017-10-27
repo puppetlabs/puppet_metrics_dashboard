@@ -138,7 +138,7 @@ class pe_metrics_dashboard::telegraf (
       'url'  => 'puppetlabs.puppetdb.database:name=PDBWritePool.pool.Wait' },
   ]
 
-  $metrics = $::pe_server_version ? {
+  $puppetdb_metrics = $::pe_server_version ? {
     /^2015./ => $activemq_metrics,
     /^2016./ => $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
     default  => $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
@@ -161,7 +161,8 @@ class pe_metrics_dashboard::telegraf (
       ensure  => file,
       owner   => 0,
       group   => 0,
-      content => epp('pe_metrics_dashboard/telegraf.conf.epp', {metrics => $metrics}),
+      content => epp('pe_metrics_dashboard/telegraf.conf.epp',
+        {puppetdb_metrics => $puppetdb_metrics}),
       notify  => Service['telegraf'],
       require => Package['telegraf'],
     }

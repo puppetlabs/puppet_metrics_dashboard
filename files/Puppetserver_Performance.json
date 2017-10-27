@@ -37,7 +37,17 @@
   "graphTooltip": 0,
   "hideControls": false,
   "id": null,
-  "links": [],
+  "links": [
+    {
+      "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [
+        "archive"
+      ],
+      "type": "dashboards"
+    }
+  ],
   "refresh": false,
   "rows": [
     {
@@ -944,7 +954,9 @@
   ],
   "schemaVersion": 14,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "archive"
+  ],
   "templating": {
     "list": []
   },
@@ -978,6 +990,6 @@
     ]
   },
   "timezone": "",
-  "title": "Puppetserver Performance",
+  "title": "Archive Puppetserver Performance",
   "version": 4
 }
