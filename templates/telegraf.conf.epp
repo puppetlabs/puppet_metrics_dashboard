@@ -33,6 +33,7 @@
   ]
   method = "GET"
   insecure_skip_verify = true
+
 [[inputs.httpjson]]
   name = "puppetdb_command_queue"
   servers = [
@@ -47,68 +48,23 @@
   method = "GET"
   insecure_skip_verify = true
 
+<%# -%>
+<% unless $pe_metrics_dashboard::telegraf::metrics.empty {-%>
+<% $pe_metrics_dashboard::telegraf::metrics.each | $metric| {-%>
 [[inputs.httpjson]]
-  name = "puppetdb_command_global_processed"
+  name = "puppetdb_<%= $metric['name'] %>"
   servers = [
     <%# -%>
     <% unless $pe_metrics_dashboard::install::puppetdb_list.empty {-%>
-    <% $pe_metrics_dashboard::install::puppetdb_list.each |$puppetdb_list| {-%>
-    "https://<%= $puppetdb_list %>:8081/metrics/v1/mbeans/puppetlabs.puppetdb.mq:name=global.processed",
+    <% $pe_metrics_dashboard::install::puppetdb_list.each |$master_list| {-%>
+    "https://<%= $master_list %>:8081/metrics/v1/mbeans/<%= $metric['url'] %>",
     <% } -%>
     <% } -%>
     <%# -%>
-            ]
+  ]
   method = "GET"
   insecure_skip_verify = true
-[[inputs.httpjson]]
-  name = "puppetdb_command_global_processing_time"
-  servers = [
-    <%# -%>
-    <% unless $pe_metrics_dashboard::install::puppetdb_list.empty {-%>
-    <% $pe_metrics_dashboard::install::puppetdb_list.each |$puppetdb_list| {-%>
-    "https://<%= $puppetdb_list %>:8081/metrics/v1/mbeans/puppetlabs.puppetdb.mq%3Aname%3Dreplace+facts.5.processing-time",
-    <% } -%>
-    <% } -%>
-    <%# -%>
-            ]
-  method = "GET"
-  insecure_skip_verify = true
-[[inputs.httpjson]]
-  name = "puppetdb_command_catalog_processing"
-  servers = [
-    <%# -%>
-    <% unless $pe_metrics_dashboard::install::puppetdb_list.empty {-%>
-    <% $pe_metrics_dashboard::install::puppetdb_list.each |$puppetdb_list| {-%>
-    "https://<%= $puppetdb_list %>:8081/metrics/v1/mbeans/puppetlabs.puppetdb.mq%3Aname%3Dreplace+catalog.9.processing-time",
-    <% } -%>
-    <% } -%>
-    <%# -%>
-            ]
-  method = "GET"
-  insecure_skip_verify = true
-[[inputs.httpjson]]
-  name = "puppetdb_command_fact_processing"
-  servers = [
-    <%# -%>
-    <% unless $pe_metrics_dashboard::install::puppetdb_list.empty {-%>
-    <% $pe_metrics_dashboard::install::puppetdb_list.each |$puppetdb_list| {-%>
-    "https://<%= $puppetdb_list %>:8081/metrics/v1/mbeans/puppetlabs.puppetdb.mq%3Aname%3Dreplace+facts.5.processing-time",
-    <% } -%>
-    <% } -%>
-    <%# -%>
-            ]
-  method = "GET"
-  insecure_skip_verify = true
-[[inputs.httpjson]]
-  name = "puppetdb_command_report_storage"
-  servers = [
-    <%# -%>
-    <% unless $pe_metrics_dashboard::install::puppetdb_list.empty {-%>
-    <% $pe_metrics_dashboard::install::puppetdb_list.each |$puppetdb_list| {-%>
-    "https://<%= $puppetdb_list %>:8081/metrics/v1/mbeans/puppetlabs.puppetdb.mq%3Aname%3Dstore+report.8.processing-time",
-    <% } -%>
-    <% } -%>
-    <%# -%>
-            ]
-  method = "GET"
-  insecure_skip_verify = true
+
+<% } -%>
+<% } -%>
+<%# -%>

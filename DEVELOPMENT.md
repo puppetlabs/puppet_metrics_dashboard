@@ -53,7 +53,7 @@ with:
 This will run the tests on an Ubuntu 12.04 virtual machine. You can also
 run the integration tests against Centos 6.5 with.
 
-    RS_SET=centos-64-x64 bundle exec rake acceptances
+    RS_SET=centos-64-x64 bundle exec rake acceptance
 
 If you don't want to have to recreate the virtual machine every time you
 can use `BEAKER_DESTROY=no` and `BEAKER_PROVISION=no`. On the first run you will
@@ -63,6 +63,6 @@ for the created virtual machines will be in `.vagrant/beaker_vagrant_fies`.
 Docker is used for acceptance testing in travis. This can be run locally by setting
 environment variables as a part of the test.
 
-   PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/centos-7 bundle exec rake acceptance
+    PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/centos-7 bundle exec rake acceptance
 
 This document is sourced from https://github.com/voxpupuli/puppet-grafana/blob/master/CONTRIBUTING.md
