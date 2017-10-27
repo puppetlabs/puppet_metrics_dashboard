@@ -48,11 +48,10 @@
       "type": "dashboards"
     }
   ],
-  "refresh": "5s",
   "rows": [
     {
       "collapse": false,
-      "height": 367,
+      "height": 257,
       "panels": [
         {
           "aliasColors": {},
@@ -74,28 +73,19 @@
           "lines": true,
           "linewidth": 1,
           "links": [],
-          "nullPointMode": "connected",
+          "nullPointMode": "null",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [
-            {
-              "alias": "ave-wait-time",
-              "yaxis": 2
-            },
-            {
-              "alias": "ave-borrow-time",
-              "yaxis": 2
-            }
-          ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 12,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "alias": "$tag_host-ave. free jrubies",
+              "alias": "$tag_host",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -117,174 +107,16 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "httpjson_puppet_stats",
+              "measurement": "httpjson_puppetdb_global_message-persistence-time",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT distinct(\"pe-jruby-metrics_status_experimental_metrics_average-free-jrubies\") FROM \"httpjson_puppet_stats\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
-              "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
               "select": [
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-free-jrubies"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "distinct"
-                  }
-                ]
-              ],
-              "tags": [
-                {
-                  "key": "host",
-                  "operator": "=~",
-                  "value": "/^$host$/"
-                }
-              ]
-            },
-            {
-              "alias": "$tag_host-ave. requested jrubies",
-              "dsType": "influxdb",
-              "groupBy": [
-                {
-                  "params": [
-                    "$__interval"
-                  ],
-                  "type": "time"
-                },
-                {
-                  "params": [
-                    "host"
-                  ],
-                  "type": "tag"
-                },
-                {
-                  "params": [
-                    "null"
-                  ],
-                  "type": "fill"
-                }
-              ],
-              "measurement": "httpjson_puppet_stats",
-              "orderByTime": "ASC",
-              "policy": "default",
-              "query": "SELECT distinct(\"pe-jruby-metrics_status_experimental_metrics_average-requested-jrubies\") FROM \"httpjson_puppet_stats\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
-              "rawQuery": false,
-              "refId": "B",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-requested-jrubies"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "distinct"
-                  }
-                ]
-              ],
-              "tags": [
-                {
-                  "key": "host",
-                  "operator": "=~",
-                  "value": "/^$host$/"
-                }
-              ]
-            },
-            {
-              "alias": "$tag_host-ave-borrow-time",
-              "dsType": "influxdb",
-              "groupBy": [
-                {
-                  "params": [
-                    "$__interval"
-                  ],
-                  "type": "time"
-                },
-                {
-                  "params": [
-                    "host"
-                  ],
-                  "type": "tag"
-                },
-                {
-                  "params": [
-                    "null"
-                  ],
-                  "type": "fill"
-                }
-              ],
-              "measurement": "httpjson_puppet_stats",
-              "orderByTime": "ASC",
-              "policy": "default",
-              "query": "SELECT distinct(\"pe-jruby-metrics_status_experimental_metrics_average-borrow-time\") FROM \"httpjson_puppet_stats\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
-              "rawQuery": false,
-              "refId": "C",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-borrow-time"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "distinct"
-                  }
-                ]
-              ],
-              "tags": [
-                {
-                  "key": "host",
-                  "operator": "=~",
-                  "value": "/^$host$/"
-                }
-              ]
-            },
-            {
-              "alias": "$tag_host-ave-wait-time",
-              "dsType": "influxdb",
-              "groupBy": [
-                {
-                  "params": [
-                    "$__interval"
-                  ],
-                  "type": "time"
-                },
-                {
-                  "params": [
-                    "host"
-                  ],
-                  "type": "tag"
-                },
-                {
-                  "params": [
-                    "null"
-                  ],
-                  "type": "fill"
-                }
-              ],
-              "measurement": "httpjson_puppet_stats",
-              "orderByTime": "ASC",
-              "policy": "default",
-              "query": "SELECT distinct(\"pe-jruby-metrics_status_experimental_metrics_average-wait-time\") FROM \"httpjson_puppet_stats\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
-              "rawQuery": false,
-              "refId": "D",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-wait-time"
+                      "FiveMinuteRate"
                     ],
                     "type": "field"
                   },
@@ -306,7 +138,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Puppetserver Performance",
+          "title": "Command Persistence Time",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -323,15 +155,15 @@
           "yaxes": [
             {
               "format": "short",
-              "label": "jrubies - free, requested",
+              "label": null,
               "logBase": 1,
               "max": null,
               "min": null,
               "show": true
             },
             {
-              "format": "ms",
-              "label": "time - wait, borrow",
+              "format": "short",
+              "label": null,
               "logBase": 1,
               "max": null,
               "min": null,
@@ -360,10 +192,13 @@
           "fill": 1,
           "id": 2,
           "legend": {
+            "alignAsTable": false,
             "avg": false,
             "current": false,
+            "hideEmpty": false,
             "max": false,
             "min": false,
+            "rightSide": false,
             "show": true,
             "total": false,
             "values": false
@@ -371,32 +206,19 @@
           "lines": true,
           "linewidth": 1,
           "links": [],
-          "nullPointMode": "connected",
+          "nullPointMode": "null",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [
-            {
-              "alias": "uptime",
-              "yaxis": 2
-            },
-            {
-              "alias": "uptime",
-              "fill": 0
-            },
-            {
-              "alias": "heap used",
-              "fill": 4
-            }
-          ],
+          "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 12,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "alias": "heap committed",
+              "alias": "$tag_host",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -418,8 +240,7 @@
                   "type": "fill"
                 }
               ],
-              "hide": false,
-              "measurement": "httpjson_puppet_stats",
+              "measurement": "httpjson_puppetdb_PDBReadPool_pool_Usage",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -428,107 +249,7 @@
                 [
                   {
                     "params": [
-                      "status-service_status_experimental_jvm-metrics_heap-memory_committed"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "distinct"
-                  }
-                ]
-              ],
-              "tags": [
-                {
-                  "key": "host",
-                  "operator": "=~",
-                  "value": "/^$host$/"
-                }
-              ]
-            },
-            {
-              "alias": "heap used",
-              "dsType": "influxdb",
-              "groupBy": [
-                {
-                  "params": [
-                    "$__interval"
-                  ],
-                  "type": "time"
-                },
-                {
-                  "params": [
-                    "host"
-                  ],
-                  "type": "tag"
-                },
-                {
-                  "params": [
-                    "null"
-                  ],
-                  "type": "fill"
-                }
-              ],
-              "measurement": "httpjson_puppet_stats",
-              "orderByTime": "ASC",
-              "policy": "default",
-              "refId": "B",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "status-service_status_experimental_jvm-metrics_heap-memory_used"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "distinct"
-                  }
-                ]
-              ],
-              "tags": [
-                {
-                  "key": "host",
-                  "operator": "=~",
-                  "value": "/^$host$/"
-                }
-              ]
-            },
-            {
-              "alias": "uptime",
-              "dsType": "influxdb",
-              "groupBy": [
-                {
-                  "params": [
-                    "$__interval"
-                  ],
-                  "type": "time"
-                },
-                {
-                  "params": [
-                    "host"
-                  ],
-                  "type": "tag"
-                },
-                {
-                  "params": [
-                    "null"
-                  ],
-                  "type": "fill"
-                }
-              ],
-              "measurement": "httpjson_puppet_stats",
-              "orderByTime": "ASC",
-              "policy": "default",
-              "refId": "C",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "status-service_status_experimental_jvm-metrics_up-time-ms"
+                      "Mean"
                     ],
                     "type": "field"
                   },
@@ -550,7 +271,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Heap Memory and Uptime",
+          "title": "Read Pool Usage",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -566,7 +287,7 @@
           },
           "yaxes": [
             {
-              "format": "bytes",
+              "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -574,7 +295,7 @@
               "show": true
             },
             {
-              "format": "ms",
+              "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -582,19 +303,7 @@
               "show": true
             }
           ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Dashboard Row",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": 250,
-      "panels": [
+        },
         {
           "aliasColors": {},
           "bars": false,
@@ -622,7 +331,7 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 6,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -649,7 +358,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "httpjson_puppet_stats",
+              "measurement": "httpjson_puppetdb_PDBReadPool_pool_Wait",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -658,7 +367,7 @@
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-requested-jrubies"
+                      "Mean"
                     ],
                     "type": "field"
                   },
@@ -680,7 +389,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Average Requested Jrubies",
+          "title": "Read Pool Wait",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -740,7 +449,7 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 6,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -767,7 +476,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "httpjson_puppet_stats",
+              "measurement": "httpjson_puppetdb_PDBReadPool_pool_PendingConnections",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -776,7 +485,7 @@
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-borrow-time"
+                      "Value"
                     ],
                     "type": "field"
                   },
@@ -798,7 +507,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Average Borrow Time",
+          "title": "Read Pool Pending Connections",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -814,7 +523,7 @@
           },
           "yaxes": [
             {
-              "format": "ms",
+              "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -870,7 +579,7 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 6,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -897,7 +606,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "httpjson_puppet_stats",
+              "measurement": "httpjson_puppetdb_PDBWritePool_pool_Usage",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -906,7 +615,7 @@
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-free-jrubies"
+                      "Mean"
                     ],
                     "type": "field"
                   },
@@ -928,7 +637,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Average Free Jrubies",
+          "title": "Write Pool Usage",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -988,6 +697,254 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$tag_host",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "host"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "httpjson_puppetdb_PDBWritePool_pool_Wait",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "Mean"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "distinct"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^$host$/"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Write Pool Wait",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "influxdb_telegraf",
+          "fill": 1,
+          "id": 7,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$tag_host",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "host"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "httpjson_puppetdb_PDBWritePool_pool_PendingConnections",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "Value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "distinct"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^$host$/"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Write Pool Pending Connections",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "influxdb_telegraf",
+          "fill": 1,
+          "id": 8,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
@@ -1015,7 +972,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "httpjson_puppet_stats",
+              "measurement": "httpjson_puppetdb_global_discarded",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -1024,7 +981,7 @@
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-wait-time"
+                      "OneMinuteRate"
                     ],
                     "type": "field"
                   },
@@ -1046,7 +1003,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Average Wait Time",
+          "title": "Global Discards",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -1062,7 +1019,125 @@
           },
           "yaxes": [
             {
-              "format": "ms",
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "influxdb_telegraf",
+          "fill": 1,
+          "id": 9,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$tag_host",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "host"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "httpjson_puppetdb_global_fatal",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "OneMinuteRate"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "distinct"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^$host$/"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Global Fatals",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -1092,7 +1167,7 @@
   "style": "dark",
   "tags": [
     "telegraf",
-    "puppetserver"
+    "puppetdb"
   ],
   "templating": {
     "list": [
@@ -1148,6 +1223,6 @@
     ]
   },
   "timezone": "",
-  "title": "Telegraf Puppetserver Performance",
-  "version": 5
+  "title": "Telegraf PuppetDB Workload",
+  "version": 3
 }
