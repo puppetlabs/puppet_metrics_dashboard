@@ -9,6 +9,7 @@ class pe_metrics_dashboard::params {
 
   # Default Installation parameters
   $add_dashboard_examples =  false
+  $overwrite_dashboards   =  true
   $influxdb_database_name =  ['pe_metrics']
   $grafana_version        =  '4.5.2'
   $grafana_http_port      =  3000
@@ -24,6 +25,7 @@ class pe_metrics_dashboard::params {
   $master_list            =  [$::settings::certname]
   $puppetdb_list          =  [$::settings::certname]
 
+  $overwrite_dashboards_file = '/opt/puppetlabs/puppet/cache/state/overwrite_dashboards_disabled'
 
   case $::osfamily {
 
