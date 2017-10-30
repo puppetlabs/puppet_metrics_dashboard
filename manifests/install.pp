@@ -76,26 +76,9 @@ class pe_metrics_dashboard::install(
   }
 
   if $enable_telegraf {
-    package { 'telegraf':
-      ensure  => present,
-      require => Class['pe_metrics_dashboard::repos'],
-    }
-
-    if $configure_telegraf {
-
-      file {'/etc/telegraf/telegraf.conf':
-        ensure  => file,
-        owner   => 0,
-        group   => 0,
-        content => epp('pe_metrics_dashboard/telegraf.conf.epp'),
-        notify  => Service['telegraf'],
-      }
-    }
-
-    service { 'telegraf':
-      ensure  => running,
-      enable  => true,
-      require => [Package['telegraf'], Service[$influx_db_service_name]],
+    class { 'pe_metrics_dashboard::telegraf':
+      configure_telegraf     => $configure_telegraf,
+      influx_db_service_name => $influx_db_service_name,
     }
   }
 

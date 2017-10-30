@@ -9,7 +9,7 @@ class pe_metrics_dashboard::params {
 
   # Default Installation parameters
   $add_dashboard_examples =  false
-  $influxdb_database_name =  ["pe_metrics"]
+  $influxdb_database_name =  ['pe_metrics']
   $grafana_version        =  '4.5.2'
   $grafana_http_port      =  3000
   $influx_db_password     =  'puppet'
@@ -21,8 +21,8 @@ class pe_metrics_dashboard::params {
   $enable_chronograf      =  false
   # telegraf config
   $configure_telegraf     =  false
-  $master_list            =  []
-  $puppetdb_list          =  []
+  $master_list            =  [$::settings::certname]
+  $puppetdb_list          =  [$::settings::certname]
 
 
   case $::osfamily {

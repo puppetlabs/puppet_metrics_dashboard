@@ -37,7 +37,17 @@
   "graphTooltip": 0,
   "hideControls": false,
   "id": null,
-  "links": [],
+  "links": [
+    {
+      "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [
+        "graphite"
+      ],
+      "type": "dashboards"
+    }
+  ],
   "refresh": "5s",
   "rows": [
     {
@@ -2427,7 +2437,9 @@
   ],
   "schemaVersion": 14,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "graphite"
+  ],
   "templating": {
     "list": []
   },
@@ -2467,6 +2479,6 @@
     "type": "timepicker"
   },
   "timezone": "browser",
-  "title": "Graphite - PE Puppet Server",
-  "version": 6
+  "title": "Graphite Puppetserver Performance",
+  "version": 4
 }

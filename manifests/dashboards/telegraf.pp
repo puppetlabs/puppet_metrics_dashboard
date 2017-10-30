@@ -11,6 +11,14 @@ class pe_metrics_dashboard::dashboards::telegraf(
     require          => Grafana_datasource['influxdb_telegraf'],
   }
 
+  grafana_dashboard { 'Telegraf PuppetDB Workload':
+    grafana_url      => "http://localhost:${grafana_port}",
+    grafana_user     => 'admin',
+    grafana_password => $grafana_password,
+    content          => file('pe_metrics_dashboard/Telegraf_PuppetDB_Workload.json'),
+    require          => Grafana_datasource['influxdb_telegraf'],
+  }
+
   grafana_dashboard { 'Telegraf Puppetserver Performance':
     grafana_url      => "http://localhost:${grafana_port}",
     grafana_user     => 'admin',
