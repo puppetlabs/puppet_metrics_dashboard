@@ -4,7 +4,10 @@ describe 'pe_metrics_dashboard::install class' do
   context 'default parameters' do
     it 'should install grafana and influxdb' do
       pp = <<-EOS
-    		class {'pe_metrics_dashboard::install': }
+    		class {'pe_metrics_dashboard::install':
+          grafana_version => '4.6.1',
+          grafana_http_port => 3000,
+        }
         EOS
 
       # Run it twice and test for idempotency
