@@ -32,6 +32,7 @@ class pe_metrics_dashboard::install(
       group   => 0,
       content => file('pe_metrics_dashboard/influxdb.conf'),
       notify  => Service[$influx_db_service_name],
+      require => Package['influxdb'],
     }
   }
 

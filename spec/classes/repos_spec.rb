@@ -8,7 +8,7 @@ describe 'pe_metrics_dashboard::repos' do
           :operatingsystem => 'RedHat',
       }
     end
-  
+
     it do
       is_expected.to contain_yumrepo("influxdb")
           .with({
@@ -20,7 +20,7 @@ describe 'pe_metrics_dashboard::repos' do
             "before" => "Package[influxdb]",
             })
     end
-      
+
     it do
       is_expected.to contain_yumrepo("grafana-repo")
           .with({
@@ -47,7 +47,10 @@ describe 'pe_metrics_dashboard::repos' do
             :release => {
                 :major => '14',
                 :full => '14.04.5'
-            }
+            },
+            :distro => {
+              :codename => "trusty",
+            },
         },
         :osfamily => 'Debian',
         :lsbdistcodename => 'trusty',
@@ -55,9 +58,10 @@ describe 'pe_metrics_dashboard::repos' do
         :lsbdistrelease => '14.04',
         :puppetversion => Puppet.version,
         :operatingsystem => 'Ubuntu',
+        :pe_server_version => '2017.2',
       }
     end
-  
+
     it do
       is_expected.to contain_apt__source("influxdb")
           .with({
@@ -67,7 +71,7 @@ describe 'pe_metrics_dashboard::repos' do
             "before" => "Package[influxdb]",
             })
     end
-      
+
     it do
       is_expected.to contain_apt__source("grafana")
           .with({
@@ -78,5 +82,5 @@ describe 'pe_metrics_dashboard::repos' do
             })
     end
   end
-    
+
 end

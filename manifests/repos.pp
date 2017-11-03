@@ -29,11 +29,12 @@ class pe_metrics_dashboard::repos{
 
     'Debian': {
 
-      $_operatingsystem = downcase($::operatingsystem)
+      $_operatingsystem = downcase($::facts['os']['name'])
+      $_oscodename = downcase($::facts['os']['distro']['codename'])
 
       apt::source { 'influxdb':
         location => "https://repos.influxdata.com/${_operatingsystem}",
-        release  => $::lsbdistcodename,
+        release  => $_oscodename,
         repos    => 'stable',
         key      =>  {
           'id'     => '05CE15085FC09D18E99EFB22684A14CF2582E0C5',
@@ -47,7 +48,7 @@ class pe_metrics_dashboard::repos{
         release  => 'jessie',
         repos    => 'main',
         key      =>  {
-          'id'     => '05CE15085FC09D18E99EFB22684A14CF2582E0C5',
+          'id'     => '418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB',
           'source' => 'https://packagecloud.io/gpg.key',
         },
         before   => Package['grafana'],
