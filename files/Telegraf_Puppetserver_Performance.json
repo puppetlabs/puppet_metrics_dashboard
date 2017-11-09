@@ -95,7 +95,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "$tag_server-ave. free jrubies",
+              "alias": "ave-free-jrubies",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -147,7 +147,7 @@
               ]
             },
             {
-              "alias": "$tag_server-ave. requested jrubies",
+              "alias": "ave-requested-jrubies",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -199,7 +199,7 @@
               ]
             },
             {
-              "alias": "$tag_server-ave-borrow-time",
+              "alias": "ave-borrow-time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -251,7 +251,7 @@
               ]
             },
             {
-              "alias": "$tag_server-ave-wait-time",
+              "alias": "ave-wait-time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -627,7 +627,6 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "$tag_server",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -745,7 +744,6 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "$tag_server",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -875,7 +873,6 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "$tag_server",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -993,7 +990,6 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "$tag_server",
               "dsType": "influxdb",
               "groupBy": [
                 {
