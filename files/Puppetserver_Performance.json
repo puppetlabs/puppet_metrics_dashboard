@@ -106,14 +106,23 @@
                 },
                 {
                   "params": [
+                    "server"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
                     "null"
                   ],
                   "type": "fill"
                 }
               ],
+              "hide": false,
               "measurement": "puppetserver.pe-jruby-metrics.average-free-jrubies",
               "orderByTime": "ASC",
               "policy": "default",
+              "query": "SELECT distinct(\"average-free-jrubies\") FROM \"puppetserver.pe-jruby-metrics.average-free-jrubies\" WHERE $timeFilter GROUP BY time(10s) fill(null)",
+              "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
               "select": [
@@ -130,7 +139,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "server",
+                  "operator": "=~",
+                  "value": "/^$server$/"
+                }
+              ]
             },
             {
               "alias": "ave. requested jrubies",
@@ -141,6 +156,12 @@
                     "10s"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -168,7 +189,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "server",
+                  "operator": "=~",
+                  "value": "/^$server$/"
+                }
+              ]
             },
             {
               "alias": "average-wait-time",
@@ -206,7 +233,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "server",
+                  "operator": "=~",
+                  "value": "/^$server$/"
+                }
+              ]
             },
             {
               "alias": "average-borrow-time",
@@ -244,7 +277,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "server",
+                  "operator": "=~",
+                  "value": "/^$server$/"
+                }
+              ]
             }
           ],
           "thresholds": [],
@@ -356,6 +395,12 @@
                 },
                 {
                   "params": [
+                    "server"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
                     "null"
                   ],
                   "type": "fill"
@@ -380,7 +425,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "server",
+                  "operator": "=~",
+                  "value": "/^$server$/"
+                }
+              ]
             },
             {
               "alias": "heap commited",
@@ -391,6 +442,12 @@
                     "$__interval"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -418,7 +475,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "server",
+                  "operator": "=~",
+                  "value": "/^$server$/"
+                }
+              ]
             },
             {
               "alias": "uptime",
@@ -429,6 +492,12 @@
                     "10s"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -456,7 +525,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "server",
+                  "operator": "=~",
+                  "value": "/^$server$/"
+                }
+              ]
             }
           ],
           "thresholds": [],
@@ -550,6 +625,12 @@
                 },
                 {
                   "params": [
+                    "server"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
                     "null"
                   ],
                   "type": "fill"
@@ -574,13 +655,19 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "server",
+                  "operator": "=~",
+                  "value": "/^$server$/"
+                }
+              ]
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "average-requested-jrubies",
+          "title": "Average Requested Jrubies",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -656,6 +743,12 @@
                 },
                 {
                   "params": [
+                    "server"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
                     "null"
                   ],
                   "type": "fill"
@@ -680,13 +773,19 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "server",
+                  "operator": "=~",
+                  "value": "/^$server$/"
+                }
+              ]
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "ave-borrow-time",
+          "title": "Average Borrow Time",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -774,6 +873,12 @@
                 },
                 {
                   "params": [
+                    "server"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
                     "null"
                   ],
                   "type": "fill"
@@ -798,13 +903,19 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "server",
+                  "operator": "=~",
+                  "value": "/^$server$/"
+                }
+              ]
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "ave-free-jrubies",
+          "title": "Average Free Jrubies",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -880,6 +991,12 @@
                 },
                 {
                   "params": [
+                    "server"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
                     "null"
                   ],
                   "type": "fill"
@@ -904,13 +1021,19 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "server",
+                  "operator": "=~",
+                  "value": "/^$server$/"
+                }
+              ]
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "ave-wait-time",
+          "title": "Average Wait Time",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -958,7 +1081,28 @@
     "archive"
   ],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "influxdb_pe_metrics",
+        "hide": 0,
+        "includeAll": true,
+        "label": "server",
+        "multi": true,
+        "name": "server",
+        "options": [],
+        "query": "SHOW TAG VALUES WITH KEY = \"server\"",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
   },
   "time": {
     "from": "now-1h",
@@ -991,5 +1135,5 @@
   },
   "timezone": "",
   "title": "Archive Puppetserver Performance",
-  "version": 4
+  "version": 10
 }
