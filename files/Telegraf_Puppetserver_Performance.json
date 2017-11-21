@@ -95,7 +95,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "$tag_host-ave. free jrubies",
+              "alias": "ave-free-jrubies",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -106,7 +106,7 @@
                 },
                 {
                   "params": [
-                    "host"
+                    "server"
                   ],
                   "type": "tag"
                 },
@@ -140,14 +140,14 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
-                  "value": "/^$host$/"
+                  "value": "/$server/"
                 }
               ]
             },
             {
-              "alias": "$tag_host-ave. requested jrubies",
+              "alias": "ave-requested-jrubies",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -158,7 +158,7 @@
                 },
                 {
                   "params": [
-                    "host"
+                    "server"
                   ],
                   "type": "tag"
                 },
@@ -192,14 +192,14 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
-                  "value": "/^$host$/"
+                  "value": "/$server/"
                 }
               ]
             },
             {
-              "alias": "$tag_host-ave-borrow-time",
+              "alias": "ave-borrow-time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -210,7 +210,7 @@
                 },
                 {
                   "params": [
-                    "host"
+                    "server"
                   ],
                   "type": "tag"
                 },
@@ -244,14 +244,14 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
-                  "value": "/^$host$/"
+                  "value": "/$server/"
                 }
               ]
             },
             {
-              "alias": "$tag_host-ave-wait-time",
+              "alias": "ave-wait-time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -262,7 +262,7 @@
                 },
                 {
                   "params": [
-                    "host"
+                    "server"
                   ],
                   "type": "tag"
                 },
@@ -296,9 +296,9 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
-                  "value": "/^$host$/"
+                  "value": "/$server/"
                 }
               ]
             }
@@ -407,7 +407,7 @@
                 },
                 {
                   "params": [
-                    "host"
+                    "server"
                   ],
                   "type": "tag"
                 },
@@ -440,9 +440,9 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
-                  "value": "/^$host$/"
+                  "value": "/$server/"
                 }
               ]
             },
@@ -458,7 +458,7 @@
                 },
                 {
                   "params": [
-                    "host"
+                    "server"
                   ],
                   "type": "tag"
                 },
@@ -490,9 +490,9 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
-                  "value": "/^$host$/"
+                  "value": "/$server/"
                 }
               ]
             },
@@ -508,7 +508,7 @@
                 },
                 {
                   "params": [
-                    "host"
+                    "server"
                   ],
                   "type": "tag"
                 },
@@ -540,9 +540,9 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
-                  "value": "/^$host$/"
+                  "value": "/$server/"
                 }
               ]
             }
@@ -627,7 +627,6 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "$tag_host",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -638,7 +637,7 @@
                 },
                 {
                   "params": [
-                    "host"
+                    "server"
                   ],
                   "type": "tag"
                 },
@@ -670,9 +669,9 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
-                  "value": "/^$host$/"
+                  "value": "/$server/"
                 }
               ]
             }
@@ -745,7 +744,6 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "$tag_host",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -756,7 +754,7 @@
                 },
                 {
                   "params": [
-                    "host"
+                    "server"
                   ],
                   "type": "tag"
                 },
@@ -788,9 +786,9 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
-                  "value": "/^$host$/"
+                  "value": "/$server/"
                 }
               ]
             }
@@ -875,7 +873,6 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "$tag_host",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -886,7 +883,7 @@
                 },
                 {
                   "params": [
-                    "host"
+                    "server"
                   ],
                   "type": "tag"
                 },
@@ -918,9 +915,9 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
-                  "value": "/^$host$/"
+                  "value": "/$server/"
                 }
               ]
             }
@@ -993,7 +990,6 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "$tag_host",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -1004,7 +1000,7 @@
                 },
                 {
                   "params": [
-                    "host"
+                    "server"
                   ],
                   "type": "tag"
                 },
@@ -1036,9 +1032,9 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
-                  "value": "/^$host$/"
+                  "value": "/$server/"
                 }
               ]
             }
@@ -1101,14 +1097,14 @@
         "current": {},
         "datasource": "influxdb_telegraf",
         "hide": 0,
-        "includeAll": false,
-        "label": "Host",
-        "multi": false,
-        "name": "host",
+        "includeAll": true,
+        "label": "server",
+        "multi": true,
+        "name": "server",
         "options": [],
-        "query": "SHOW TAG VALUES WITH KEY = \"host\"",
+        "query": "SHOW TAG VALUES WITH KEY = \"server\"",
         "refresh": 1,
-        "regex": "",
+        "regex": "/^https://([^:]+):/",
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
