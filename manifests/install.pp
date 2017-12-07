@@ -53,6 +53,7 @@ class pe_metrics_dashboard::install(
       source => "${facts['puppet_sslpaths']['certdir']['path']}/${clientcert}.pem",
       owner  => 'grafana',
       mode   => "0400",
+      require => Package['grafana'],
     }
 
     file { $dashboard_cert_key:
@@ -60,6 +61,7 @@ class pe_metrics_dashboard::install(
       source => "${facts['puppet_sslpaths']['privatekeydir']['path']}/${clientcert}.pem",
       owner  => 'grafana',
       mode   => "0400",
+      require => Package['grafana'],
     }
 
     $uri = 'https'
