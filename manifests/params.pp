@@ -10,6 +10,9 @@ class pe_metrics_dashboard::params {
   # Default Installation parameters
   $add_dashboard_examples =  false
   $overwrite_dashboards   =  true
+  $use_dashboard_ssl      = false 
+  $dashboard_cert_file    = "${facts['puppet_sslpaths']['certdir']['path']}/${clientcert}.pem"      
+  $dashboard_cert_key     = "${facts['puppet_sslpaths']['privatekeydir']['path']}/${clientcert}.pem"	
   $influxdb_database_name =  ['pe_metrics']
   $grafana_version        =  '4.5.2'
   $grafana_http_port      =  3000

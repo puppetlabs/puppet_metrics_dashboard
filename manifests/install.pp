@@ -1,5 +1,8 @@
 class pe_metrics_dashboard::install(
   Boolean $add_dashboard_examples         =  $pe_metrics_dashboard::params::add_dashboard_examples,
+  Boolean $use_dashboard_ssl		  =  $pe_metrics_dashboard::params::use_dashboard_ssl,
+  String $dashboard_cert_file             =  $pe_metrics_dashboard::params::dashboard_cert_file,
+  String $dashboard_cert_key		  =  $pe_metrics_dashboard::params::dashboard_cert_key,
   Boolean $overwrite_dashboards           =  $pe_metrics_dashboard::params::overwrite_dashboards,
   String $overwrite_dashboards_file       =  $pe_metrics_dashboard::params::overwrite_dashboards_file,
   String $influx_db_service_name          =  $pe_metrics_dashboard::params::influx_db_service_name,
@@ -36,6 +39,36 @@ class pe_metrics_dashboard::install(
     }
   }
 
+  if $use_dashboard_ssl {
+    $cfg = { server    => {
+               http_port => $grafana_http_port,
+               protocol  => 'https',
+               cert_file => $dashboard_cert_file,
+               cert_key  => $dashboard_cert_key,
+             },
+	   }
+
+    file { $dashboard_cert_file:
+      ensure => present,
+      source => "${facts['puppet_sslpaths']['certdir']['path']}/${clientcert}.pem",
+      owner  => 'grafana',
+      mode   => "0400",
+    }
+
+    file { $dashboard_cert_key:
+      ensure => present,
+      source => "${facts['puppet_sslpaths']['privatekeydir']['path']}/${clientcert}.pem",
+      owner  => 'grafana',
+      mode   => "0400",
+    }
+  }
+  else {
+    $cfg = { server    => {
+               http_port => $grafana_http_port,
+             },
+	   }
+  }
+
   service { $influx_db_service_name:
     ensure  => running,
     require => Package['influxdb'],
@@ -57,11 +90,7 @@ class pe_metrics_dashboard::install(
     install_method      => 'repo',
     manage_package_repo => false,
     version             => $grafana_version,
-    cfg                 => {
-      server   => {
-        http_port      => $grafana_http_port,
-      },
-    },
+    cfg                 => $cfg, 
     require             => Service[$influx_db_service_name],
   }
 
