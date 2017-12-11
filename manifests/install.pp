@@ -1,5 +1,8 @@
 class pe_metrics_dashboard::install(
   Boolean $add_dashboard_examples         =  $pe_metrics_dashboard::params::add_dashboard_examples,
+  Boolean $use_dashboard_ssl		  =  $pe_metrics_dashboard::params::use_dashboard_ssl,
+  String $dashboard_cert_file             =  $pe_metrics_dashboard::params::dashboard_cert_file,
+  String $dashboard_cert_key		  =  $pe_metrics_dashboard::params::dashboard_cert_key,
   Boolean $overwrite_dashboards           =  $pe_metrics_dashboard::params::overwrite_dashboards,
   String $overwrite_dashboards_file       =  $pe_metrics_dashboard::params::overwrite_dashboards_file,
   String $influx_db_service_name          =  $pe_metrics_dashboard::params::influx_db_service_name,
@@ -36,6 +39,41 @@ class pe_metrics_dashboard::install(
     }
   }
 
+  if $use_dashboard_ssl {
+    $cfg = { server    => {
+               http_port => $grafana_http_port,
+               protocol  => 'https',
+               cert_file => $dashboard_cert_file,
+               cert_key  => $dashboard_cert_key,
+             },
+	   }
+
+    file { $dashboard_cert_file:
+      ensure => present,
+      source => "${facts['puppet_sslpaths']['certdir']['path']}/${clientcert}.pem",
+      owner  => 'grafana',
+      mode   => "0400",
+      require => Package['grafana'],
+    }
+
+    file { $dashboard_cert_key:
+      ensure => present,
+      source => "${facts['puppet_sslpaths']['privatekeydir']['path']}/${clientcert}.pem",
+      owner  => 'grafana',
+      mode   => "0400",
+      require => Package['grafana'],
+    }
+
+    $uri = 'https'
+  }
+  else {
+    $cfg = { server    => {
+               http_port => $grafana_http_port,
+             },
+	   }
+    $uri = 'http'
+  }
+
   service { $influx_db_service_name:
     ensure  => running,
     require => Package['influxdb'],
@@ -57,11 +95,7 @@ class pe_metrics_dashboard::install(
     install_method      => 'repo',
     manage_package_repo => false,
     version             => $grafana_version,
-    cfg                 => {
-      server   => {
-        http_port      => $grafana_http_port,
-      },
-    },
+    cfg                 => $cfg, 
     require             => Service[$influx_db_service_name],
   }
 
@@ -122,7 +156,7 @@ class pe_metrics_dashboard::install(
   # Configure grafana to use InfluxDB with any number of database names
   $influxdb_database_name.each |$db_name| {
     grafana_datasource { "influxdb_${db_name}":
-      grafana_url      => "http://localhost:${grafana_http_port}",
+      grafana_url      => "${uri}://localhost:${grafana_http_port}",
       type             => 'influxdb',
       database         => $db_name,
       url              => 'http://localhost:8086',
@@ -148,19 +182,22 @@ class pe_metrics_dashboard::install(
 
   if ($add_dashboard_examples) and ! $facts['overwrite_dashboards_disabled'] and ('pe_metrics' in $influxdb_database_name){
     class {'pe_metrics_dashboard::dashboards::pe_metrics':
-      grafana_port => $grafana_http_port,
+      grafana_port      => $grafana_http_port,
+      use_dashboard_ssl => $use_dashboard_ssl,
     }
   }
 
   if ($add_dashboard_examples) and ! $facts['overwrite_dashboards_disabled'] and ('telegraf' in $influxdb_database_name){
     class {'pe_metrics_dashboard::dashboards::telegraf':
-      grafana_port => $grafana_http_port,
+      grafana_port      => $grafana_http_port,
+      use_dashboard_ssl => $use_dashboard_ssl,
     }
   }
 
   if ($add_dashboard_examples) and ! $facts['overwrite_dashboards_disabled'] and ('graphite' in $influxdb_database_name){
     class {'pe_metrics_dashboard::dashboards::graphite':
-      grafana_port => $grafana_http_port,
+      grafana_port      => $grafana_http_port,
+      use_dashboard_ssl => $use_dashboard_ssl,
     }
   }
 

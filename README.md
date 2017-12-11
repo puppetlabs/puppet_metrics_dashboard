@@ -67,6 +67,19 @@ class { 'pe_metrics_dashboard::install':
 
 *requires enabling on the master side as described [here](https://puppet.com/docs/pe/2017.3/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support)
 
+#### Enable SSL
+
+```
+class { 'pe_metrics_dashboard::install':
+  use_dashboard_ssl => true,
+}
+```
+
+By default, this will create a set of certificates in `/etc/grafana` that are based on Puppet's agent certificates.  You can also specify a different location by passing the variables below, but managing the certificate content or supplying your own certificates isn't yet supported. 
+
+  `dashboard_cert_file`
+  `dashboard_cert_key`
+
 #### Other possibilities
 
 ```
