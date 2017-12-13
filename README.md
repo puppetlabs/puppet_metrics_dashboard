@@ -31,7 +31,7 @@ You have the option of getting metrics from any or all of three of these methods
 Configures grafana-server, influxdb, and telegraf, with an influxdb datasource and a database called "pe_metrics"
 
 ```
-include pe_metrics_dashboard::install
+include pe_metrics_dashboard
 ```
 
 ## Usage
@@ -39,7 +39,7 @@ include pe_metrics_dashboard::install
 ### To install example dashboards for all of the collection methods:
 
 ```
-class { 'pe_metrics_dashboard::install':
+class { 'pe_metrics_dashboard':
   add_dashboard_examples => true,
   influxdb_database_name => ['pe_metrics','telegraf','graphite'],
 }
@@ -48,7 +48,7 @@ class { 'pe_metrics_dashboard::install':
 * `add_dashboard_examples` enforces state on the dashboards. Remove this later if you want to make edits to the examples or add the `overwrite_dashboards` parameter to disable overwriting the dashboards after the first run.
 
 ```
-class { 'pe_metrics_dashboard::install':
+class { 'pe_metrics_dashboard':
   add_dashboard_examples => true,
   influxdb_database_name => ['pe_metrics','telegraf','graphite'],
   overwrite_dashboards   => false,
@@ -58,7 +58,7 @@ class { 'pe_metrics_dashboard::install':
 ### Configure telegraf for one or more masters / puppetdb nodes:
 
 ```
-class { 'pe_metrics_dashboard::install':
+class { 'pe_metrics_dashboard':
   configure_telegraf  => true,
   master_list         => ['master1.com','master2.com'],
   puppetdb_list       => ['puppetdb1','puppetdb2'],
@@ -68,7 +68,7 @@ class { 'pe_metrics_dashboard::install':
 ### Enable Graphite support
 
 ```
-class { 'pe_metrics_dashboard::install':
+class { 'pe_metrics_dashboard':
   consume_graphite   => true,
 }
 ```
@@ -78,7 +78,7 @@ class { 'pe_metrics_dashboard::install':
 ### Enable SSL
 
 ```
-class { 'pe_metrics_dashboard::install':
+class { 'pe_metrics_dashboard':
   use_dashboard_ssl => true,
 }
 ```
@@ -92,7 +92,7 @@ By default, this will create a set of certificates in `/etc/grafana` that are ba
 Configure the passwords for the InfluxDB and Grafana administrator users and enable additional [TICK Stack](https://www.influxdata.com/time-series-platform/) components.
 
 ```
-class { 'pe_metrics_dashboard::install':
+class { 'pe_metrics_dashboard':
   influx_db_password  => 'secret',
   grafana_password    => 'secret',
   grafana_http_port   => 8080,
@@ -108,13 +108,15 @@ class { 'pe_metrics_dashboard::install':
 
 #### Public classes
 
-* [`pe_metrics_dashboard::install`](#pe_metrics_dashboard_install): Installs and configures the Puppet Grafana dashboards and underlying connections.
+* [`pe_metrics_dashboard`](#pe_metrics_dashboard): Installs and configures the Puppet Grafana dashboards and underlying connections.
 
 #### Private classes
 
+* [`pe_metrics_dashboard::install`](#pe_metrics_dashboardinstall): Installs and configures the Puppet Grafana dashboards and underlying connections.
+
 ### Parameters
 
-#### pe_metrics_dashboard::install
+#### pe_metrics_dashboard
 
 ##### add_dashboard_examples
 
@@ -267,5 +269,20 @@ Valid values are `true`, `false`.
 Defaults to `false`
 
 ## Limitations
+
+### Repo failure for InfluxDB packages
+When installing InfluxDB on Centos/RedHat 6 or 7 you may encounter the following error message. This is due to a mismatch in the ciphers available on the local OS and on the InfluxDB repo.
+
+```
+Error: Execution of '/usr/bin/yum -d 0 -e 0 -y install telegraf' returned 1: Error: Cannot retrieve repository metadata (repomd.xml) for repository: influxdb. Please verify its path and try again
+Error: /Stage[main]/Pe_metrics_dashboard::Telegraf/Package[telegraf]/ensure: change from purged to present failed: Execution of '/usr/bin/yum -d 0 -e 0 -y install telegraf' returned 1: Error: Cannot retrieve repository metadata (repomd.xml) for repository: influxdb. Please verify its path and try again
+```
+
+To recify the issue, please update `nss` and `curl` on the affected system.
+
+```
+yum install curl nss --disablerepo influxdb
+```
+
 
 ## Development
