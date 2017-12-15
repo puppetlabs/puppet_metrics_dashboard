@@ -60,6 +60,7 @@ class { 'pe_metrics_dashboard':
 ```
 class { 'pe_metrics_dashboard':
   configure_telegraf  => true,
+  enable_telegraf     => true,
   master_list         => ['master1.com','master2.com'],
   puppetdb_list       => ['puppetdb1','puppetdb2'],
 }
@@ -74,6 +75,18 @@ class { 'pe_metrics_dashboard':
 ```
 
 * This setting requires enabling on the master side as described [here](https://puppet.com/docs/pe/2017.3/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support)
+
+### Enable Telegraf, Graphite, and Archive
+
+```
+class { 'pe_metrics_dashboard':
+  add_dashboard_examples => true,
+  influxdb_database_name => ['pe_metrics','telegraf','graphite'],
+  consume_graphite       => true,
+  configure_telegraf     => true,
+  enable_telegraf        => true,
+}
+```
 
 ### Enable SSL
 
@@ -120,7 +133,7 @@ class { 'pe_metrics_dashboard':
 
 ##### add_dashboard_examples
 
-Weather to add the Grafana dashboard example dashboards for the configured InfluxDB databases.
+Whether to add the Grafana dashboard example dashboards for the configured InfluxDB databases.
 
 Valid values are `true`, `false`.
 
@@ -142,7 +155,7 @@ Defaults to `"/etc/grafana/${clientcert}_key.pem"`
 
 ##### configure_telegraf
 
-Weather to configure the telegraf service.
+Whether to configure the telegraf service.
 
 Valid values are `true`, `false`.
 
@@ -154,7 +167,7 @@ _Note:_ This parameter is only used if `enable_telegraf` is set to true.
 
 ##### consume_graphite
 
-Weather to enable the InfluxDB Graphite plugin.
+Whether to enable the InfluxDB Graphite plugin.
 
 Valid values are `true`, `false`.
 
@@ -206,7 +219,7 @@ Defaults to `'puppet'`
 
 ##### enable_kapacitor
 
-Weather to install kapacitor.
+Whether to install kapacitor.
 
 Valid values are `true`, `false`.
 
@@ -216,7 +229,7 @@ Install kapacitor. No configuration of kapacitor is included at this time.
 
 ##### enable_chronograf
 
-Weather to install chronograf.
+Whether to install chronograf.
 
 Valid values are `true`, `false`.
 
@@ -226,7 +239,7 @@ Installs chronograf. No configuration of chronograf is included at this time.
 
 ##### enable_telegraf
 
-Weather to install telegraf.
+Whether to install telegraf.
 
 Valid values are `true`, `false`.
 
@@ -244,7 +257,7 @@ A list of Puppet master servers that will be configured for telegraf to query.
 
 ##### overwrite_dashboards
 
-Weather to overwrite the example Grafana dashboards.
+Whether to overwrite the example Grafana dashboards.
 
 Valid values are `true`, `false`.
 
@@ -262,7 +275,7 @@ A list of PuppetDB servers that will be configured for telegraf to query.
 
 ##### use_dashboard_ssl
 
-Weather to enable SSL on Grafana.
+Whether to enable SSL on Grafana.
 
 Valid values are `true`, `false`.
 
