@@ -123,6 +123,8 @@ class pe_metrics_dashboard::install(
     class { 'pe_metrics_dashboard::telegraf':
       configure_telegraf     => $configure_telegraf,
       influx_db_service_name => $influx_db_service_name,
+      master_list            => $master_list,
+      puppetdb_list          => $puppetdb_list,
     }
   }
 
