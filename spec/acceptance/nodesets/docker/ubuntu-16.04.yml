@@ -6,6 +6,6 @@ HOSTS:
     docker_preserve_image: true
     docker_cmd: '["/sbin/init"]'
     docker_image_commands:
-      - 'apt-get update && apt-get install -y locales net-tools wget && locale-gen en_US.UTF-8'
+      - 'apt-get update && apt-get install -y locales net-tools wget apt-transport-https && locale-gen en_US.UTF-8'
 CONFIG:
   trace_limit: 200

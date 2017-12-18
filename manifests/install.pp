@@ -1,25 +1,25 @@
 # @summary Installs and configures Grafana and INfluxDB components.
 class pe_metrics_dashboard::install(
-  Boolean $add_dashboard_examples         =  $pe_metrics_dashboard::add_dashboard_examples,
-  Boolean $use_dashboard_ssl              =  $pe_metrics_dashboard::use_dashboard_ssl,
-  String $dashboard_cert_file             =  $pe_metrics_dashboard::dashboard_cert_file,
-  String $dashboard_cert_key              =  $pe_metrics_dashboard::dashboard_cert_key,
-  Boolean $overwrite_dashboards           =  $pe_metrics_dashboard::overwrite_dashboards,
-  String $overwrite_dashboards_file       =  $pe_metrics_dashboard::overwrite_dashboards_file,
-  String $influx_db_service_name          =  $pe_metrics_dashboard::influx_db_service_name,
-  Array[String] $influxdb_database_name   =  $pe_metrics_dashboard::influxdb_database_name,
-  String $grafana_version                 =  $pe_metrics_dashboard::grafana_version,
-  Integer $grafana_http_port              =  $pe_metrics_dashboard::grafana_http_port,
-  String $influx_db_password              =  $pe_metrics_dashboard::influx_db_password,
-  String $grafana_password                =  $pe_metrics_dashboard::grafana_password,
-  Boolean $enable_kapacitor               =  $pe_metrics_dashboard::enable_kapacitor,
-  Boolean $enable_chronograf              =  $pe_metrics_dashboard::enable_chronograf,
-  Boolean $enable_telegraf                =  $pe_metrics_dashboard::enable_telegraf,
-  Boolean $configure_telegraf             =  $pe_metrics_dashboard::configure_telegraf,
-  Boolean $consume_graphite               =  $pe_metrics_dashboard::consume_graphite,
-  Array[String] $master_list              =  $pe_metrics_dashboard::master_list,
-  Array[String] $puppetdb_list            =  $pe_metrics_dashboard::puppetdb_list
-) {
+  Boolean $add_dashboard_examples         =  $pe_metrics_dashboard::params::add_dashboard_examples,
+  Boolean $use_dashboard_ssl              =  $pe_metrics_dashboard::params::use_dashboard_ssl,
+  String $dashboard_cert_file             =  $pe_metrics_dashboard::params::dashboard_cert_file,
+  String $dashboard_cert_key              =  $pe_metrics_dashboard::params::dashboard_cert_key,
+  Boolean $overwrite_dashboards           =  $pe_metrics_dashboard::params::overwrite_dashboards,
+  String $overwrite_dashboards_file       =  $pe_metrics_dashboard::params::overwrite_dashboards_file,
+  String $influx_db_service_name          =  $pe_metrics_dashboard::params::influx_db_service_name,
+  Array[String] $influxdb_database_name   =  $pe_metrics_dashboard::params::influxdb_database_name,
+  String $grafana_version                 =  $pe_metrics_dashboard::params::grafana_version,
+  Integer $grafana_http_port              =  $pe_metrics_dashboard::params::grafana_http_port,
+  String $influx_db_password              =  $pe_metrics_dashboard::params::influx_db_password,
+  String $grafana_password                =  $pe_metrics_dashboard::params::grafana_password,
+  Boolean $enable_kapacitor               =  $pe_metrics_dashboard::params::enable_kapacitor,
+  Boolean $enable_chronograf              =  $pe_metrics_dashboard::params::enable_chronograf,
+  Boolean $enable_telegraf                =  $pe_metrics_dashboard::params::enable_telegraf,
+  Boolean $configure_telegraf             =  $pe_metrics_dashboard::params::configure_telegraf,
+  Boolean $consume_graphite               =  $pe_metrics_dashboard::params::consume_graphite,
+  Array[String] $master_list              =  $pe_metrics_dashboard::params::master_list,
+  Array[String] $puppetdb_list            =  $pe_metrics_dashboard::params::puppetdb_list
+) inherits pe_metrics_dashboard::params {
 
   include pe_metrics_dashboard::repos
 
