@@ -1,3 +1,4 @@
+# @summary Installs and configures Grafana and INfluxDB components.
 class pe_metrics_dashboard::install(
   Boolean $add_dashboard_examples         =  $pe_metrics_dashboard::add_dashboard_examples,
   Boolean $use_dashboard_ssl              =  $pe_metrics_dashboard::use_dashboard_ssl,
