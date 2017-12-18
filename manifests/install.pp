@@ -20,6 +20,12 @@ class pe_metrics_dashboard::install(
   Array[String] $puppetdb_list            =  $pe_metrics_dashboard::puppetdb_list
 ) {
 
+  # Enable Telegraf if `configure_telegraf` is true.
+  $_enable_telegraf = $configure_telegraf ? {
+    true    => true,
+    default => $enable_telegraf
+  }
+
   include pe_metrics_dashboard::repos
 
   package { 'influxdb':
@@ -112,7 +118,7 @@ class pe_metrics_dashboard::install(
     }
   }
 
-  if $enable_telegraf {
+  if $_enable_telegraf {
     class { 'pe_metrics_dashboard::telegraf':
       configure_telegraf     => $configure_telegraf,
       influx_db_service_name => $influx_db_service_name,

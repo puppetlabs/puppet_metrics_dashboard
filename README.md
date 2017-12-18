@@ -159,11 +159,11 @@ Whether to configure the telegraf service.
 
 Valid values are `true`, `false`.
 
-Defaults to `false`
+Defaults to `true`
 
 This parameter enables configuring telegraf to query the `master_list` and `puppetdb_list` endpoints for metrics. Metrics will be stored in the `telegraf` database in InfluxDb. Ensure that `influxdb_database_name` contains `telegraf` when using this parameter.
 
-_Note:_ This parameter is only used if `enable_telegraf` is set to true.
+_Note:_ This parameter enables `enable_telegraf` if set to true.
 
 ##### consume_graphite
 
@@ -207,7 +207,7 @@ An array of databases that should be created in InfluxDB.
 
 Valid values are 'pe_metrics','telegraf', 'graphite', and any other string.
 
-Defaults to `['pe_metrics']`
+Defaults to `['telegraf']`
 
 Each database in the array will be created in InfluxDB. 'pe_metrics','telegraf', and 'graphite' are specially named and will be used with their associated metric collection method. Any other database name will be created, but not utilized with components in this module.
 
@@ -243,7 +243,7 @@ Whether to install telegraf.
 
 Valid values are `true`, `false`.
 
-Defaults to `false`
+Defaults to `true`
 
 Installs telegraf. No configuration is done unless the `configure_telegraf` parameter is set to `true`.
 
