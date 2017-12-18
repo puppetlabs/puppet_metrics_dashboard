@@ -100,6 +100,8 @@ By default, this will create a set of certificates in `/etc/grafana` that are ba
 
 `dashboard_cert_file` `dashboard_cert_key`
 
+_Note:_ Enabling SSL on Grafana will not allow for running on privileged ports such as `443`. To enable this capability you can use the suggestions documented in [this Grafana documentation](http://docs.grafana.org/installation/configuration/#http-port)
+
 ### Other possibilities
 
 Configure the passwords for the InfluxDB and Grafana administrator users and enable additional [TICK Stack](https://www.influxdata.com/time-series-platform/) components.
@@ -186,6 +188,8 @@ Valid values are Integers from `1024` to `65536`.
 Defaults to `3000`
 
 The grafana port for the web interface. This should be a nonprivileged port (above 1024).
+
+_Note:_ Grafana will not run on privileged ports such as `443`. To enable this capability you can use the suggestions documented in [this Grafana documentation](http://docs.grafana.org/installation/configuration/#http-port)
 
 ##### grafana_password
 
