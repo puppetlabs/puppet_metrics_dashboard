@@ -23,6 +23,7 @@ describe 'pe_metrics_dashboard::install' do
         :grafana_http_port => 3000,
         :influx_db_password => "puppet",
         :grafana_password => "admin",
+        :use_dashboard_ssl => false,
 
       }
     end
@@ -171,6 +172,7 @@ describe 'pe_metrics_dashboard::install' do
         :add_dashboard_examples => true,
         :grafana_password => "admin",
         :grafana_http_port => 3000,
+        :use_dashboard_ssl => false,
       }
     end
 
