@@ -177,32 +177,32 @@ describe 'pe_metrics_dashboard::install' do
     end
 
     it do
-      is_expected.to contain_grafana_dashboard("Archive PuppetDB Performance")
+      is_expected.to contain_grafana_dashboard("Telegraf PuppetDB Performance")
           .with({
             "grafana_url" => "http://localhost:3000",
             "grafana_user" => "admin",
             "grafana_password" => "admin",
-            "require" => "Grafana_datasource[influxdb_pe_metrics]",
+            "require" => "Grafana_datasource[influxdb_telegraf]",
             })
     end
 
     it do
-      is_expected.to contain_grafana_dashboard("Archive PuppetDB Workload")
+      is_expected.to contain_grafana_dashboard("Telegraf PuppetDB Workload")
           .with({
             "grafana_url" => "http://localhost:3000",
             "grafana_user" => "admin",
             "grafana_password" => "admin",
-            "require" => "Grafana_datasource[influxdb_pe_metrics]",
+            "require" => "Grafana_datasource[influxdb_telegraf]",
             })
     end
 
     it do
-      is_expected.to contain_grafana_dashboard("Archive Puppetserver Performance")
+      is_expected.to contain_grafana_dashboard("Telegraf Puppetserver Performance")
           .with({
             "grafana_url" => "http://localhost:3000",
             "grafana_user" => "admin",
             "grafana_password" => "admin",
-            "require" => "Grafana_datasource[influxdb_pe_metrics]",
+            "require" => "Grafana_datasource[influxdb_telegraf]",
             })
     end
   end
