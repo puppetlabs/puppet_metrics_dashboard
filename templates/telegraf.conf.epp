@@ -1,51 +1,51 @@
 [global_tags]
 [agent]
-  interval = "10s"
+  interval = '10s'
   round_interval = true
   metric_batch_size = 1000
   metric_buffer_limit = 10000
-  collection_jitter = "0s"
-  flush_interval = "10s"
-  flush_jitter = "0s"
-  precision = ""
+  collection_jitter = '0s'
+  flush_interval = '10s'
+  flush_jitter = '0s'
+  precision = ''
   debug = false
   quiet = false
-  logfile = "/var/log/telegraf/telegraf.log"
-  hostname = ""
+  logfile = '/var/log/telegraf/telegraf.log'
+  hostname = ''
   omit_hostname = false
 [[outputs.influxdb]]
-  urls = ["http://localhost:8086"] # required
-  database = "telegraf" # required
-  retention_policy = ""
-  write_consistency = "any"
-  timeout = "5s"
+  urls = ['http://localhost:8086'] # required
+  database = 'telegraf' # required
+  retention_policy = ''
+  write_consistency = 'any'
+  timeout = '5s'
 
 [[inputs.httpjson]]
-  name = "puppet_stats"
+  name = 'puppet_stats'
   servers = [
     <%# -%>
-    <% unless $pe_metrics_dashboard::install::master_list.empty {-%>
-    <% $pe_metrics_dashboard::install::master_list.each |$master_list| {-%>
-    "https://<%= $master_list %>:8140/status/v1/services?level=debug",
+    <% unless $master_list.empty {-%>
+    <% $master_list.each |$master| {-%>
+    "https://<%= $master %>:8140/status/v1/services?level=debug",
     <% } -%>
     <% } -%>
     <%# -%>
   ]
-  method = "GET"
+  method = 'GET'
   insecure_skip_verify = true
 
 [[inputs.httpjson]]
-  name = "puppetdb_command_queue"
+  name = 'puppetdb_command_queue'
   servers = [
     <%# -%>
-    <% unless $pe_metrics_dashboard::install::puppetdb_list.empty {-%>
-    <% $pe_metrics_dashboard::install::puppetdb_list.each |$puppetdb_list| {-%>
-    "https://<%= $puppetdb_list %>:8081/status/v1/services?level=debug",
+    <% unless $puppetdb_list.empty {-%>
+    <% $puppetdb_list.each |$puppetdb| {-%>
+    "https://<%= $puppetdb %>:8081/status/v1/services?level=debug",
     <% } -%>
     <% } -%>
     <%# -%>
   ]
-  method = "GET"
+  method = 'GET'
   insecure_skip_verify = true
 
 <%# -%>
@@ -55,14 +55,14 @@
   name = "puppetdb_<%= $metric['name'] %>"
   servers = [
     <%# -%>
-    <% unless $pe_metrics_dashboard::install::puppetdb_list.empty {-%>
-    <% $pe_metrics_dashboard::install::puppetdb_list.each |$master_list| {-%>
-    "https://<%= $master_list %>:8081/metrics/v1/mbeans/<%= $metric['url'] %>",
+    <% unless $puppetdb_list.empty {-%>
+    <% $puppetdb_list.each |$puppetdb| {-%>
+    "https://<%= $puppetdb %>:8081/metrics/v1/mbeans/<%= $metric['url'] %>",
     <% } -%>
     <% } -%>
     <%# -%>
   ]
-  method = "GET"
+  method = 'GET'
   insecure_skip_verify = true
 
 <% } -%>
