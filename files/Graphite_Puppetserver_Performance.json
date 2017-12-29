@@ -2670,9 +2670,9 @@
         "current": {
           "selected": true,
           "tags": [],
-          "text": "pe-201646-master",
+          "text": "All",
           "value": [
-            "pe-201646-master"
+            "$_all"
           ]
         },
         "datasource": "influxdb_graphite",
