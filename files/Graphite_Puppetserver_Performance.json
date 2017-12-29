@@ -2668,30 +2668,22 @@
       {
         "allValue": null,
         "current": {
+          "selected": true,
           "tags": [],
-          "text": "pe-201720-master.example.com",
-          "value": "pe-201720-master.example.com"
+          "text": "pe-201646-master",
+          "value": [
+            "pe-201646-master"
+          ]
         },
         "datasource": "influxdb_graphite",
         "hide": 0,
-        "includeAll": false,
+        "includeAll": true,
         "label": "server",
-        "multi": false,
+        "multi": true,
         "name": "server",
-        "options": [
-          {
-            "selected": false,
-            "text": "pe-201720-master",
-            "value": "pe-201720-master"
-          },
-          {
-            "selected": true,
-            "text": "pe-201720-master.example.com",
-            "value": "pe-201720-master.example.com"
-          }
-        ],
+        "options": [],
         "query": "SHOW TAG VALUES WITH KEY = \"server\"",
-        "refresh": 0,
+        "refresh": 1,
         "regex": "",
         "sort": 0,
         "tagValuesQuery": "",
@@ -2739,5 +2731,5 @@
   },
   "timezone": "browser",
   "title": "Graphite Puppetserver Performance",
-  "version": 20
+  "version": 24
 }
