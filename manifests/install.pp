@@ -34,7 +34,8 @@ class pe_metrics_dashboard::install(
       ensure  => file,
       owner   => 0,
       group   => 0,
-      content => file('pe_metrics_dashboard/influxdb.conf'),
+      content => epp('pe_metrics_dashboard/influxdb.conf.epp',
+        {master_list => $master_list}),
       notify  => Service[$influx_db_service_name],
       require => Package['influxdb'],
     }
