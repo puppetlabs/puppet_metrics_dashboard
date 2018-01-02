@@ -70,11 +70,14 @@ class { 'pe_metrics_dashboard':
 
 ```
 class { 'pe_metrics_dashboard':
-  consume_graphite   => true,
+  add_dashboard_examples => true,
+  consume_graphite       => true,
+  influxdb_database_name => ["graphite"],
+  master_list            => ["master01.example.com","master02.org"],
 }
 ```
 
-* This setting requires enabling on the master side as described [here](https://puppet.com/docs/pe/2017.3/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support)
+* This method requires enabling on the master side as described [here](https://puppet.com/docs/pe/2017.3/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support).  The hostname(s) that you use in `master_list` should match the value(s) that you used for `metrics_server_id` in the `puppet_enterprise::profile::master` class. 
 
 ### Enable Telegraf, Graphite, and Archive
 
