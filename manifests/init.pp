@@ -12,6 +12,10 @@
 # Valid values are `true`, `false`. Defaults to `false`.
 # *Note:* These dashboards are managed and any changes will be overwritten unless the `overwrite_dashboards` is set to `false`.
 #
+# * `manage_repos`
+# Whether or not to setup yum / apt repositories for the dependent packages
+# Valid values are `true`, `false`. Defaults to `true`
+#
 # * `dashboard_cert_file`
 # The location of the Grafana certficiate.
 # Defaults to `"/etc/grafana/${clientcert}_cert.pem"`
@@ -113,6 +117,7 @@
 
 class pe_metrics_dashboard (
   Boolean $add_dashboard_examples         =  $pe_metrics_dashboard::params::add_dashboard_examples,
+  Boolean $manage_repos                   =  $pe_metrics_dashboard::params::manage_repos,
   Boolean $use_dashboard_ssl              =  $pe_metrics_dashboard::params::use_dashboard_ssl,
   String $dashboard_cert_file             =  $pe_metrics_dashboard::params::dashboard_cert_file,
   String $dashboard_cert_key              =  $pe_metrics_dashboard::params::dashboard_cert_key,
@@ -135,6 +140,7 @@ class pe_metrics_dashboard (
 
     class { 'pe_metrics_dashboard::install':
     add_dashboard_examples    =>  $add_dashboard_examples,
+    manage_repos              =>  $manage_repos,
     use_dashboard_ssl         =>  $use_dashboard_ssl,
     dashboard_cert_file       =>  $dashboard_cert_file,
     dashboard_cert_key        =>  $dashboard_cert_key,
