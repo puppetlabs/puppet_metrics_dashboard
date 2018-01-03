@@ -9,8 +9,9 @@ class pe_metrics_dashboard::params {
 
   # Default Installation parameters
   $add_dashboard_examples =  false
+  $manage_repos           =  true
   $overwrite_dashboards   =  true
-  $use_dashboard_ssl      = false
+  $use_dashboard_ssl      =  false
   $dashboard_cert_file    = "/etc/grafana/${clientcert}_cert.pem"
   $dashboard_cert_key     = "/etc/grafana/${clientcert}_key.pem"
   $influxdb_database_name =  ['telegraf']
