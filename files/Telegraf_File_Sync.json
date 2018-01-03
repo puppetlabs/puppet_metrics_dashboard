@@ -184,7 +184,7 @@
                   },
                   {
                     "params": [],
-                    "type": "distinct"
+                    "type": "sum"
                   },
                   {
                     "params": [
@@ -234,7 +234,7 @@
                   },
                   {
                     "params": [],
-                    "type": "distinct"
+                    "type": "sum"
                   },
                   {
                     "params": [
