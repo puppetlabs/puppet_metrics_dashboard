@@ -254,6 +254,14 @@ Defaults to `true`
 
 Installs telegraf. No configuration is done unless the `configure_telegraf` parameter is set to `true`.
 
+##### manage_repos
+
+Whether or not to setup yum / apt repositories for the dependent packages
+
+Valid values are `true`, `false`. 
+
+Defaults to `true`
+
 ##### master_list
 
 An array of Puppet Master servers to collect metrics from.
