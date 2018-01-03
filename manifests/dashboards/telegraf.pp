@@ -34,4 +34,12 @@ class pe_metrics_dashboard::dashboards::telegraf(
     content          => file('pe_metrics_dashboard/Telegraf_Puppetserver_Performance.json'),
     require          => Grafana_datasource['influxdb_telegraf'],
   }
+
+  grafana_dashboard { 'Telegraf File Sync Metrics':
+    grafana_url      => "${uri}://localhost:${grafana_port}",
+    grafana_user     => 'admin',
+    grafana_password => $grafana_password,
+    content          => file('pe_metrics_dashboard/Telegraf_File_Sync.json'),
+    require          => Grafana_datasource['influxdb_telegraf'],
+  }
 }
