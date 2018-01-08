@@ -28,7 +28,7 @@ class pe_metrics_dashboard::install(
     default => $enable_telegraf
   }
 
-  class { pe_metrics_dashboard::repos:
+  class { 'pe_metrics_dashboard::repos':
     manage_repos => $manage_repos,
   }
 

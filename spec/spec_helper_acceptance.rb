@@ -25,6 +25,9 @@ RSpec.configure do |c|
       end
 
       on host, puppet('module', 'install', 'puppet-grafana')
+      if fact('osfamily') == 'Debian'
+          on host, puppet('module', 'install', 'puppetlabs-apt')
+      end
     end
   end
 end
