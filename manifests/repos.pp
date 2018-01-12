@@ -1,10 +1,11 @@
-class pe_metrics_dashboard::repos{
+class pe_metrics_dashboard::repos (
+  Boolean $manage_repos = $pe_metrics_dashboard::install::manage_repos,
+) {
 
   case $::osfamily {
 
     'RedHat': {
-       
-      if ( $::pe_metrics_dashboard::manage_repos ){
+      if ( $manage_repos ){
         yumrepo {'influxdb':
           ensure   => present,
           enabled  => 1,
@@ -34,7 +35,7 @@ class pe_metrics_dashboard::repos{
       $_operatingsystem = downcase($::facts['os']['name'])
       $_oscodename = downcase($::facts['os']['distro']['codename'])
 
-      if ( $::pe_metrics_dashboard::manage_repos ){
+      if ( $manage_repos ){
         apt::source { 'influxdb':
           location => "https://repos.influxdata.com/${_operatingsystem}",
           release  => $_oscodename,

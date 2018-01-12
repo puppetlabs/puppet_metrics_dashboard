@@ -28,7 +28,9 @@ class pe_metrics_dashboard::install(
     default => $enable_telegraf
   }
 
-  include pe_metrics_dashboard::repos
+  class { 'pe_metrics_dashboard::repos':
+    manage_repos => $manage_repos,
+  }
 
   package { 'influxdb':
     ensure  => present,
