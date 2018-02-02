@@ -95,7 +95,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "ave. free jrubies",
+              "alias": "$tag_server-avg-free-jrubies",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -148,7 +148,7 @@
               ]
             },
             {
-              "alias": "ave. requested jrubies",
+              "alias": "$tag_server-avg-requested-jrubies",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -198,7 +198,7 @@
               ]
             },
             {
-              "alias": "average-wait-time",
+              "alias": "$tag_server-avg-wait-time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -206,6 +206,12 @@
                     "10s"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -242,7 +248,7 @@
               ]
             },
             {
-              "alias": "average-borrow-time",
+              "alias": "$tag_server-avg-borrow-time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -250,6 +256,12 @@
                     "10s"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -384,7 +396,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "heap used",
+              "alias": "$tag_server-heap-used",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -434,7 +446,7 @@
               ]
             },
             {
-              "alias": "heap commited",
+              "alias": "$tag_server-heap-committed",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -614,7 +626,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "ave requested jrubies",
+              "alias": "$tag_server-avg-req-jrubies",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -732,12 +744,12 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "Avg borrow time",
+              "alias": "$tag_server-avg-borrow-time",
               "dsType": "influxdb",
               "groupBy": [
                 {
                   "params": [
-                    "10s"
+                    "1m"
                   ],
                   "type": "time"
                 },
@@ -782,7 +794,7 @@
               ]
             },
             {
-              "alias": "Mean catalog compile time",
+              "alias": "$tag_server-mean-catalog-compile-time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -790,6 +802,12 @@
                     "1m"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -906,7 +924,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "ave free jrubies",
+              "alias": "$tag_server-avg-free-jrubies",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -1024,7 +1042,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "ave wait time",
+              "alias": "$tag_server-avg-wait-time",
               "dsType": "influxdb",
               "groupBy": [
                 {
