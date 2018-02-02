@@ -732,7 +732,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "ave borrow time",
+              "alias": "Avg borrow time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -780,12 +780,56 @@
                   "value": "/^$server$/"
                 }
               ]
+            },
+            {
+              "alias": "Mean catalog compile time",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "1m"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "puppetserver.pe-puppet-profiler.catalog-metrics",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "mean"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "server",
+                  "operator": "=~",
+                  "value": "/^$server$/"
+                }
+              ]
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Average Borrow Time",
+          "title": "Average Borrow Time / Compile Time",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -1135,5 +1179,5 @@
   },
   "timezone": "",
   "title": "Archive Puppetserver Performance",
-  "version": 10
+  "version": 11
 }
