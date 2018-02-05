@@ -226,7 +226,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "global_processed.FiveMinuteRate",
+              "measurement": "global_processing-time.95thPercentile",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -235,7 +235,7 @@
                 [
                   {
                     "params": [
-                      "FiveMinuteRate"
+                      "95thPercentile"
                     ],
                     "type": "field"
                   },
@@ -855,5 +855,5 @@
   },
   "timezone": "",
   "title": "Archive PuppetDB Performance",
-  "version": 11
+  "version": 12
 }
