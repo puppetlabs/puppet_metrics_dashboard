@@ -2,12 +2,11 @@
   "annotations": {
     "list": []
   },
-  "editMode": false,
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
   "hideControls": false,
-  "id": 10,
+  "id": 9,
   "links": [
     {
       "icon": "external link",
@@ -88,7 +87,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "puppetserver.jruby-metrics.average-lock-held-time",
+              "measurement": "puppetserver.pe-jruby-metrics.average-lock-held-time",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -138,7 +137,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "puppetserver.jruby-metrics.average-lock-wait-time",
+              "measurement": "puppetserver.pe-jruby-metrics.average-lock-wait-time",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "B",
