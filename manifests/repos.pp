@@ -1,3 +1,8 @@
+# Class: pe_metrics_dashboard::repos
+# ===========================
+#
+# The pe_metrics_dashboard::repos class configures InfluxDB and Grafana Repos
+#
 class pe_metrics_dashboard::repos (
   Boolean $manage_repos = $pe_metrics_dashboard::install::manage_repos,
 ) {
@@ -12,7 +17,6 @@ class pe_metrics_dashboard::repos (
           gpgcheck => 1,
           baseurl  => 'https://repos.influxdata.com/rhel/$releasever/$basearch/stable',
           gpgkey   => 'https://repos.influxdata.com/influxdb.key',
-          before   => Package['influxdb'],
         }
 
         yumrepo { 'grafana-repo':
@@ -25,7 +29,6 @@ class pe_metrics_dashboard::repos (
           gpgkey        => 'https://packagecloud.io/gpg.key https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana',
           sslverify     => '1',
           sslcacert     => '/etc/pki/tls/certs/ca-bundle.crt',
-          before        => Class['grafana'],
         }
       }
     }
@@ -44,7 +47,6 @@ class pe_metrics_dashboard::repos (
             'id'     => '05CE15085FC09D18E99EFB22684A14CF2582E0C5',
             'source' => 'https://repos.influxdata.com/influxdb.key',
           },
-          before   => Package['influxdb'],
         }
 
         apt::source { 'grafana':
@@ -55,7 +57,6 @@ class pe_metrics_dashboard::repos (
             'id'     => '418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB',
             'source' => 'https://packagecloud.io/gpg.key',
           },
-          before   => Package['grafana'],
         }
       }
     }

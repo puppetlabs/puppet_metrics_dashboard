@@ -8,9 +8,43 @@
   "project_page": "https://github.com/puppetlabs/puppetlabs-pe_metrics_dashboard",
   "issues_url": "https://github.com/puppetlabs/puppetlabs-pe_metrics_dashboard/issues",
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"},
-    {"name":"puppet-grafana", "version_requirement": ">= 3.0.0"}
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0 < 5.0.0"
+    },
+    {
+      "name": "puppet-grafana",
+      "version_requirement": ">= 3.0.0 < 5.0.0"
+    }
   ],
-  "data_provider": null
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7.0",
+        "6.0"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "16.04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.7.0 < 6.0.0"
+    }
+  ],
+  "pdk-version": "1.4.1",
+  "template-url": "https://github.com/puppetlabs/pdk-templates",
+  "template-ref": "1.4.1-0-g52adbbb"
 }
-
