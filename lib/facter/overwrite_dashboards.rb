@@ -1,7 +1,7 @@
 Facter.add(:overwrite_dashboards_disabled) do
-  confine :kernel => 'Linux'
+  confine kernel: 'Linux'
   disabled_file = '/opt/puppetlabs/puppet/cache/state/overwrite_dashboards_disabled'
   setcode do
-      File.exists?(disabled_file)
+    File.exist?(disabled_file)
   end
 end

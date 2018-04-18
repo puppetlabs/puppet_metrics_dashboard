@@ -29,13 +29,15 @@
 # * `configure_telegraf`
 # Whether to configure the telegraf service.
 # Valid values are `true`, `false`. Defaults to `true`
-# This parameter enables configuring telegraf to query the `master_list` and `puppetdb_list` endpoints for metrics. Metrics will be stored in the `telegraf` database in InfluxDb. Ensure that `influxdb_database_name` contains `telegraf` when using this parameter.
+# This parameter enables configuring telegraf to query the `master_list` and `puppetdb_list` endpoints for metrics. Metrics will be stored
+# in the `telegraf` database in InfluxDb. Ensure that `influxdb_database_name` contains `telegraf` when using this parameter.
 # _Note:_ This parameter is only used if `enable_telegraf` is set to true.
 #
 # * `consume_graphite`
 # Whether to enable the InfluxDB Graphite plugin.
 # Valid values are `true`, `false`. Defaults to `false`
-# This parameter enables the Graphite plugin for InfluxDB to allow for injesting Graphite metrics. Ensure `influxdb_database_name` contains `graphite` when using this parameter.
+# This parameter enables the Graphite plugin for InfluxDB to allow for injesting Graphite metrics. Ensure `influxdb_database_name` contains
+# `graphite` when using this parameter.
 # *Note:* If using Graphite metrics from the Puppet Master, this needs to be set to `true`.
 #
 # * `grafana_http_port`
@@ -54,7 +56,8 @@
 # * `influxdb_database_name`
 # An array of databases that should be created in InfluxDB.
 # Valid values are 'pe_metrics','telegraf', 'graphite', and any other string. Defaults to `['pe_metrics']`
-# Each database in the array will be created in InfluxDB. 'pe_metrics','telegraf', and 'graphite' are specially named and will be used with their associated metric collection method. Any other database name will be created, but not utilized with components in this module.
+# Each database in the array will be created in InfluxDB. 'pe_metrics','telegraf', and 'graphite' are specially named and will be used with
+# their associated metric collection method. Any other database name will be created, but not utilized with components in this module.
 #
 # * `influx_db_password`
 # The password for the InfluxDB admin user.
@@ -82,7 +85,8 @@
 # * `overwrite_dashboards`
 # Whether to overwrite the example Grafana dashboards.
 # Valid values are `true`, `false`. Defaults to `false`
-# This paramater disables overwriting the example Grafana dashboards. It takes effect after the second Puppet run and popultes the `overwrite_dashboards_disabled` fact. This only takes effect when `add_dashboard_examples` is set to true.
+# This paramater disables overwriting the example Grafana dashboards. It takes effect after the second Puppet run and popultes the
+# `overwrite_dashboards_disabled` fact. This only takes effect when `add_dashboard_examples` is set to true.
 #
 # * `puppetdb_list`
 # An array of PuppetDB servers to collect metrics from. Defaults to `["$::settings::certname"]`
