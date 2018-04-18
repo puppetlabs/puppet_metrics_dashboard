@@ -1,13 +1,10 @@
 require 'spec_helper_acceptance'
 
 describe 'pe_metrics_dashboard class' do
-  context 'default parameters' do
+  context 'init with default parameters' do
     it 'installs grafana and influxdb' do
       pp = <<-MANIFEST
-    		class {'pe_metrics_dashboard':
-          grafana_version => '4.6.1',
-          grafana_http_port => 3000,
-        }
+    		class {'pe_metrics_dashboard': }
         MANIFEST
 
       # Run it twice and test for idempotency
