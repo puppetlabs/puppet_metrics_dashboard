@@ -1,8 +1,6 @@
-# Class: pe_metrics_dashboard::dashboards::telegraf
-# ===========================
+# @summary Installs telegraf example dashboards
 #
-# Installs telegraf example dashboards
-#
+# @api private
 class pe_metrics_dashboard::dashboards::telegraf(
   Integer $grafana_port       =  $pe_metrics_dashboard::install::grafana_http_port,
   String $grafana_password    =  $pe_metrics_dashboard::install::grafana_password,

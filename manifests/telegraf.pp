@@ -1,7 +1,5 @@
-# == Class: pe_metrics_dashboard::telegraf: (
-#    Boolean $configure_telegraf - Add the telegraf config file
-#)
-#
+# @summary Configures Telegraf
+# @api private
 class pe_metrics_dashboard::telegraf (
   Boolean $configure_telegraf         =  $pe_metrics_dashboard::install::configure_telegraf,
   String $influx_db_service_name      =  $pe_metrics_dashboard::install::influx_db_service_name,

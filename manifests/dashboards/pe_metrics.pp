@@ -1,8 +1,6 @@
-# Class: pe_metrics_dashboard::dashboards::pe_metrics
-# ===========================
+# @summary Installs pe_metrics example dashboards
 #
-# Installs pe_metrics example dashboards
-#
+# @api private
 class pe_metrics_dashboard::dashboards::pe_metrics(
   Integer $grafana_port       =  $pe_metrics_dashboard::install::grafana_http_port,
   String $grafana_password    =  $pe_metrics_dashboard::install::grafana_password,

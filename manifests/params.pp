@@ -4,7 +4,7 @@
 #
 # @summary Default parameters for the installation
 #
-# @example
+# @api private
 class pe_metrics_dashboard::params {
 
   # Default Installation parameters
