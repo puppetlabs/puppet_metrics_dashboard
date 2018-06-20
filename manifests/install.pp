@@ -1,4 +1,5 @@
-# @summary Installs and configures Grafana and INfluxDB components.
+# @summary Installs and configures Grafana and InfluxDB components.
+# @api private
 class pe_metrics_dashboard::install(
   Boolean $add_dashboard_examples         =  $pe_metrics_dashboard::params::add_dashboard_examples,
   Boolean $manage_repos                   =  $pe_metrics_dashboard::params::manage_repos,

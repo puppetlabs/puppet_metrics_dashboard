@@ -1,8 +1,6 @@
-# Class: pe_metrics_dashboard::repos
-# ===========================
+# @summary configures InfluxDB and Grafana Repos
 #
-# The pe_metrics_dashboard::repos class configures InfluxDB and Grafana Repos
-#
+# @api private
 class pe_metrics_dashboard::repos (
   Boolean $manage_repos = $pe_metrics_dashboard::install::manage_repos,
 ) {
