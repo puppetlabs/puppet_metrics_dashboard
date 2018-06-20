@@ -23,9 +23,6 @@ appveyor.yml:
     - release
     - /^[A-Z]+-[0-9]+_.*/
     - development
-  extras:
-    - rvm: 2.1.9
-      script: "\"bundle exec rake release_checks\""
 
 Gemfile:
   required:
@@ -43,9 +40,6 @@ Gemfile:
         from_env: BEAKER_HOSTGENERATOR_VERSION
       - gem: beaker-rspec
         from_env: BEAKER_RSPEC_VERSION
-    ':development':
-      - gem: puppet-blacksmith
-        version: '~> 3.4'
 
 Rakefile:
   requires:
