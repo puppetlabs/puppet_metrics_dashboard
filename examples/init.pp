@@ -9,4 +9,4 @@
 # Learn more about module testing here:
 # https://docs.puppet.com/guides/tests_smoke.html
 #
-include ::pe_metrics_dashboard
+include ::puppet_metrics_dashboard

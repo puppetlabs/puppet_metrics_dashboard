@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'pe_metrics_dashboard' do
+describe 'puppet_metrics_dashboard' do
   context 'with default values for all parameters' do
     let(:facts) do
       {
@@ -12,6 +12,6 @@ describe 'pe_metrics_dashboard' do
       }
     end
 
-    it { is_expected.to contain_class('pe_metrics_dashboard') }
+    it { is_expected.to contain_class('puppet_metrics_dashboard') }
   end
 end

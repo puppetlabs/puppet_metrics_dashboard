@@ -1,1 +1,1 @@
-include pe_metrics_dashboard::install
+include puppet_metrics_dashboard::install

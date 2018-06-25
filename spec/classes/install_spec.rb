@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'pe_metrics_dashboard::install' do
+describe 'puppet_metrics_dashboard::install' do
   context 'Default Configuration' do
     let(:facts) do
       {

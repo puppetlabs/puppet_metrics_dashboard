@@ -1,27 +1,27 @@
 # @summary Installs and configures Grafana and InfluxDB components.
 # @api private
-class pe_metrics_dashboard::install(
-  Boolean $add_dashboard_examples         =  $pe_metrics_dashboard::params::add_dashboard_examples,
-  Boolean $manage_repos                   =  $pe_metrics_dashboard::params::manage_repos,
-  Boolean $use_dashboard_ssl              =  $pe_metrics_dashboard::params::use_dashboard_ssl,
-  String $dashboard_cert_file             =  $pe_metrics_dashboard::params::dashboard_cert_file,
-  String $dashboard_cert_key              =  $pe_metrics_dashboard::params::dashboard_cert_key,
-  Boolean $overwrite_dashboards           =  $pe_metrics_dashboard::params::overwrite_dashboards,
-  String $overwrite_dashboards_file       =  $pe_metrics_dashboard::params::overwrite_dashboards_file,
-  String $influx_db_service_name          =  $pe_metrics_dashboard::params::influx_db_service_name,
-  Array[String] $influxdb_database_name   =  $pe_metrics_dashboard::params::influxdb_database_name,
-  String $grafana_version                 =  $pe_metrics_dashboard::params::grafana_version,
-  Integer $grafana_http_port              =  $pe_metrics_dashboard::params::grafana_http_port,
-  String $influx_db_password              =  $pe_metrics_dashboard::params::influx_db_password,
-  String $grafana_password                =  $pe_metrics_dashboard::params::grafana_password,
-  Boolean $enable_kapacitor               =  $pe_metrics_dashboard::params::enable_kapacitor,
-  Boolean $enable_chronograf              =  $pe_metrics_dashboard::params::enable_chronograf,
-  Boolean $enable_telegraf                =  $pe_metrics_dashboard::params::enable_telegraf,
-  Boolean $configure_telegraf             =  $pe_metrics_dashboard::params::configure_telegraf,
-  Boolean $consume_graphite               =  $pe_metrics_dashboard::params::consume_graphite,
-  Array[String] $master_list              =  $pe_metrics_dashboard::params::master_list,
-  Array[String] $puppetdb_list            =  $pe_metrics_dashboard::params::puppetdb_list
-) inherits pe_metrics_dashboard::params {
+class puppet_metrics_dashboard::install(
+  Boolean $add_dashboard_examples         =  $puppet_metrics_dashboard::params::add_dashboard_examples,
+  Boolean $manage_repos                   =  $puppet_metrics_dashboard::params::manage_repos,
+  Boolean $use_dashboard_ssl              =  $puppet_metrics_dashboard::params::use_dashboard_ssl,
+  String $dashboard_cert_file             =  $puppet_metrics_dashboard::params::dashboard_cert_file,
+  String $dashboard_cert_key              =  $puppet_metrics_dashboard::params::dashboard_cert_key,
+  Boolean $overwrite_dashboards           =  $puppet_metrics_dashboard::params::overwrite_dashboards,
+  String $overwrite_dashboards_file       =  $puppet_metrics_dashboard::params::overwrite_dashboards_file,
+  String $influx_db_service_name          =  $puppet_metrics_dashboard::params::influx_db_service_name,
+  Array[String] $influxdb_database_name   =  $puppet_metrics_dashboard::params::influxdb_database_name,
+  String $grafana_version                 =  $puppet_metrics_dashboard::params::grafana_version,
+  Integer $grafana_http_port              =  $puppet_metrics_dashboard::params::grafana_http_port,
+  String $influx_db_password              =  $puppet_metrics_dashboard::params::influx_db_password,
+  String $grafana_password                =  $puppet_metrics_dashboard::params::grafana_password,
+  Boolean $enable_kapacitor               =  $puppet_metrics_dashboard::params::enable_kapacitor,
+  Boolean $enable_chronograf              =  $puppet_metrics_dashboard::params::enable_chronograf,
+  Boolean $enable_telegraf                =  $puppet_metrics_dashboard::params::enable_telegraf,
+  Boolean $configure_telegraf             =  $puppet_metrics_dashboard::params::configure_telegraf,
+  Boolean $consume_graphite               =  $puppet_metrics_dashboard::params::consume_graphite,
+  Array[String] $master_list              =  $puppet_metrics_dashboard::params::master_list,
+  Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list
+) inherits puppet_metrics_dashboard::params {
 
   # Enable Telegraf if `configure_telegraf` is true.
   $_enable_telegraf = $configure_telegraf ? {
@@ -29,13 +29,13 @@ class pe_metrics_dashboard::install(
     default => $enable_telegraf
   }
 
-  class { 'pe_metrics_dashboard::repos':
+  class { 'puppet_metrics_dashboard::repos':
     manage_repos => $manage_repos,
   }
 
   package { 'influxdb':
     ensure  => present,
-    require => Class['pe_metrics_dashboard::repos'],
+    require => Class['puppet_metrics_dashboard::repos'],
   }
 
   if $consume_graphite {
@@ -44,7 +44,7 @@ class pe_metrics_dashboard::install(
       ensure  => file,
       owner   => 0,
       group   => 0,
-      content => epp('pe_metrics_dashboard/influxdb.conf.epp',
+      content => epp('puppet_metrics_dashboard/influxdb.conf.epp',
         {master_list => $master_list}),
       notify  => Service[$influx_db_service_name],
       require => Package['influxdb'],
@@ -114,7 +114,7 @@ class pe_metrics_dashboard::install(
   if $enable_kapacitor {
     package { 'kapacitor':
       ensure  => present,
-      require => Class['pe_metrics_dashboard::repos'],
+      require => Class['puppet_metrics_dashboard::repos'],
     }
 
     service { 'kapacitor':
@@ -125,7 +125,7 @@ class pe_metrics_dashboard::install(
   }
 
   if $_enable_telegraf {
-    class { 'pe_metrics_dashboard::telegraf':
+    class { 'puppet_metrics_dashboard::telegraf':
       configure_telegraf     => $configure_telegraf,
       influx_db_service_name => $influx_db_service_name,
       master_list            => $master_list,
@@ -136,7 +136,7 @@ class pe_metrics_dashboard::install(
   if $enable_chronograf {
     package { 'chronograf':
       ensure  => present,
-      require => Class['pe_metrics_dashboard::repos'],
+      require => Class['puppet_metrics_dashboard::repos'],
     }
 
     service { 'chronograf':
@@ -195,21 +195,21 @@ class pe_metrics_dashboard::install(
   }
 
   if ($add_dashboard_examples) and ! $facts['overwrite_dashboards_disabled'] and ('pe_metrics' in $influxdb_database_name){
-    class {'pe_metrics_dashboard::dashboards::pe_metrics':
+    class {'puppet_metrics_dashboard::dashboards::pe_metrics':
       grafana_port      => $grafana_http_port,
       use_dashboard_ssl => $use_dashboard_ssl,
     }
   }
 
   if ($add_dashboard_examples) and ! $facts['overwrite_dashboards_disabled'] and ('telegraf' in $influxdb_database_name){
-    class {'pe_metrics_dashboard::dashboards::telegraf':
+    class {'puppet_metrics_dashboard::dashboards::telegraf':
       grafana_port      => $grafana_http_port,
       use_dashboard_ssl => $use_dashboard_ssl,
     }
   }
 
   if ($add_dashboard_examples) and ! $facts['overwrite_dashboards_disabled'] and ('graphite' in $influxdb_database_name){
-    class {'pe_metrics_dashboard::dashboards::graphite':
+    class {'puppet_metrics_dashboard::dashboards::graphite':
       grafana_port      => $grafana_http_port,
       use_dashboard_ssl => $use_dashboard_ssl,
     }

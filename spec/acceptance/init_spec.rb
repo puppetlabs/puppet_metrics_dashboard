@@ -1,10 +1,10 @@
 require 'spec_helper_acceptance'
 
-describe 'pe_metrics_dashboard class' do
+describe 'puppet_metrics_dashboard class' do
   context 'init with default parameters' do
     it 'installs grafana and influxdb' do
       pp = <<-MANIFEST
-    		class {'pe_metrics_dashboard': }
+    		class {'puppet_metrics_dashboard': }
         MANIFEST
 
       # Run it twice and test for idempotency

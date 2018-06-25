@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'pe_metrics_dashboard::repos' do
+describe 'puppet_metrics_dashboard::repos' do
   context 'on RedHat' do
     let(:facts) do
       {

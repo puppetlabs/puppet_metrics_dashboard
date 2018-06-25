@@ -1,10 +1,10 @@
 # @summary Installs pe_metrics example dashboards
 #
 # @api private
-class pe_metrics_dashboard::dashboards::pe_metrics(
-  Integer $grafana_port       =  $pe_metrics_dashboard::install::grafana_http_port,
-  String $grafana_password    =  $pe_metrics_dashboard::install::grafana_password,
-  Boolean $use_dashboard_ssl  =  $pe_metrics_dashboard::install::use_dashboard_ssl,
+class puppet_metrics_dashboard::dashboards::pe_metrics(
+  Integer $grafana_port       =  $puppet_metrics_dashboard::install::grafana_http_port,
+  String $grafana_password    =  $puppet_metrics_dashboard::install::grafana_password,
+  Boolean $use_dashboard_ssl  =  $puppet_metrics_dashboard::install::use_dashboard_ssl,
 ) {
 
   if $use_dashboard_ssl {
@@ -18,7 +18,7 @@ class pe_metrics_dashboard::dashboards::pe_metrics(
     grafana_url      => "${uri}://localhost:${grafana_port}",
     grafana_user     => 'admin',
     grafana_password => $grafana_password,
-    content          => file('pe_metrics_dashboard/PuppetDB_Performance.json'),
+    content          => file('puppet_metrics_dashboard/PuppetDB_Performance.json'),
     require          => Grafana_datasource['influxdb_pe_metrics'],
   }
 
@@ -26,7 +26,7 @@ class pe_metrics_dashboard::dashboards::pe_metrics(
     grafana_url      => "${uri}://localhost:${grafana_port}",
     grafana_user     => 'admin',
     grafana_password => $grafana_password,
-    content          => file('pe_metrics_dashboard/PuppetDB_Workload.json'),
+    content          => file('puppet_metrics_dashboard/PuppetDB_Workload.json'),
     require          => Grafana_datasource['influxdb_pe_metrics'],
   }
 
@@ -34,7 +34,7 @@ class pe_metrics_dashboard::dashboards::pe_metrics(
     grafana_url      => "${uri}://localhost:${grafana_port}",
     grafana_user     => 'admin',
     grafana_password => $grafana_password,
-    content          => file('pe_metrics_dashboard/Puppetserver_Performance.json'),
+    content          => file('puppet_metrics_dashboard/Puppetserver_Performance.json'),
     require          => Grafana_datasource['influxdb_pe_metrics'],
   }
 
@@ -42,7 +42,7 @@ class pe_metrics_dashboard::dashboards::pe_metrics(
     grafana_url      => "${uri}://localhost:${grafana_port}",
     grafana_user     => 'admin',
     grafana_password => $grafana_password,
-    content          => file('pe_metrics_dashboard/Archive_File_Sync.json'),
+    content          => file('puppet_metrics_dashboard/Archive_File_Sync.json'),
     require          => Grafana_datasource['influxdb_pe_metrics'],
   }
 }

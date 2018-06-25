@@ -1,12 +1,12 @@
 {
-  "name": "puppetlabs-pe_metrics_dashboard",
+  "name": "puppetlabs-puppet_metrics_dashboard",
   "version": "0.1.0",
   "author": "puppetlabs",
-  "summary": "A module for managing the installation and configuration of metrics dashboards for PE services.",
+  "summary": "A module for managing the installation and configuration of metrics dashboards for Puppet Infrastructure.",
   "license": "Apache-2.0",
-  "source": "https://github.com/puppetlabs/puppetlabs-pe_metrics_dashboard.git",
-  "project_page": "https://github.com/puppetlabs/puppetlabs-pe_metrics_dashboard",
-  "issues_url": "https://github.com/puppetlabs/puppetlabs-pe_metrics_dashboard/issues",
+  "source": "https://github.com/puppetlabs/puppetlabs-puppet_metrics_dashboard.git",
+  "project_page": "https://github.com/puppetlabs/puppetlabs-puppet_metrics_dashboard",
+  "issues_url": "https://github.com/puppetlabs/puppetlabs-puppet_metrics_dashboard/issues",
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",

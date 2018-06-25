@@ -1,11 +1,11 @@
-# pe_metrics_dashboard::params
+# puppet_metrics_dashboard::params
 #
 # A description of what this class does
 #
 # @summary Default parameters for the installation
 #
 # @api private
-class pe_metrics_dashboard::params {
+class puppet_metrics_dashboard::params {
 
   # Default Installation parameters
   $add_dashboard_examples =  false

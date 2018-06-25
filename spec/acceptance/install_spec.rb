@@ -1,10 +1,10 @@
 require 'spec_helper_acceptance'
 
-describe 'pe_metrics_dashboard::install class' do
+describe 'puppet_metrics_dashboard::install class' do
   context 'archive metrics' do
     it 'installs and configures influxdb' do
       pp = <<-MANIFEST
-        class {'pe_metrics_dashboard::install':
+        class {'puppet_metrics_dashboard::install':
             grafana_http_port => 3000,
             influxdb_database_name => ['pe_metrics'],
             configure_telegraf => false,

@@ -5,23 +5,23 @@
 
 ### Public Classes
 
-* [`pe_metrics_dashboard`](#pe_metrics_dashboard): Installs and configures Grafana with InfluxDB for monitoring PE.
+* [`puppet_metrics_dashboard`](#puppet_metrics_dashboard): Installs and configures Grafana with InfluxDB for monitoring PE.
 
 ### Private Classes
 
-* `pe_metrics_dashboard::dashboards::graphite`: Installs graphite example dashboards
-* `pe_metrics_dashboard::dashboards::pe_metrics`: Installs pe_metrics example dashboards
-* `pe_metrics_dashboard::dashboards::telegraf`: Installs telegraf example dashboards
-* `pe_metrics_dashboard::install`: Installs and configures Grafana and InfluxDB components.
-* `pe_metrics_dashboard::params`: Default parameters for the installation
-* `pe_metrics_dashboard::repos`: configures InfluxDB and Grafana Repos
-* `pe_metrics_dashboard::telegraf`: Configures Telegraf
+* `puppet_metrics_dashboard::dashboards::graphite`: Installs graphite example dashboards
+* `puppet_metrics_dashboard::dashboards::pe_metrics`: Installs pe_metrics example dashboards
+* `puppet_metrics_dashboard::dashboards::telegraf`: Installs telegraf example dashboards
+* `puppet_metrics_dashboard::install`: Installs and configures Grafana and InfluxDB components.
+* `puppet_metrics_dashboard::params`: Default parameters for the installation
+* `puppet_metrics_dashboard::repos`: configures InfluxDB and Grafana Repos
+* `puppet_metrics_dashboard::telegraf`: Configures Telegraf
 
 ## Classes
 
-### pe_metrics_dashboard
+### puppet_metrics_dashboard
 
-The pe_metrics_dashboard module installs and configures an InfluxDB stack
+The puppet_metrics_dashboard module installs and configures an InfluxDB stack
 monitor the Puppet Enterprise infrastructure components.
 
 #### Examples
@@ -29,13 +29,13 @@ monitor the Puppet Enterprise infrastructure components.
 ##### Default Configuration
 
 ```puppet
-include pe_metrics_dashboard
+include puppet_metrics_dashboard
 ```
 
 ##### Configure Telegraf on a list of masters and PuppetDB servers
 
 ```puppet
-class { 'pe_metrics_dashboard':
+class { 'puppet_metrics_dashboard':
   configure_telegraf  => true,
   enable_telegraf     => true,
   master_list         => ['master1.com','master2.com'],
@@ -46,7 +46,7 @@ class { 'pe_metrics_dashboard':
 ##### Install example dashboards for all of the collection methods
 
 ```puppet
-class { 'pe_metrics_dashboard':
+class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
   influxdb_database_name => ['pe_metrics','telegraf','graphite'],
 }
@@ -55,7 +55,7 @@ class { 'pe_metrics_dashboard':
 ##### Configure telegraf for one or more masters / puppetdb nodes
 
 ```puppet
-class { 'pe_metrics_dashboard':
+class { 'puppet_metrics_dashboard':
   configure_telegraf  => true,
   enable_telegraf     => true,
   master_list         => ['master1.com','master2.com'],
@@ -66,7 +66,7 @@ class { 'pe_metrics_dashboard':
 ##### Enable Graphite support
 
 ```puppet
-class { 'pe_metrics_dashboard':
+class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
   consume_graphite       => true,
   influxdb_database_name => ["graphite"],
@@ -77,7 +77,7 @@ class { 'pe_metrics_dashboard':
 ##### Enable Telegraf, Graphite, and Archive
 
 ```puppet
-class { 'pe_metrics_dashboard':
+class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
   influxdb_database_name => ['pe_metrics','telegraf','graphite'],
   consume_graphite       => true,
@@ -89,14 +89,14 @@ class { 'pe_metrics_dashboard':
 ##### Enable SSL
 
 ```puppet
-class { 'pe_metrics_dashboard':
+class { 'puppet_metrics_dashboard':
   use_dashboard_ssl => true,
 }
 ```
 
 #### Parameters
 
-The following parameters are available in the `pe_metrics_dashboard` class.
+The following parameters are available in the `puppet_metrics_dashboard` class.
 
 ##### `add_dashboard_examples`
 
@@ -106,7 +106,7 @@ Whether to add the Grafana dashboard example dashboards for the configured Influ
 Valid values are `true`, `false`. Defaults to `false`.
 _Note_: These dashboards are managed and any changes will be overwritten unless the `overwrite_dashboards` is set to `false`.
 
-Default value: $pe_metrics_dashboard::params::add_dashboard_examples
+Default value: $puppet_metrics_dashboard::params::add_dashboard_examples
 
 ##### `manage_repos`
 
@@ -115,7 +115,7 @@ Data type: `Boolean`
 Whether or not to setup yum / apt repositories for the dependent packages
 Valid values are `true`, `false`. Defaults to `true`
 
-Default value: $pe_metrics_dashboard::params::manage_repos
+Default value: $puppet_metrics_dashboard::params::manage_repos
 
 ##### `dashboard_cert_file`
 
@@ -125,7 +125,7 @@ The location of the Grafana certficiate.
 Defaults to `"/etc/grafana/${clientcert}_cert.pem"`
 Only used when configuring `use_dashboard_ssl` is true.
 
-Default value: $pe_metrics_dashboard::params::dashboard_cert_file
+Default value: $puppet_metrics_dashboard::params::dashboard_cert_file
 
 ##### `dashboard_cert_key`
 
@@ -135,7 +135,7 @@ The location of the Grafana private key.
 Defaults to `"/etc/grafana/${clientcert}_key.pem"`
 Only used when configuring `use_dashboard_ssl` is true.
 
-Default value: $pe_metrics_dashboard::params::dashboard_cert_key
+Default value: $puppet_metrics_dashboard::params::dashboard_cert_key
 
 ##### `configure_telegraf`
 
@@ -147,7 +147,7 @@ This parameter enables configuring telegraf to query the `master_list` and `pupp
 in the `telegraf` database in InfluxDb. Ensure that `influxdb_database_name` contains `telegraf` when using this parameter.
 _Note:_ This parameter is only used if `enable_telegraf` is set to true.
 
-Default value: $pe_metrics_dashboard::params::configure_telegraf
+Default value: $puppet_metrics_dashboard::params::configure_telegraf
 
 ##### `consume_graphite`
 
@@ -159,7 +159,7 @@ This parameter enables the Graphite plugin for InfluxDB to allow for injesting G
 `graphite` when using this parameter.
 _Note:_ If using Graphite metrics from the Puppet Master, this needs to be set to `true`.
 
-Default value: $pe_metrics_dashboard::params::consume_graphite
+Default value: $puppet_metrics_dashboard::params::consume_graphite
 
 ##### `grafana_http_port`
 
@@ -169,7 +169,7 @@ The port to run Grafana on.
 Valid values are Integers from `1024` to `65536`. Defaults to `3000`
 The grafana port for the web interface. This should be a nonprivileged port (above 1024).
 
-Default value: $pe_metrics_dashboard::params::grafana_http_port
+Default value: $puppet_metrics_dashboard::params::grafana_http_port
 
 ##### `grafana_password`
 
@@ -178,7 +178,7 @@ Data type: `String`
 The password for the Grafana admin user.
 Defaults to `'admin'`
 
-Default value: $pe_metrics_dashboard::params::grafana_password
+Default value: $puppet_metrics_dashboard::params::grafana_password
 
 ##### `grafana_version`
 
@@ -187,7 +187,7 @@ Data type: `String`
 The grafana version to install.
 Valid values are String versions of Grafana. Defaults to `'4.5.2'`
 
-Default value: $pe_metrics_dashboard::params::grafana_version
+Default value: $puppet_metrics_dashboard::params::grafana_version
 
 ##### `influxdb_database_name`
 
@@ -198,7 +198,7 @@ Valid values are 'pe_metrics','telegraf', 'graphite', and any other string. Defa
 Each database in the array will be created in InfluxDB. 'pe_metrics','telegraf', and 'graphite' are specially named and will be used with
 their associated metric collection method. Any other database name will be created, but not utilized with components in this module.
 
-Default value: $pe_metrics_dashboard::params::influxdb_database_name
+Default value: $puppet_metrics_dashboard::params::influxdb_database_name
 
 ##### `influx_db_password`
 
@@ -207,7 +207,7 @@ Data type: `String`
 The password for the InfluxDB admin user.
 Defaults to `'puppet'`
 
-Default value: $pe_metrics_dashboard::params::influx_db_password
+Default value: $puppet_metrics_dashboard::params::influx_db_password
 
 ##### `enable_kapacitor`
 
@@ -217,7 +217,7 @@ Whether to install kapacitor.
 Valid values are `true`, `false`. Defaults to `false`
 Install kapacitor. No configuration of kapacitor is included at this time.
 
-Default value: $pe_metrics_dashboard::params::enable_kapacitor
+Default value: $puppet_metrics_dashboard::params::enable_kapacitor
 
 ##### `enable_chronograf`
 
@@ -227,7 +227,7 @@ Whether to install chronograf.
 Valid values are `true`, `false`. Defaults to `false`
 Installs chronograf. No configuration of chronograf is included at this time.
 
-Default value: $pe_metrics_dashboard::params::enable_chronograf
+Default value: $puppet_metrics_dashboard::params::enable_chronograf
 
 ##### `enable_telegraf`
 
@@ -237,7 +237,7 @@ Whether to install telegraf.
 Valid values are `true`, `false`. Defaults to `false`
 Installs telegraf. No configuration is done unless the `configure_telegraf` parameter is set to `true`.
 
-Default value: $pe_metrics_dashboard::params::enable_telegraf
+Default value: $puppet_metrics_dashboard::params::enable_telegraf
 
 ##### `master_list`
 
@@ -246,7 +246,7 @@ Data type: `Array[String]`
 An array of Puppet Master servers to collect metrics from. Defaults to `["$::settings::certname"]`
 A list of Puppet master servers that will be configured for telegraf to query.
 
-Default value: $pe_metrics_dashboard::params::master_list
+Default value: $puppet_metrics_dashboard::params::master_list
 
 ##### `overwrite_dashboards`
 
@@ -257,7 +257,7 @@ Valid values are `true`, `false`. Defaults to `false`
 This paramater disables overwriting the example Grafana dashboards. It takes effect after the second Puppet run and popultes the
 `overwrite_dashboards_disabled` fact. This only takes effect when `add_dashboard_examples` is set to true.
 
-Default value: $pe_metrics_dashboard::params::overwrite_dashboards
+Default value: $puppet_metrics_dashboard::params::overwrite_dashboards
 
 ##### `puppetdb_list`
 
@@ -266,7 +266,7 @@ Data type: `Array[String]`
 An array of PuppetDB servers to collect metrics from. Defaults to `["$::settings::certname"]`
 A list of PuppetDB servers that will be configured for telegraf to query.
 
-Default value: $pe_metrics_dashboard::params::puppetdb_list
+Default value: $puppet_metrics_dashboard::params::puppetdb_list
 
 ##### `use_dashboard_ssl`
 
@@ -275,7 +275,7 @@ Data type: `Boolean`
 Whether to enable SSL on Grafana.
 Valid values are `true`, `false`. Defaults to `false`
 
-Default value: $pe_metrics_dashboard::params::use_dashboard_ssl
+Default value: $puppet_metrics_dashboard::params::use_dashboard_ssl
 
 ##### `overwrite_dashboards_file`
 
@@ -283,7 +283,7 @@ Data type: `String`
 
 File in use to populate the overwrite_dashboards fact
 
-Default value: $pe_metrics_dashboard::params::overwrite_dashboards_file
+Default value: $puppet_metrics_dashboard::params::overwrite_dashboards_file
 
 ##### `influx_db_service_name`
 
@@ -291,5 +291,5 @@ Data type: `String`
 
 Name of the influxdb service for the operating system
 
-Default value: $pe_metrics_dashboard::params::influx_db_service_name
+Default value: $puppet_metrics_dashboard::params::influx_db_service_name
 

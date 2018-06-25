@@ -1,6 +1,6 @@
-# @summary Installs and configures Grafana with InfluxDB for monitoring PE.
+# @summary Installs and configures Grafana with InfluxDB for monitoring Puppet infrastructure.
 #
-# The pe_metrics_dashboard module installs and configures an InfluxDB stack
+# The puppet_metrics_dashboard module installs and configures an InfluxDB stack
 # monitor the Puppet Enterprise infrastructure components.
 #
 # @param add_dashboard_examples
@@ -100,10 +100,10 @@
 #   Name of the influxdb service for the operating system
 #
 # @example Default Configuration
-#   include pe_metrics_dashboard
+#   include puppet_metrics_dashboard
 #
 # @example Configure Telegraf on a list of masters and PuppetDB servers
-#   class { 'pe_metrics_dashboard':
+#   class { 'puppet_metrics_dashboard':
 #     configure_telegraf  => true,
 #     enable_telegraf     => true,
 #     master_list         => ['master1.com','master2.com'],
@@ -111,13 +111,13 @@
 #   }
 #
 # @example Install example dashboards for all of the collection methods
-#   class { 'pe_metrics_dashboard':
+#   class { 'puppet_metrics_dashboard':
 #     add_dashboard_examples => true,
 #     influxdb_database_name => ['pe_metrics','telegraf','graphite'],
 #   }
 #
 # @example Configure telegraf for one or more masters / puppetdb nodes
-#   class { 'pe_metrics_dashboard':
+#   class { 'puppet_metrics_dashboard':
 #     configure_telegraf  => true,
 #     enable_telegraf     => true,
 #     master_list         => ['master1.com','master2.com'],
@@ -125,7 +125,7 @@
 #   }
 #
 # @example Enable Graphite support
-#   class { 'pe_metrics_dashboard':
+#   class { 'puppet_metrics_dashboard':
 #     add_dashboard_examples => true,
 #     consume_graphite       => true,
 #     influxdb_database_name => ["graphite"],
@@ -133,7 +133,7 @@
 #   }
 #
 # @example Enable Telegraf, Graphite, and Archive
-#  class { 'pe_metrics_dashboard':
+#  class { 'puppet_metrics_dashboard':
 #    add_dashboard_examples => true,
 #    influxdb_database_name => ['pe_metrics','telegraf','graphite'],
 #    consume_graphite       => true,
@@ -142,34 +142,34 @@
 #  }
 #
 # @example Enable SSL
-#   class { 'pe_metrics_dashboard':
+#   class { 'puppet_metrics_dashboard':
 #     use_dashboard_ssl => true,
 #   }
 #
-class pe_metrics_dashboard (
-  Boolean $add_dashboard_examples         =  $pe_metrics_dashboard::params::add_dashboard_examples,
-  Boolean $manage_repos                   =  $pe_metrics_dashboard::params::manage_repos,
-  Boolean $use_dashboard_ssl              =  $pe_metrics_dashboard::params::use_dashboard_ssl,
-  String $dashboard_cert_file             =  $pe_metrics_dashboard::params::dashboard_cert_file,
-  String $dashboard_cert_key              =  $pe_metrics_dashboard::params::dashboard_cert_key,
-  Boolean $overwrite_dashboards           =  $pe_metrics_dashboard::params::overwrite_dashboards,
-  String $overwrite_dashboards_file       =  $pe_metrics_dashboard::params::overwrite_dashboards_file,
-  String $influx_db_service_name          =  $pe_metrics_dashboard::params::influx_db_service_name,
-  Array[String] $influxdb_database_name   =  $pe_metrics_dashboard::params::influxdb_database_name,
-  String $grafana_version                 =  $pe_metrics_dashboard::params::grafana_version,
-  Integer $grafana_http_port              =  $pe_metrics_dashboard::params::grafana_http_port,
-  String $influx_db_password              =  $pe_metrics_dashboard::params::influx_db_password,
-  String $grafana_password                =  $pe_metrics_dashboard::params::grafana_password,
-  Boolean $enable_kapacitor               =  $pe_metrics_dashboard::params::enable_kapacitor,
-  Boolean $enable_chronograf              =  $pe_metrics_dashboard::params::enable_chronograf,
-  Boolean $enable_telegraf                =  $pe_metrics_dashboard::params::enable_telegraf,
-  Boolean $configure_telegraf             =  $pe_metrics_dashboard::params::configure_telegraf,
-  Boolean $consume_graphite               =  $pe_metrics_dashboard::params::consume_graphite,
-  Array[String] $master_list              =  $pe_metrics_dashboard::params::master_list,
-  Array[String] $puppetdb_list            =  $pe_metrics_dashboard::params::puppetdb_list
-  ) inherits pe_metrics_dashboard::params {
+class puppet_metrics_dashboard (
+  Boolean $add_dashboard_examples         =  $puppet_metrics_dashboard::params::add_dashboard_examples,
+  Boolean $manage_repos                   =  $puppet_metrics_dashboard::params::manage_repos,
+  Boolean $use_dashboard_ssl              =  $puppet_metrics_dashboard::params::use_dashboard_ssl,
+  String $dashboard_cert_file             =  $puppet_metrics_dashboard::params::dashboard_cert_file,
+  String $dashboard_cert_key              =  $puppet_metrics_dashboard::params::dashboard_cert_key,
+  Boolean $overwrite_dashboards           =  $puppet_metrics_dashboard::params::overwrite_dashboards,
+  String $overwrite_dashboards_file       =  $puppet_metrics_dashboard::params::overwrite_dashboards_file,
+  String $influx_db_service_name          =  $puppet_metrics_dashboard::params::influx_db_service_name,
+  Array[String] $influxdb_database_name   =  $puppet_metrics_dashboard::params::influxdb_database_name,
+  String $grafana_version                 =  $puppet_metrics_dashboard::params::grafana_version,
+  Integer $grafana_http_port              =  $puppet_metrics_dashboard::params::grafana_http_port,
+  String $influx_db_password              =  $puppet_metrics_dashboard::params::influx_db_password,
+  String $grafana_password                =  $puppet_metrics_dashboard::params::grafana_password,
+  Boolean $enable_kapacitor               =  $puppet_metrics_dashboard::params::enable_kapacitor,
+  Boolean $enable_chronograf              =  $puppet_metrics_dashboard::params::enable_chronograf,
+  Boolean $enable_telegraf                =  $puppet_metrics_dashboard::params::enable_telegraf,
+  Boolean $configure_telegraf             =  $puppet_metrics_dashboard::params::configure_telegraf,
+  Boolean $consume_graphite               =  $puppet_metrics_dashboard::params::consume_graphite,
+  Array[String] $master_list              =  $puppet_metrics_dashboard::params::master_list,
+  Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list
+  ) inherits puppet_metrics_dashboard::params {
 
-    class { 'pe_metrics_dashboard::install':
+    class { 'puppet_metrics_dashboard::install':
     add_dashboard_examples    =>  $add_dashboard_examples,
     manage_repos              =>  $manage_repos,
     use_dashboard_ssl         =>  $use_dashboard_ssl,
