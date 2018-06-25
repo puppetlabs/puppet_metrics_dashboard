@@ -28,7 +28,7 @@ You have the option of getting metrics from any or all of three of these methods
 
 #### Minimal configuration
 
-Configures grafana-server, influxdb, and telegraf, with an influxdb datasource and a database called "pe_metrics"
+Configures grafana-server, influxdb, and telegraf, with an influxdb datasource and a database called "puppet_metrics"
 
 ```
 include puppet_metrics_dashboard
@@ -41,7 +41,7 @@ include puppet_metrics_dashboard
 ```
 class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
-  influxdb_database_name => ['pe_metrics','telegraf','graphite'],
+  influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
 }
 ```
 
@@ -50,7 +50,7 @@ class { 'puppet_metrics_dashboard':
 ```
 class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
-  influxdb_database_name => ['pe_metrics','telegraf','graphite'],
+  influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
   overwrite_dashboards   => false,
 }
 ```
@@ -84,7 +84,7 @@ class { 'puppet_metrics_dashboard':
 ```
 class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
-  influxdb_database_name => ['pe_metrics','telegraf','graphite'],
+  influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
   consume_graphite       => true,
   configure_telegraf     => true,
   enable_telegraf        => true,
@@ -212,11 +212,11 @@ Defaults to `'4.5.2'`
 
 An array of databases that should be created in InfluxDB.
 
-Valid values are 'pe_metrics','telegraf', 'graphite', and any other string.
+Valid values are 'puppet_metrics','telegraf', 'graphite', and any other string.
 
 Defaults to `['telegraf']`
 
-Each database in the array will be created in InfluxDB. 'pe_metrics','telegraf', and 'graphite' are specially named and will be used with their associated metric collection method. Any other database name will be created, but not utilized with components in this module.
+Each database in the array will be created in InfluxDB. 'puppet_metrics','telegraf', and 'graphite' are specially named and will be used with their associated metric collection method. Any other database name will be created, but not utilized with components in this module.
 
 ##### influx_db_password
 

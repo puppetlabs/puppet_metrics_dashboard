@@ -51,8 +51,8 @@
 #
 # @param influxdb_database_name
 #   An array of databases that should be created in InfluxDB.
-#   Valid values are 'pe_metrics','telegraf', 'graphite', and any other string. Defaults to `['pe_metrics']`
-#   Each database in the array will be created in InfluxDB. 'pe_metrics','telegraf', and 'graphite' are specially named and will be used 
+#   Valid values are 'puppet_metrics','telegraf', 'graphite', and any other string. Defaults to `['puppet_metrics']`
+#   Each database in the array will be created in InfluxDB. 'puppet_metrics','telegraf', and 'graphite' are specially named and will be used 
 #   with their associated metric collection method. Any other database name will be created, but not utilized with components in this 
 #   module.
 #
@@ -113,7 +113,7 @@
 # @example Install example dashboards for all of the collection methods
 #   class { 'puppet_metrics_dashboard':
 #     add_dashboard_examples => true,
-#     influxdb_database_name => ['pe_metrics','telegraf','graphite'],
+#     influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
 #   }
 #
 # @example Configure telegraf for one or more masters / puppetdb nodes
@@ -135,7 +135,7 @@
 # @example Enable Telegraf, Graphite, and Archive
 #  class { 'puppet_metrics_dashboard':
 #    add_dashboard_examples => true,
-#    influxdb_database_name => ['pe_metrics','telegraf','graphite'],
+#    influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
 #    consume_graphite       => true,
 #    configure_telegraf     => true,
 #    enable_telegraf        => true,

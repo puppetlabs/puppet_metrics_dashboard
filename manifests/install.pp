@@ -160,7 +160,7 @@ class puppet_metrics_dashboard::install(
   }
 
   $influxdb_database_name.each |$db_name| {
-    exec { "create influxdb pe_metrics database ${db_name}":
+    exec { "create influxdb puppet_metrics database ${db_name}":
       command => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \"create database ${db_name}\"",
       unless  => "/usr/bin/influx -username admin -password ${influx_db_password} -execute \'show databases\' | grep ${db_name}",
       require => Exec['create influxdb admin user'],
@@ -180,7 +180,7 @@ class puppet_metrics_dashboard::install(
       password         => $influx_db_password,
       grafana_user     => 'admin',
       grafana_password => 'admin',
-      require          => [Service['grafana-server'], Exec["create influxdb pe_metrics database ${db_name}"]],
+      require          => [Service['grafana-server'], Exec["create influxdb puppet_metrics database ${db_name}"]],
     }
   }
 
@@ -194,8 +194,8 @@ class puppet_metrics_dashboard::install(
     mode   => '0644',
   }
 
-  if ($add_dashboard_examples) and ! $facts['overwrite_dashboards_disabled'] and ('pe_metrics' in $influxdb_database_name){
-    class {'puppet_metrics_dashboard::dashboards::pe_metrics':
+  if ($add_dashboard_examples) and ! $facts['overwrite_dashboards_disabled'] and ('puppet_metrics' in $influxdb_database_name){
+    class {'puppet_metrics_dashboard::dashboards::puppet_metrics':
       grafana_port      => $grafana_http_port,
       use_dashboard_ssl => $use_dashboard_ssl,
     }

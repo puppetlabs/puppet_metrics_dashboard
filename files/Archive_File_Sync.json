@@ -29,7 +29,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_pe_metrics",
+          "datasource": "influxdb_puppet_metrics",
           "fill": 1,
           "id": 3,
           "legend": {
@@ -330,7 +330,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_pe_metrics",
+          "datasource": "influxdb_puppet_metrics",
           "fill": 1,
           "id": 1,
           "legend": {
@@ -610,7 +610,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_pe_metrics",
+          "datasource": "influxdb_puppet_metrics",
           "fill": 1,
           "id": 2,
           "legend": {

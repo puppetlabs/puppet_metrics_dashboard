@@ -17,7 +17,7 @@ describe 'puppet_metrics_dashboard::install' do
       {
         add_dashboard_examples: false,
         influx_db_service_name: 'influxdb',
-        influxdb_database_name: ['pe_metrics'],
+        influxdb_database_name: ['puppet_metrics'],
         grafana_version: '4.6.1',
         grafana_http_port: 3000,
         influx_db_password: 'puppet',
@@ -116,19 +116,19 @@ describe 'puppet_metrics_dashboard::install' do
     end
 
     it do
-      is_expected.to contain_exec('create influxdb pe_metrics database pe_metrics')
+      is_expected.to contain_exec('create influxdb puppet_metrics database puppet_metrics')
         .with(
-          'command' => '/usr/bin/influx -username admin -password puppet -execute "create database pe_metrics"',
-          'unless' => "/usr/bin/influx -username admin -password puppet -execute 'show databases' | grep pe_metrics",
+          'command' => '/usr/bin/influx -username admin -password puppet -execute "create database puppet_metrics"',
+          'unless' => "/usr/bin/influx -username admin -password puppet -execute 'show databases' | grep puppet_metrics",
         )
     end
 
     it do
-      is_expected.to contain_grafana_datasource('influxdb_pe_metrics')
+      is_expected.to contain_grafana_datasource('influxdb_puppet_metrics')
         .with(
           'grafana_url' => 'http://localhost:3000',
           'type' => 'influxdb',
-          'database' => 'pe_metrics',
+          'database' => 'puppet_metrics',
           'url' => 'http://localhost:8086',
           'access_mode' => 'proxy',
           'is_default' => false,
@@ -136,7 +136,7 @@ describe 'puppet_metrics_dashboard::install' do
           'password' => 'puppet',
           'grafana_user' => 'admin',
           'grafana_password' => 'admin',
-          'require' => ['Service[grafana-server]', 'Exec[create influxdb pe_metrics database pe_metrics]'],
+          'require' => ['Service[grafana-server]', 'Exec[create influxdb puppet_metrics database puppet_metrics]'],
         )
     end
   end

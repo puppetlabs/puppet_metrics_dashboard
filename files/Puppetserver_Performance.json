@@ -2,7 +2,7 @@
   "__inputs": [
     {
       "name": "DS_INFLUXDB_PE_METRICS",
-      "label": "influxdb_pe_metrics",
+      "label": "influxdb_puppet_metrics",
       "description": "",
       "type": "datasource",
       "pluginId": "influxdb",
@@ -59,7 +59,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_pe_metrics",
+          "datasource": "influxdb_puppet_metrics",
           "fill": 1,
           "id": 1,
           "legend": {
@@ -356,7 +356,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_pe_metrics",
+          "datasource": "influxdb_puppet_metrics",
           "fill": 1,
           "id": 2,
           "legend": {
@@ -599,7 +599,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_pe_metrics",
+          "datasource": "influxdb_puppet_metrics",
           "fill": 1,
           "id": 3,
           "legend": {
@@ -717,7 +717,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_pe_metrics",
+          "datasource": "influxdb_puppet_metrics",
           "fill": 1,
           "id": 4,
           "legend": {
@@ -897,7 +897,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_pe_metrics",
+          "datasource": "influxdb_puppet_metrics",
           "fill": 1,
           "id": 5,
           "legend": {
@@ -1015,7 +1015,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_pe_metrics",
+          "datasource": "influxdb_puppet_metrics",
           "fill": 1,
           "id": 6,
           "legend": {
@@ -1147,7 +1147,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "influxdb_pe_metrics",
+        "datasource": "influxdb_puppet_metrics",
         "hide": 0,
         "includeAll": true,
         "label": "server",
