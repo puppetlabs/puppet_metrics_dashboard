@@ -11,13 +11,12 @@ describe 'puppet_metrics_dashboard::dashboards::graphite' do
   end
 
   let(:params) do
-      {
-          'grafana_port' => 3000,
-          'grafana_password' => 'puppetlabs',
-          'use_dashboard_ssl' => false,
-      }
+    {
+      'grafana_port' => 3000,
+      'grafana_password' => 'puppetlabs',
+      'use_dashboard_ssl' => false,
+    }
   end
-
 
   it do
     is_expected.to contain_grafana_dashboard('Graphite Puppetserver Performance').with(

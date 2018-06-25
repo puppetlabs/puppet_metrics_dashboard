@@ -160,11 +160,16 @@ class puppet_metrics_dashboard::telegraf (
   ]
 
   $puppetdb_metrics = $::pe_server_version ? {
-    /^2015./ => $activemq_metrics,
-    /^2016\.[45]\./ => $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics + $ha_sync_metrics,
-    /^2016./ => $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
-    /^201[78]\./ => $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics + $ha_sync_metrics,
-    default  => $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
+    /^2015./ =>
+      $activemq_metrics,
+    /^2016\.[45]\./ =>
+      $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics + $ha_sync_metrics,
+    /^2016./ =>
+      $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
+    /^201[78]\./ =>
+      $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics + $ha_sync_metrics,
+    default  =>
+      $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
   }
 
   package { 'telegraf':

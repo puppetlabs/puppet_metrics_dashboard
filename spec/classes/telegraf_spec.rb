@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'puppet_metrics_dashboard::telegraf' do
-   let(:pre_condition) do
+  let(:pre_condition) do
     <<-PRE_COND
       class {'puppet_metrics_dashboard':
         influxdb_database_name => ['telegraf'],
@@ -9,14 +9,15 @@ describe 'puppet_metrics_dashboard::telegraf' do
         enable_telegraf     => true,
       }
     PRE_COND
-  end 
+  end
+
   it do
     is_expected.to contain_package('telegraf').with(
       ensure: 'present',
       require: 'Class[Puppet_metrics_dashboard::Repos]',
     )
   end
-  
+
   it do
     is_expected.to contain_service('telegraf').with(
       ensure: 'running',
@@ -24,7 +25,7 @@ describe 'puppet_metrics_dashboard::telegraf' do
       require: ['Package[telegraf]', 'Service[influxdb]'],
     )
   end
-  
+
   it do
     is_expected.to contain_file('/etc/telegraf/telegraf.conf').with(
       ensure: 'file',

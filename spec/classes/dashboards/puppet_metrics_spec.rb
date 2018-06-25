@@ -9,12 +9,12 @@ describe 'puppet_metrics_dashboard::dashboards::puppet_metrics' do
       }
     PRE_COND
   end
-  
+
   let(:params) do
     {
-       'grafana_port' => 3000,
-       'grafana_password' => 'puppetlabs',
-       'use_dashboard_ssl' => false,
+      'grafana_port' => 3000,
+      'grafana_password' => 'puppetlabs',
+      'use_dashboard_ssl' => false,
     }
   end
 
@@ -26,7 +26,7 @@ describe 'puppet_metrics_dashboard::dashboards::puppet_metrics' do
       require: 'Grafana_datasource[influxdb_puppet_metrics]',
     )
   end
-  
+
   it do
     is_expected.to contain_grafana_dashboard('Archive PuppetDB Workload').with(
       grafana_url: 'http://localhost:3000',
@@ -35,7 +35,7 @@ describe 'puppet_metrics_dashboard::dashboards::puppet_metrics' do
       require: 'Grafana_datasource[influxdb_puppet_metrics]',
     )
   end
-  
+
   it do
     is_expected.to contain_grafana_dashboard('Archive Puppetserver Performance').with(
       grafana_url: 'http://localhost:3000',
@@ -44,7 +44,7 @@ describe 'puppet_metrics_dashboard::dashboards::puppet_metrics' do
       require: 'Grafana_datasource[influxdb_puppet_metrics]',
     )
   end
-  
+
   it do
     is_expected.to contain_grafana_dashboard('Archive File Sync Metrics').with(
       grafana_url: 'http://localhost:3000',
