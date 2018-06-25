@@ -52,9 +52,9 @@
 # @param influxdb_database_name
 #   An array of databases that should be created in InfluxDB.
 #   Valid values are 'puppet_metrics','telegraf', 'graphite', and any other string. Defaults to `['puppet_metrics']`
-#   Each database in the array will be created in InfluxDB. 'puppet_metrics','telegraf', and 'graphite' are specially named and will be used 
-#   with their associated metric collection method. Any other database name will be created, but not utilized with components in this 
-#   module.
+#   Each database in the array will be created in InfluxDB. 'puppet_metrics','telegraf', and 'graphite' are specially named and will 
+#   be used with their associated metric collection method. Any other database name will be created, but not utilized with 
+#   components in this module.
 #
 # @param influx_db_password
 #   The password for the InfluxDB admin user.

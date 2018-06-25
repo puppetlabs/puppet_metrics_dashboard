@@ -6,3 +6,32 @@ concat_basedir: "/tmp"
 ipaddress: "172.16.254.254"
 is_pe: false
 macaddress: "AA:AA:AA:AA:AA:AA"
+osfamily: RedHat
+platform_tag: el-6-x86_64
+operatingsystem: CentOS
+lsbmajdistrelease: '6'
+operatingsystemrelease: '6'
+is_pe: 'true'
+pe_concat_basedir: "/tmp/file"
+platform_symlink_writable: true
+puppetversion: 4.5.1
+aio_agent_version: 1.5.1
+memorysize: 1.00 GB
+processorcount: 1
+id: root
+gid: root
+path: "/usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:/usr/local/bin"
+mountpoints:
+  "/": {}
+os:
+  family: RedHat
+  name: CentOS
+  release:
+    major: '6'
+pe_server_version: 2016.4.5
+memory:
+  system:
+    total_bytes: 4294967296
+processors:
+  count: 1
+
