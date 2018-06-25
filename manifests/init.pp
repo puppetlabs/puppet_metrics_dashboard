@@ -1,7 +1,7 @@
 # @summary Installs and configures Grafana with InfluxDB for monitoring Puppet infrastructure.
 #
 # The puppet_metrics_dashboard module installs and configures an InfluxDB stack
-# monitor the Puppet Enterprise infrastructure components.
+# monitor the Puppet infrastructure components.
 #
 # @param add_dashboard_examples
 #   Whether to add the Grafana dashboard example dashboards for the configured InfluxDB databases.

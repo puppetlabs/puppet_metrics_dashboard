@@ -22,7 +22,7 @@
 ### puppet_metrics_dashboard
 
 The puppet_metrics_dashboard module installs and configures an InfluxDB stack
-monitor the Puppet Enterprise infrastructure components.
+monitor the Puppet infrastructure components.
 
 #### Examples
 

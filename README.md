@@ -14,7 +14,7 @@
 
 ## Description
 
-This module is used to configure grafana, telegraf, and influxdb to consume metrics from Puppet Enterprise.
+This module is used to configure grafana, telegraf, and influxdb to consume metrics from Puppet service.
 
 You have the option of getting metrics from any or all of three of these methods:
 
