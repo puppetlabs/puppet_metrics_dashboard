@@ -15,7 +15,7 @@ class puppet_metrics_dashboard::params {
   $dashboard_cert_file    = "/etc/grafana/${clientcert}_cert.pem"
   $dashboard_cert_key     = "/etc/grafana/${clientcert}_key.pem"
   $influxdb_database_name =  ['telegraf']
-  $grafana_version        =  '4.5.2'
+  $grafana_version        =  '5.1.4'
   $grafana_http_port      =  3000
   $influx_db_password     =  'puppet'
   $grafana_password       =  'admin'
