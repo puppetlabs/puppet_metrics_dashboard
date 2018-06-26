@@ -5,7 +5,7 @@
 
 ### Public Classes
 
-* [`puppet_metrics_dashboard`](#puppet_metrics_dashboard): Installs and configures Grafana with InfluxDB for monitoring PE.
+* [`puppet_metrics_dashboard`](#puppet_metrics_dashboard): Installs and configures Grafana with InfluxDB for monitoring Puppet infrastructure.
 
 ### Private Classes
 
@@ -155,8 +155,8 @@ Data type: `Boolean`
 
 Whether to enable the InfluxDB Graphite plugin.
 Valid values are `true`, `false`. Defaults to `false`
-This parameter enables the Graphite plugin for InfluxDB to allow for injesting Graphite metrics. Ensure `influxdb_database_name` contains
-`graphite` when using this parameter.
+This parameter enables the Graphite plugin for InfluxDB to allow for injesting Graphite metrics. Ensure `influxdb_database_name`
+contains `graphite` when using this parameter.
 _Note:_ If using Graphite metrics from the Puppet Master, this needs to be set to `true`.
 
 Default value: $puppet_metrics_dashboard::params::consume_graphite
@@ -195,8 +195,9 @@ Data type: `Array[String]`
 
 An array of databases that should be created in InfluxDB.
 Valid values are 'puppet_metrics','telegraf', 'graphite', and any other string. Defaults to `['puppet_metrics']`
-Each database in the array will be created in InfluxDB. 'puppet_metrics','telegraf', and 'graphite' are specially named and will be used with
-their associated metric collection method. Any other database name will be created, but not utilized with components in this module.
+Each database in the array will be created in InfluxDB. 'puppet_metrics','telegraf', and 'graphite' are specially named and will
+be used with their associated metric collection method. Any other database name will be created, but not utilized with
+components in this module.
 
 Default value: $puppet_metrics_dashboard::params::influxdb_database_name
 
