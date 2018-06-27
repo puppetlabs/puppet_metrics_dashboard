@@ -122,6 +122,8 @@ class { 'puppet_metrics_dashboard':
 
 ## Reference
 
+**Note** This section is no longer maintained. Please see the REFERENCE.MD file for current listings. 
+
 ### Classes
 
 #### Public classes

@@ -16,6 +16,9 @@ appveyor.yml:
 
 Gemfile:
   required:
+    ':development':
+      - gem: 'puppet-strings'
+        version: '~> 2.0.0'
     ':system_tests':
       - gem: 'puppet-module-posix-system-r#{minor_version}'
         platforms: ruby
@@ -64,3 +67,8 @@ spec/default_facts.yml:
           'total_bytes': 4294967296
     'processors':
       'count': 1
+
+Rakefile:
+  requires:
+    - require: 'puppet-strings/tasks'
+      conditional: "Bundler.rubygems.find_name('puppet-strings').any?"
