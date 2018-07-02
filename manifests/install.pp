@@ -91,15 +91,18 @@ class puppet_metrics_dashboard::install(
     require => Package['influxdb'],
   }
 
-  # Hacky workaround for #12
-  if $facts['os']['family'] == 'RedHat' and !defined(File['/var/run/grafana']) {
+  if $facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '7' {
 
-    file { '/var/run/grafana' :
-      ensure  => directory,
-      owner   => 'grafana',
-      group   => 'grafana',
+    file { '/usr/lib/tmpfiles.d/grafana.conf' :
+      ensure  => file,
+      content => 'd /var/run/grafana 0755 grafana grafana',
       require => Package['grafana'],
       before  => Service['grafana-server'],
+      notify  => Exec['Create Systemd Temp Files'],
+    }
+    exec { 'Create Systemd Temp Files':
+      command     => '/bin/systemd-tmpfiles --create',
+      refreshonly => true,
     }
   }
 
