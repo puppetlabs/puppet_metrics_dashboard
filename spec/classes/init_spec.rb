@@ -6,6 +6,9 @@ describe 'puppet_metrics_dashboard' do
         osfamily: 'RedHat',
         os: {
           family: 'RedHat',
+          release: {
+            major: '7',
+          },
         },
         operatingsystem: 'RedHat',
         pe_server_version: '2017.2',
