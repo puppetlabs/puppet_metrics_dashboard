@@ -1,14 +1,14 @@
 # @summary Configures Telegraf
 # @api private
-class pe_metrics_dashboard::telegraf (
-  Boolean $configure_telegraf         =  $pe_metrics_dashboard::install::configure_telegraf,
-  String $influx_db_service_name      =  $pe_metrics_dashboard::install::influx_db_service_name,
-  Array[String] $master_list          =  $pe_metrics_dashboard::install::master_list,
-  Array[String] $puppetdb_list        =  $pe_metrics_dashboard::install::puppetdb_list,
+class puppet_metrics_dashboard::telegraf (
+  Boolean $configure_telegraf         =  $puppet_metrics_dashboard::install::configure_telegraf,
+  String $influx_db_service_name      =  $puppet_metrics_dashboard::install::influx_db_service_name,
+  Array[String] $master_list          =  $puppet_metrics_dashboard::install::master_list,
+  Array[String] $puppetdb_list        =  $puppet_metrics_dashboard::install::puppetdb_list,
   Array[String] $additional_metrics   = [],
   ) {
 
-  # Stolen from https://github.com/npwalker/pe_metric_curl_cron_jobs/blob/master/manifests/puppetdb.pp
+  # Taken from https://github.com/puppetlabs/puppetlabs-puppet_metrics_collector/blob/master/manifests/puppetdb.pp
   # Configure the mbean metrics to be collected
   $activemq_metrics = [
   { 'name' => 'amq_metrics',
@@ -138,15 +138,43 @@ class pe_metrics_dashboard::telegraf (
       'url'  => 'puppetlabs.puppetdb.database:name=PDBWritePool.pool.Wait' },
   ]
 
+  $ha_sync_metrics = [
+    { 'name' => 'ha_last-sync-succeeded',
+      'url'  => 'puppetlabs.puppetdb.ha:name=last-sync-succeeded' },
+    { 'name' => 'ha_seconds-since-last-successful-sync',
+      'url'  => 'puppetlabs.puppetdb.ha:name=seconds-since-last-successful-sync' },
+    { 'name' => 'ha_failed-request-counter',
+      'url'  => 'puppetlabs.puppetdb.ha:name=failed-request-counter' },
+    { 'name' => 'ha_sync-duration',
+      'url'  => 'puppetlabs.puppetdb.ha:name=sync-duration' },
+    { 'name' => 'ha_catalogs-sync-duration',
+      'url'  => 'puppetlabs.puppetdb.ha:name=catalogs-sync-duration' },
+    { 'name' => 'ha_reports-sync-duration',
+      'url'  => 'puppetlabs.puppetdb.ha:name=reports-sync-duration' },
+    { 'name' => 'ha_factsets-sync-duration',
+      'url'  => 'puppetlabs.puppetdb.ha:name=factsets-sync-duration' },
+    { 'name' => 'ha_nodes-sync-duration',
+      'url'  => 'puppetlabs.puppetdb.ha:name=nodes-sync-duration' },
+    { 'name' => 'ha_record-transfer-duration',
+      'url'  => 'puppetlabs.puppetdb.ha:name=record-transfer-duration' },
+  ]
+
   $puppetdb_metrics = $::pe_server_version ? {
-    /^2015./ => $activemq_metrics,
-    /^2016./ => $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
-    default  => $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
+    /^2015./ =>
+      $activemq_metrics,
+    /^2016\.[45]\./ =>
+      $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics + $ha_sync_metrics,
+    /^2016./ =>
+      $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
+    /^201[78]\./ =>
+      $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics + $ha_sync_metrics,
+    default  =>
+      $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
   }
 
   package { 'telegraf':
     ensure  => present,
-    require => Class['pe_metrics_dashboard::repos'],
+    require => Class['puppet_metrics_dashboard::repos'],
   }
 
   service { 'telegraf':
@@ -161,7 +189,7 @@ class pe_metrics_dashboard::telegraf (
       ensure  => file,
       owner   => 0,
       group   => 0,
-      content => epp('pe_metrics_dashboard/telegraf.conf.epp',
+      content => epp('puppet_metrics_dashboard/telegraf.conf.epp',
         {
           puppetdb_metrics => $puppetdb_metrics,
           master_list      => $master_list,

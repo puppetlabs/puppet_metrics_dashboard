@@ -1,12 +1,12 @@
-# pe_metrics_dashboard
+# puppet_metrics_dashboard
 
 ## Table of Contents
 
 1. [Description](#description)
-2. [Setup - The basics of getting started with pe_metrics_dashboard](#setup)
-  * [What pe_metrics_dashboard affects](#what-pe_metrics_dashboard-affects)
+2. [Setup - The basics of getting started with puppet_metrics_dashboard](#setup)
+  * [What puppet_metrics_dashboard affects](#what-puppet_metrics_dashboard-affects)
   * [Setup requirements](#setup-requirements)
-  * [Beginning with pe_metrics_dashboard](#beginning-with-pe_metrics_dashboard)
+  * [Beginning with puppet_metrics_dashboard](#beginning-with-puppet_metrics_dashboard)
 3. [Usage - Configuration options and additional functionality](#usage)
 4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
@@ -14,24 +14,24 @@
 
 ## Description
 
-This module is used to configure grafana, telegraf, and influxdb to consume metrics from Puppet Enterprise.
+This module is used to configure grafana, telegraf, and influxdb to consume metrics from Puppet service.
 
 You have the option of getting metrics from any or all of three of these methods:
 
 * Through Archive files from the [npwalker/pe_metric_curl_cron_jobs](https://forge.puppet.com/npwalker/pe_metric_curl_cron_jobs) module
 * Natively, via Puppetserver's [built-in graphite support](https://puppet.com/docs/pe/2017.3/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support)
-* Through telegraf, which polls several of PE's metrics endpoints
+* Through telegraf, which polls several of Puppet's metrics endpoints
 
 ## Setup
 
-### Beginning with pe_metrics_dashboard
+### Beginning with puppet_metrics_dashboard
 
 #### Minimal configuration
 
-Configures grafana-server, influxdb, and telegraf, with an influxdb datasource and a database called "pe_metrics"
+Configures grafana-server, influxdb, and telegraf, with an influxdb datasource and a database called "puppet_metrics"
 
 ```
-include pe_metrics_dashboard
+include puppet_metrics_dashboard
 ```
 
 ## Usage
@@ -39,18 +39,18 @@ include pe_metrics_dashboard
 ### To install example dashboards for all of the collection methods:
 
 ```
-class { 'pe_metrics_dashboard':
+class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
-  influxdb_database_name => ['pe_metrics','telegraf','graphite'],
+  influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
 }
 ```
 
 * `add_dashboard_examples` enforces state on the dashboards. Remove this later if you want to make edits to the examples or add the `overwrite_dashboards` parameter to disable overwriting the dashboards after the first run.
 
 ```
-class { 'pe_metrics_dashboard':
+class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
-  influxdb_database_name => ['pe_metrics','telegraf','graphite'],
+  influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
   overwrite_dashboards   => false,
 }
 ```
@@ -58,7 +58,7 @@ class { 'pe_metrics_dashboard':
 ### Configure telegraf for one or more masters / puppetdb nodes:
 
 ```
-class { 'pe_metrics_dashboard':
+class { 'puppet_metrics_dashboard':
   configure_telegraf  => true,
   enable_telegraf     => true,
   master_list         => ['master1.com','master2.com'],
@@ -69,7 +69,7 @@ class { 'pe_metrics_dashboard':
 ### Enable Graphite support
 
 ```
-class { 'pe_metrics_dashboard':
+class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
   consume_graphite       => true,
   influxdb_database_name => ["graphite"],
@@ -82,9 +82,9 @@ class { 'pe_metrics_dashboard':
 ### Enable Telegraf, Graphite, and Archive
 
 ```
-class { 'pe_metrics_dashboard':
+class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
-  influxdb_database_name => ['pe_metrics','telegraf','graphite'],
+  influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
   consume_graphite       => true,
   configure_telegraf     => true,
   enable_telegraf        => true,
@@ -94,7 +94,7 @@ class { 'pe_metrics_dashboard':
 ### Enable SSL
 
 ```
-class { 'pe_metrics_dashboard':
+class { 'puppet_metrics_dashboard':
   use_dashboard_ssl => true,
 }
 ```
@@ -110,7 +110,7 @@ _Note:_ Enabling SSL on Grafana will not allow for running on privileged ports s
 Configure the passwords for the InfluxDB and Grafana administrator users and enable additional [TICK Stack](https://www.influxdata.com/time-series-platform/) components.
 
 ```
-class { 'pe_metrics_dashboard':
+class { 'puppet_metrics_dashboard':
   influx_db_password  => 'secret',
   grafana_password    => 'secret',
   grafana_http_port   => 8080,
@@ -122,19 +122,21 @@ class { 'pe_metrics_dashboard':
 
 ## Reference
 
+**Note** This section is no longer maintained. Please see the REFERENCE.MD file for current listings. 
+
 ### Classes
 
 #### Public classes
 
-* [`pe_metrics_dashboard`](#pe_metrics_dashboard): Installs and configures the Puppet Grafana dashboards and underlying connections.
+* [`puppet_metrics_dashboard`](#puppet_metrics_dashboard): Installs and configures the Puppet Grafana dashboards and underlying connections.
 
 #### Private classes
 
-* [`pe_metrics_dashboard::install`](#pe_metrics_dashboardinstall): Installs and configures the Puppet Grafana dashboards and underlying connections.
+* [`puppet_metrics_dashboard::install`](#puppet_metrics_dashboardinstall): Installs and configures the Puppet Grafana dashboards and underlying connections.
 
 ### Parameters
 
-#### pe_metrics_dashboard
+#### puppet_metrics_dashboard
 
 ##### add_dashboard_examples
 
@@ -212,11 +214,11 @@ Defaults to `'4.5.2'`
 
 An array of databases that should be created in InfluxDB.
 
-Valid values are 'pe_metrics','telegraf', 'graphite', and any other string.
+Valid values are 'puppet_metrics','telegraf', 'graphite', and any other string.
 
 Defaults to `['telegraf']`
 
-Each database in the array will be created in InfluxDB. 'pe_metrics','telegraf', and 'graphite' are specially named and will be used with their associated metric collection method. Any other database name will be created, but not utilized with components in this module.
+Each database in the array will be created in InfluxDB. 'puppet_metrics','telegraf', and 'graphite' are specially named and will be used with their associated metric collection method. Any other database name will be created, but not utilized with components in this module.
 
 ##### influx_db_password
 

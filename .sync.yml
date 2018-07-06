@@ -1,14 +1,8 @@
 ---
 appveyor.yml:
-  environment:
-  PUPPET_GEM_VERSION: "~> 4.0"
-  matrix:
-    - RUBY_VERSION: 24-x64
-      CHECK: "syntax lint"
-    - RUBY_VERSION: 24-x64
-      CHECK: metadata_lint
-    - RUBY_VERSION: 24-x64
-      CHECK: rubocop
+  delete: true
+.gitlab-ci.yml:
+  delete: true
 
 .travis.yml:
   bundle_args: --without system_tests
@@ -17,15 +11,14 @@ appveyor.yml:
       options:
     - set: docker/ubuntu-16.04
       options:
-  docker_defaults:
-    bundler_args: ""
   branches:
-    - release
-    - /^[A-Z]+-[0-9]+_.*/
-    - development
+    - /.*/
 
 Gemfile:
   required:
+    ':development':
+      - gem: 'puppet-strings'
+        version: '~> 2.0.0'
     ':system_tests':
       - gem: 'puppet-module-posix-system-r#{minor_version}'
         platforms: ruby
@@ -41,7 +34,41 @@ Gemfile:
       - gem: beaker-rspec
         from_env: BEAKER_RSPEC_VERSION
 
+spec/spec_helper.rb:
+  mock_with: ':rspec'
+
+spec/default_facts.yml:
+  extra_facts:
+    'osfamily': 'RedHat'
+    'platform_tag': 'el-6-x86_64'
+    'operatingsystem': 'CentOS'
+    'lsbmajdistrelease': '6'
+    'operatingsystemrelease': '6'
+    'is_pe': 'true'
+    'pe_concat_basedir': '/tmp/file'
+    'platform_symlink_writable': true
+    'puppetversion': '4.5.1'
+    'aio_agent_version': '1.5.1'
+    'memorysize': '1.00 GB'
+    'processorcount': 1
+    'id': 'root'
+    'gid': 'root'
+    'path': '/usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:/usr/local/bin'
+    'mountpoints':
+      '/': {}
+    'os':
+      'family': 'RedHat'
+      'name': 'CentOS'
+      'release':
+        'major': '6'
+    'pe_server_version': '2016.4.5'
+    'memory':
+      'system':
+          'total_bytes': 4294967296
+    'processors':
+      'count': 1
+
 Rakefile:
   requires:
-    - puppet_blacksmith/rake_tasks
-
+    - require: 'puppet-strings/tasks'
+      conditional: "Bundler.rubygems.find_name('puppet-strings').any?"

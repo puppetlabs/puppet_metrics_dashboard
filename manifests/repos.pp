@@ -1,8 +1,8 @@
 # @summary configures InfluxDB and Grafana Repos
 #
 # @api private
-class pe_metrics_dashboard::repos (
-  Boolean $manage_repos = $pe_metrics_dashboard::install::manage_repos,
+class puppet_metrics_dashboard::repos (
+  Boolean $manage_repos = $puppet_metrics_dashboard::install::manage_repos,
 ) {
 
   case $::osfamily {
