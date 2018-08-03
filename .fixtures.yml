@@ -4,7 +4,7 @@ fixtures:
     repositories:
       stdlib:
         repo: https://github.com/puppetlabs/puppetlabs-stdlib.git
-        ref: 4.3.2
+        ref: 4.25.1
       apt:
         repo: https://github.com/puppetlabs/puppetlabs-apt.git
         ref: 4.3.0
