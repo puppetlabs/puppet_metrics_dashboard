@@ -5,7 +5,7 @@ appveyor.yml:
   delete: true
 
 .travis.yml:
-  bundle_args: --without system_tests
+  bundler_args: -----without system_tests
   docker_sets:
     - set: docker/centos-7
       options:
