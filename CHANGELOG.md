@@ -1,5 +1,11 @@
 # Change log
 
+## 2018-08-03 - Release - 1.0.2
+### Summary
+
+#### Changes:
+ - Added the missing license file.
+
 ## 2018-07-06 - Release - 1.0.1
 ### Summary
 
