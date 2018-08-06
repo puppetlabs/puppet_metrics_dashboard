@@ -8,7 +8,7 @@ describe 'puppet_metrics_dashboard::install' do
         os: {
           family: 'RedHat',
           release: {
-             major: '7',
+            major: '7',
           },
         },
         operatingsystem: 'RedHat',
