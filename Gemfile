@@ -36,12 +36,14 @@ group :development do
   gem "puppet-strings", '~> 2.0.0',                    require: false
 end
 group :system_tests do
-  gem "puppet-module-posix-system-r#{minor_version}",                            require: false, platforms: [:ruby]
-  gem "beaker", *location_for(ENV['BEAKER_VERSION'] || '~> 3.13')
-  gem "beaker-abs", *location_for(ENV['BEAKER_ABS_VERSION'] || '~> 0.1')
-  gem "beaker-pe",                                                               require: false
-  gem "beaker-hostgenerator"
-  gem "beaker-rspec"
+  gem "puppet-module-posix-system-r#{minor_version}", require: false, platforms: [:ruby]
+  gem "beaker", '~> 4',                               require: false
+  gem "beaker-puppet", '~> 1.0',                      require: false
+  gem "beaker-abs", '~> 0.1',                         require: false
+  gem "beaker-pe",                                    require: false
+  gem "beaker-rspec",                                 require: false
+  gem "beaker-docker",                                require: false
+  gem "beaker-vagrant",                               require: false
 end
 
 puppet_version = ENV['PUPPET_GEM_VERSION']
