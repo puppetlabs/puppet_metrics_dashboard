@@ -12,15 +12,18 @@
       Array $master_list
 | -%>
 
-<% unless $master_list.empty { 
-      $serverarray = $master_list.map |$host| { 
-          $server_tag = join(split($host,"[.]").map | $element | { "server" },'.') 
-          $wildcards = join(split($host,"[.]").map | $element | { "*" },'.') 
-          "puppetlabs.${wildcards}.placeholder .${server_tag}.measurement*" 
-     }
-   }
+<%
+$serverarray = $master_list.map |$host| { 
+  $server_tag = join(split($host,"[.]").map | $element | { "server" },'.') 
+  $wildcards = join(split($host,"[.]").map | $element | { "*" },'.') 
+  "puppetlabs.${wildcards}.placeholder .${server_tag}.measurement*" 
+}
 
-$unique_serverarray = unique($serverarray) 
+if length(delete_undef_values($serverarray)) > 1 {
+  $unique_serverarray = unique($serverarray)
+} else {
+  $unique_serverarray = []
+}
 
 $filterarray = $filters.map |$filter| { 
    regsubst($unique_serverarray, "placeholder", $filter) 
