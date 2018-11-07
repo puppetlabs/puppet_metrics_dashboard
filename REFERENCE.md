@@ -244,10 +244,42 @@ Default value: $puppet_metrics_dashboard::params::enable_telegraf
 
 Data type: `Array[String]`
 
-An array of Puppet Master servers to collect metrics from. Defaults to `["$::settings::certname"]`
+An array of Puppet Master servers to collect metrics from. Defaults to `["$settings::certname"]`
 A list of Puppet master servers that will be configured for telegraf to query.
 
 Default value: $puppet_metrics_dashboard::params::master_list
+
+##### `influxdb_urls`
+
+Data type: `String`
+
+The string for telegraf's config defining where influxdb is
+
+Default value: $puppet_metrics_dashboard::params::influxdb_urls
+
+##### `telegraf_db_name`
+
+Data type: `String`
+
+The database in influxdb where telefraf metrics are stored
+
+Default value: $puppet_metrics_dashboard::params::telegraf_db_name
+
+##### `telegraf_agent_interval`
+
+Data type: `Integer[1]`
+
+How often the telefraf agent queries for metrics
+
+Default value: $puppet_metrics_dashboard::params::telegraf_agent_interval
+
+##### `http_response_timeout`
+
+Data type: `Integer[1]`
+
+How long to wait for the queries by telegraf to finish before giving up
+
+Default value: $puppet_metrics_dashboard::params::http_response_timeout
 
 ##### `overwrite_dashboards`
 
@@ -264,7 +296,7 @@ Default value: $puppet_metrics_dashboard::params::overwrite_dashboards
 
 Data type: `Array[String]`
 
-An array of PuppetDB servers to collect metrics from. Defaults to `["$::settings::certname"]`
+An array of PuppetDB servers to collect metrics from. Defaults to `["$settings::certname"]`
 A list of PuppetDB servers that will be configured for telegraf to query.
 
 Default value: $puppet_metrics_dashboard::params::puppetdb_list

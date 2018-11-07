@@ -4,8 +4,7 @@
 
 1. [Description](#description)
 2. [Setup - The basics of getting started with puppet_metrics_dashboard](#setup)
-  * [What puppet_metrics_dashboard affects](#what-puppet_metrics_dashboard-affects)
-  * [Setup requirements](#setup-requirements)
+  * [Upgrade note](#upgrade-note)
   * [Beginning with puppet_metrics_dashboard](#beginning-with-puppet_metrics_dashboard)
 3. [Usage - Configuration options and additional functionality](#usage)
 4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
@@ -18,11 +17,21 @@ This module is used to configure grafana, telegraf, and influxdb to consume metr
 
 You have the option of getting metrics from any or all of three of these methods:
 
-* Through Archive files from the [npwalker/pe_metric_curl_cron_jobs](https://forge.puppet.com/npwalker/pe_metric_curl_cron_jobs) module
-* Natively, via Puppetserver's [built-in graphite support](https://puppet.com/docs/pe/2017.3/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support)
+* Through Archive files from the [puppetlabs/puppet_metrics_collector](https://forge.puppet.com/puppetlabs/puppet_metrics_collector) module
+* Natively, via Puppetserver's [built-in graphite support](https://puppet.com/docs/pe/2019.0/getting_started_with_graphite.html#task-7933)
 * Through telegraf, which polls several of Puppet's metrics endpoints
 
 ## Setup
+
+### Upgrade note
+
+Previous versions of this module put several `[[inputs.httpjson]]` entries in
+`/etc/telegraf/telegraf.conf`. These entries should be removed now as all
+module-specific settings now reside in
+`/etc/telegraf/telegraf.d/puppet_metrics_dashboard.conf`. Telegraf will
+continue to work if you do not remove them, however, the old 
+`[[inputs.httpjson]]` will not be updated going forward.
+
 
 ### Beginning with puppet_metrics_dashboard
 
@@ -124,180 +133,6 @@ class { 'puppet_metrics_dashboard':
 
 **Note** This section is no longer maintained. Please see the REFERENCE.MD file for current listings. 
 
-### Classes
-
-#### Public classes
-
-* [`puppet_metrics_dashboard`](#puppet_metrics_dashboard): Installs and configures the Puppet Grafana dashboards and underlying connections.
-
-#### Private classes
-
-* [`puppet_metrics_dashboard::install`](#puppet_metrics_dashboardinstall): Installs and configures the Puppet Grafana dashboards and underlying connections.
-
-### Parameters
-
-#### puppet_metrics_dashboard
-
-##### add_dashboard_examples
-
-Whether to add the Grafana dashboard example dashboards for the configured InfluxDB databases.
-
-Valid values are `true`, `false`.
-
-Defaults to `false`.
-
-*Note:* These dashboards are managed and any changes will be overwritten unless the `overwrite_dashboards` is set to `false`.
-
-##### dashboard_cert_file
-
-The location of the Grafana certficiate.
-
-Defaults to `"/etc/grafana/${clientcert}_cert.pem"`
-
-##### dashboard_cert_key
-
-The location of the Grafana private key.
-
-Defaults to `"/etc/grafana/${clientcert}_key.pem"`
-
-##### configure_telegraf
-
-Whether to configure the telegraf service.
-
-Valid values are `true`, `false`.
-
-Defaults to `true`
-
-This parameter enables configuring telegraf to query the `master_list` and `puppetdb_list` endpoints for metrics. Metrics will be stored in the `telegraf` database in InfluxDb. Ensure that `influxdb_database_name` contains `telegraf` when using this parameter.
-
-_Note:_ This parameter enables `enable_telegraf` if set to true.
-
-##### consume_graphite
-
-Whether to enable the InfluxDB Graphite plugin.
-
-Valid values are `true`, `false`.
-
-Defaults to `false`
-
-This parameter enables the Graphite plugin for InfluxDB to allow for injesting Graphite metrics. Ensure `influxdb_database_name` contains `graphite` when using this parameter.
-
-*Note:* If using Graphite metrics from the Puppet Master, this needs to be set to `true`.
-
-##### grafana_http_port
-
-The port to run Grafana on.
-
-Valid values are Integers from `1024` to `65536`.
-
-Defaults to `3000`
-
-The grafana port for the web interface. This should be a nonprivileged port (above 1024).
-
-_Note:_ Grafana will not run on privileged ports such as `443`. To enable this capability you can use the suggestions documented in [this Grafana documentation](http://docs.grafana.org/installation/configuration/#http-port)
-
-##### grafana_password
-
-The password for the Grafana admin user.
-
-Defaults to `'admin'`
-
-##### grafana_version
-
-The grafana version to install.
-
-Valid values are String versions of Grafana.
-
-Defaults to `'4.5.2'`
-
-##### influxdb_database_name
-
-An array of databases that should be created in InfluxDB.
-
-Valid values are 'puppet_metrics','telegraf', 'graphite', and any other string.
-
-Defaults to `['telegraf']`
-
-Each database in the array will be created in InfluxDB. 'puppet_metrics','telegraf', and 'graphite' are specially named and will be used with their associated metric collection method. Any other database name will be created, but not utilized with components in this module.
-
-##### influx_db_password
-
-The password for the InfluxDB admin user.
-
-Defaults to `'puppet'`
-
-##### enable_kapacitor
-
-Whether to install kapacitor.
-
-Valid values are `true`, `false`.
-
-Defaults to `false`
-
-Install kapacitor. No configuration of kapacitor is included at this time.
-
-##### enable_chronograf
-
-Whether to install chronograf.
-
-Valid values are `true`, `false`.
-
-Defaults to `false`
-
-Installs chronograf. No configuration of chronograf is included at this time.
-
-##### enable_telegraf
-
-Whether to install telegraf.
-
-Valid values are `true`, `false`.
-
-Defaults to `true`
-
-Installs telegraf. No configuration is done unless the `configure_telegraf` parameter is set to `true`.
-
-##### manage_repos
-
-Whether or not to setup yum / apt repositories for the dependent packages
-
-Valid values are `true`, `false`. 
-
-Defaults to `true`
-
-##### master_list
-
-An array of Puppet Master servers to collect metrics from.
-
-Defaults to `["$::settings::certname"]`
-
-A list of Puppet master servers that will be configured for telegraf to query.
-
-##### overwrite_dashboards
-
-Whether to overwrite the example Grafana dashboards.
-
-Valid values are `true`, `false`.
-
-Defaults to `false`
-
-This paramater disables overwriting the example Grafana dashboards. It takes effect after the second Puppet run and popultes the `overwrite_dashboards_disabled` fact. This only takes effect when `add_dashboard_examples` is set to true.
-
-##### puppetdb_list
-
-An array of PuppetDB servers to collect metrics from.
-
-Defaults to `["$::settings::certname"]`
-
-A list of PuppetDB servers that will be configured for telegraf to query.
-
-##### use_dashboard_ssl
-
-Whether to enable SSL on Grafana.
-
-Valid values are `true`, `false`.
-
-Defaults to `false`
-
 ## Limitations
 
 ### Repo failure for InfluxDB packages
@@ -316,3 +151,5 @@ yum install curl nss --disablerepo influxdb
 
 
 ## Development
+
+Please see CONTRIBUTING.md
