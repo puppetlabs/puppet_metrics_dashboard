@@ -207,4 +207,27 @@ describe 'puppet_metrics_dashboard::install' do
         )
     end
   end
+  context 'With an empty array of masters' do
+    let(:facts) do
+      {
+        osfamily: 'RedHat',
+        os: {
+          family: 'RedHat',
+          release: {
+            major: '7',
+          },
+        },
+        operatingsystem: 'RedHat',
+        pe_server_version: '2017.2',
+      }
+    end
+
+    let(:params) do
+      {
+        master_list: [],
+      }
+    end
+
+    it { is_expected.to compile.with_all_deps }
+  end
 end
