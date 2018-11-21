@@ -20,7 +20,9 @@ class puppet_metrics_dashboard::install(
   Boolean $configure_telegraf             =  $puppet_metrics_dashboard::params::configure_telegraf,
   Boolean $consume_graphite               =  $puppet_metrics_dashboard::params::consume_graphite,
   Array[String] $master_list              =  $puppet_metrics_dashboard::params::master_list,
-  Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list
+  Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list,
+  String $postgres_host                   =  $puppet_metrics_dashboard::params::postgres_host,
+  String $postgres_password               =  $puppet_metrics_dashboard::params::postgres_password,
 ) inherits puppet_metrics_dashboard::params {
 
   # Enable Telegraf if `configure_telegraf` is true.
@@ -133,6 +135,8 @@ class puppet_metrics_dashboard::install(
       influx_db_service_name => $influx_db_service_name,
       master_list            => $master_list,
       puppetdb_list          => $puppetdb_list,
+      postgres_host          => $postgres_host,
+      postgres_password      => $postgres_password,
     }
   }
 

@@ -28,6 +28,8 @@ class puppet_metrics_dashboard::params {
   $configure_telegraf     =  true
   $master_list            =  [$::settings::certname]
   $puppetdb_list          =  [$::settings::certname]
+  $postgres_host          =  [$::settings::certname]
+  $postgres_password      =  'changeme'
 
   $overwrite_dashboards_file = '/opt/puppetlabs/puppet/cache/state/overwrite_dashboards_disabled'
 
