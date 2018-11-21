@@ -5,6 +5,7 @@ class puppet_metrics_dashboard::telegraf (
   String $influx_db_service_name      =  $puppet_metrics_dashboard::install::influx_db_service_name,
   Array[String] $master_list          =  $puppet_metrics_dashboard::install::master_list,
   Array[String] $puppetdb_list        =  $puppet_metrics_dashboard::install::puppetdb_list,
+  String $postgres_host               =  $puppet_metrics_dashboard::install::postgres_host,
   Array[String] $additional_metrics   = [],
   ) {
 
@@ -191,9 +192,10 @@ class puppet_metrics_dashboard::telegraf (
       group   => 0,
       content => epp('puppet_metrics_dashboard/telegraf.conf.epp',
         {
-          puppetdb_metrics => $puppetdb_metrics,
-          master_list      => $master_list,
-          puppetdb_list    => $puppetdb_list,
+          puppetdb_metrics  => $puppetdb_metrics,
+          master_list       => $master_list,
+          puppetdb_list     => $puppetdb_list,
+          postgres_host     => $postgres_host,
         }),
       notify  => Service['telegraf'],
       require => Package['telegraf'],

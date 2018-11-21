@@ -12,8 +12,8 @@ class puppet_metrics_dashboard::params {
   $manage_repos           =  true
   $overwrite_dashboards   =  true
   $use_dashboard_ssl      =  false
-  $dashboard_cert_file    = "/etc/grafana/${clientcert}_cert.pem"
-  $dashboard_cert_key     = "/etc/grafana/${clientcert}_key.pem"
+  $dashboard_cert_file    = "/etc/grafana/${fqdn}.public_key.pem"
+  $dashboard_cert_key     = "/etc/grafana/${fqdn}.private_key.pem"
   $influxdb_database_name =  ['telegraf']
   $grafana_version        =  '5.1.4'
   $grafana_http_port      =  3000
@@ -28,6 +28,7 @@ class puppet_metrics_dashboard::params {
   $configure_telegraf     =  true
   $master_list            =  [$::settings::certname]
   $puppetdb_list          =  [$::settings::certname]
+  $postgres_host          =  $::settings::certname
 
   $overwrite_dashboards_file = '/opt/puppetlabs/puppet/cache/state/overwrite_dashboards_disabled'
 

@@ -105,6 +105,14 @@ By default, this will create a set of certificates in `/etc/grafana` that are ba
 
 _Note:_ Enabling SSL on Grafana will not allow for running on privileged ports such as `443`. To enable this capability you can use the suggestions documented in [this Grafana documentation](http://docs.grafana.org/installation/configuration/#http-port)
 
+### Collect metrics from postgres
+
+To allow telegraf to connect to postgres, apply the included profile class to the postgres host:
+
+```
+include puppet_metrics_dashboard::profile::postgres
+```
+
 ### Other possibilities
 
 Configure the passwords for the InfluxDB and Grafana administrator users and enable additional [TICK Stack](https://www.influxdata.com/time-series-platform/) components.

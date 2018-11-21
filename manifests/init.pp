@@ -89,6 +89,9 @@
 #   An array of PuppetDB servers to collect metrics from. Defaults to `["$::settings::certname"]`
 #   A list of PuppetDB servers that will be configured for telegraf to query.
 #
+# @param postgres_host
+#   String that specifies a postgres instance to monitor.  Defaults to $::settings::certname
+#
 # @param use_dashboard_ssl
 #   Whether to enable SSL on Grafana.
 #   Valid values are `true`, `false`. Defaults to `false`
@@ -166,7 +169,8 @@ class puppet_metrics_dashboard (
   Boolean $configure_telegraf             =  $puppet_metrics_dashboard::params::configure_telegraf,
   Boolean $consume_graphite               =  $puppet_metrics_dashboard::params::consume_graphite,
   Array[String] $master_list              =  $puppet_metrics_dashboard::params::master_list,
-  Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list
+  Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list,
+  String $postgres_host                   =  $puppet_metrics_dashboard::params::postgres_host,
   ) inherits puppet_metrics_dashboard::params {
 
     class { 'puppet_metrics_dashboard::install':
@@ -190,5 +194,6 @@ class puppet_metrics_dashboard (
     consume_graphite          =>  $consume_graphite,
     master_list               =>  $master_list,
     puppetdb_list             =>  $puppetdb_list,
+    postgres_host             =>  $postgres_host,
   }
 }

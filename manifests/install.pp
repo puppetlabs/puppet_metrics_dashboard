@@ -20,7 +20,8 @@ class puppet_metrics_dashboard::install(
   Boolean $configure_telegraf             =  $puppet_metrics_dashboard::params::configure_telegraf,
   Boolean $consume_graphite               =  $puppet_metrics_dashboard::params::consume_graphite,
   Array[String] $master_list              =  $puppet_metrics_dashboard::params::master_list,
-  Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list
+  Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list,
+  String $postgres_host                   =  $puppet_metrics_dashboard::params::postgres_host,
 ) inherits puppet_metrics_dashboard::params {
 
   # Enable Telegraf if `configure_telegraf` is true.
@@ -51,6 +52,9 @@ class puppet_metrics_dashboard::install(
     }
   }
 
+  # certificates are only needed to enable SSL on the grafana dashboard and for connecting to a postgres instance, but we create them regardless
+  include puppet_metrics_dashboard::certs
+
   if $use_dashboard_ssl {
     $cfg = { server    => {
               http_port => $grafana_http_port,
@@ -59,23 +63,6 @@ class puppet_metrics_dashboard::install(
               cert_key  => $dashboard_cert_key,
             },
     }
-
-    file { $dashboard_cert_file:
-      ensure  => present,
-      source  => "${facts['puppet_sslpaths']['certdir']['path']}/${clientcert}.pem",
-      owner   => 'grafana',
-      mode    => '0400',
-      require => Package['grafana'],
-    }
-
-    file { $dashboard_cert_key:
-      ensure  => present,
-      source  => "${facts['puppet_sslpaths']['privatekeydir']['path']}/${clientcert}.pem",
-      owner   => 'grafana',
-      mode    => '0400',
-      require => Package['grafana'],
-    }
-
     $uri = 'https'
   }
   else {
@@ -133,6 +120,7 @@ class puppet_metrics_dashboard::install(
       influx_db_service_name => $influx_db_service_name,
       master_list            => $master_list,
       puppetdb_list          => $puppetdb_list,
+      postgres_host          => $postgres_host,
     }
   }
 
