@@ -1,5 +1,11 @@
 # Change log
 
+## 2018-11-30 - Release - 1.0.3
+### Summary
+
+#### Chnages:
+ - Minor fix for dependency versions
+
 ## 2018-08-03 - Release - 1.0.2
 ### Summary
 
