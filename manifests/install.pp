@@ -52,9 +52,6 @@ class puppet_metrics_dashboard::install(
     }
   }
 
-  # certificates are only needed to enable SSL on the grafana dashboard and for connecting to a postgres instance, but we create them regardless
-  include puppet_metrics_dashboard::certs
-
   if $use_dashboard_ssl {
     $cfg = { server    => {
               http_port => $grafana_http_port,
@@ -64,6 +61,9 @@ class puppet_metrics_dashboard::install(
             },
     }
     $uri = 'https'
+    puppet_metrics_dashboard::certs{'grafana':
+      notify => Service['grafana-server'],
+    }
   }
   else {
     $cfg = { server    => {

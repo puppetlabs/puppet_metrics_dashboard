@@ -1,15 +1,21 @@
-class puppet_metrics_dashboard::certs{
+define puppet_metrics_dashboard::certs(
+  $service = $name
+){
   
   $ssl_dir        = $::settings::ssldir 
-  $cert_dir       = "/etc/telegraf"
+  $cert_dir       = "/etc/${service}"
   $client_pem_key = "${ssl_dir}/private_keys/${fqdn}.pem"
   $client_cert    = "${ssl_dir}/certs/${fqdn}.pem"
 
   File {
-    owner   => telegraf,
-    group   => telegraf,
+    owner   => $service,
+    group   => $service,
     mode    => '0400',
   }
+
+  #file { "${cert_dir}":
+  #  ensure => directory
+  #}
 
   file { "${cert_dir}/${fqdn}.private_key.pem":
     source => $client_pem_key,
