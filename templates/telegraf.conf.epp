@@ -72,7 +72,7 @@
 <% if $postgres_host {-%>
 
 [[inputs.postgresql_extensible]]
-  address = "postgres://telegraf@<%= $postgres_host %>/pe-puppetdb?sslmode=require&sslkey=/etc/telegraf/grafana-server.platform9.puppet.net.private_key.pem&sslcert=/etc/telegraf/grafana-server.platform9.puppet.net.public_key.pem&sslrootcert=/etc/telegraf/ca.pem"
+  address = "postgres://telegraf@<%= $postgres_host %>/pe-puppetdb?sslmode=require&sslkey=/etc/telegraf/<%= $fqdn %>.private_key.pem&sslcert=/etc/telegraf/<%= $fqdn %>.public_key.pem&sslrootcert=/etc/telegraf/ca.pem"
   databases = ["pe-puppetdb","pe-rbac","pe-activity","pe-classifier"]
   [[inputs.postgresql_extensible.query]]
     sqlquery="SELECT * FROM pg_stat_database"
