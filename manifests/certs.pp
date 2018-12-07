@@ -13,10 +13,6 @@ define puppet_metrics_dashboard::certs(
     mode    => '0400',
   }
 
-  #file { "${cert_dir}":
-  #  ensure => directory
-  #}
-
   file { "${cert_dir}/${::fqdn}.private_key.pem":
     source => $client_pem_key,
   }

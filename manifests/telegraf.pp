@@ -178,7 +178,7 @@ class puppet_metrics_dashboard::telegraf (
     require => Class['puppet_metrics_dashboard::repos'],
   }
 
-  puppet_metrics_dashboard::certs{'telegraf': 
+  puppet_metrics_dashboard::certs{'telegraf':
     before => Service['telegraf'],
     notify => Service['telegraf']
   }

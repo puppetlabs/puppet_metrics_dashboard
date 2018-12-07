@@ -1,5 +1,5 @@
 class puppet_metrics_dashboard::profile::postgres (
-) inherits puppet_enterprise::profile::database {
+){
 
   ## Potential problem: we really want only one certname out of this
   $grafana_host = puppetdb_query('resources[certname] {
