@@ -19,13 +19,13 @@ class puppet_metrics_dashboard::profile::postgres (
     role      => 'telegraf',
   }
 
-  puppet_enterprise::pg::cert_whitelist_entry { "allow-telegraf-access":
+  puppet_enterprise::pg::cert_whitelist_entry { 'allow-telegraf-access':
     user                          => 'telegraf',
     database                      => 'pe-puppetdb',
     allowed_client_certname       => $grafana_host,
-    pg_ident_conf_path            => $pg_ident_conf_path,
-    ip_mask_allow_all_users_ssl   => $ip_mask_allow_all_users_ssl,
-    ipv6_mask_allow_all_users_ssl => $ipv6_mask_allow_all_users_ssl,
+    pg_ident_conf_path            => $puppet_enterprise::profile::database::pg_ident_conf_path,
+    ip_mask_allow_all_users_ssl   => $puppet_enterprise::profile::database::ip_mask_allow_all_users_ssl,
+    ipv6_mask_allow_all_users_ssl => $puppet_enterprise::profile::database::ipv6_mask_allow_all_users_ssl,
   }
 
 }
