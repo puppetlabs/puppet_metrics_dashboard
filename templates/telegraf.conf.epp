@@ -1,25 +1,8 @@
-[global_tags]
-[agent]
-  interval = '10s'
-  round_interval = true
-  metric_batch_size = 1000
-  metric_buffer_limit = 10000
-  collection_jitter = '0s'
-  flush_interval = '10s'
-  flush_jitter = '0s'
-  precision = ''
-  debug = false
-  quiet = false
-  logfile = '/var/log/telegraf/telegraf.log'
-  hostname = ''
-  omit_hostname = false
-[[outputs.influxdb]]
-  urls = ['http://localhost:8086'] # required
-  database = 'telegraf' # required
-  retention_policy = ''
-  write_consistency = 'any'
-  timeout = '5s'
-
+<%- | Integer[1] $http_response_timeout,
+      Array[Hash] $puppetdb_metrics,
+      Array $master_list,
+      Array $puppetdb_list,
+| -%>
 [[inputs.httpjson]]
   name = 'puppet_stats'
   servers = [
@@ -47,6 +30,7 @@
   ]
   method = 'GET'
   insecure_skip_verify = true
+  response_timeout = '<%= $http_response_timeout %>s'
 
 <%# -%>
 <% unless $puppetdb_metrics.empty {-%>
@@ -64,6 +48,7 @@
   ]
   method = 'GET'
   insecure_skip_verify = true
+  response_timeout = '<%= $http_response_timeout %>s'
 
 <% } -%>
 <% } -%>

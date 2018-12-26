@@ -76,8 +76,20 @@
 #   Installs telegraf. No configuration is done unless the `configure_telegraf` parameter is set to `true`.
 #
 # @param master_list
-#   An array of Puppet Master servers to collect metrics from. Defaults to `["$::settings::certname"]`
+#   An array of Puppet Master servers to collect metrics from. Defaults to `["$settings::certname"]`
 #   A list of Puppet master servers that will be configured for telegraf to query.
+#
+# @param influxdb_urls
+#   The string for telegraf's config defining where influxdb is
+#
+# @param telegraf_db_name
+#   The database in influxdb where telefraf metrics are stored
+#
+# @param telegraf_agent_interval
+#   How often the telefraf agent queries for metrics
+#
+# @param http_response_timeout
+#   How long to wait for the queries by telegraf to finish before giving up
 #
 # @param overwrite_dashboards
 #   Whether to overwrite the example Grafana dashboards.
@@ -86,7 +98,7 @@
 #   `overwrite_dashboards_disabled` fact. This only takes effect when `add_dashboard_examples` is set to true.
 #
 # @param puppetdb_list
-#   An array of PuppetDB servers to collect metrics from. Defaults to `["$::settings::certname"]`
+#   An array of PuppetDB servers to collect metrics from. Defaults to `["$settings::certname"]`
 #   A list of PuppetDB servers that will be configured for telegraf to query.
 #
 # @param use_dashboard_ssl
@@ -166,7 +178,11 @@ class puppet_metrics_dashboard (
   Boolean $configure_telegraf             =  $puppet_metrics_dashboard::params::configure_telegraf,
   Boolean $consume_graphite               =  $puppet_metrics_dashboard::params::consume_graphite,
   Array[String] $master_list              =  $puppet_metrics_dashboard::params::master_list,
-  Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list
+  Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list,
+  String $influxdb_urls                   =  $puppet_metrics_dashboard::params::influxdb_urls,
+  String $telegraf_db_name                =  $puppet_metrics_dashboard::params::telegraf_db_name,
+  Integer[1] $telegraf_agent_interval     =  $puppet_metrics_dashboard::params::telegraf_agent_interval,
+  Integer[1] $http_response_timeout       =  $puppet_metrics_dashboard::params::http_response_timeout,
   ) inherits puppet_metrics_dashboard::params {
 
     class { 'puppet_metrics_dashboard::install':
@@ -190,5 +206,9 @@ class puppet_metrics_dashboard (
     consume_graphite          =>  $consume_graphite,
     master_list               =>  $master_list,
     puppetdb_list             =>  $puppetdb_list,
+    influxdb_urls             =>  $influxdb_urls,
+    telegraf_db_name          =>  $telegraf_db_name,
+    telegraf_agent_interval   =>  $telegraf_agent_interval,
+    http_response_timeout     =>  $http_response_timeout,
   }
 }

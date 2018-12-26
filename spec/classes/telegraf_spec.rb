@@ -27,7 +27,7 @@ describe 'puppet_metrics_dashboard::telegraf' do
   end
 
   it do
-    is_expected.to contain_file('/etc/telegraf/telegraf.conf').with(
+    is_expected.to contain_file('/etc/telegraf/telegraf.d/puppet_metrics_dashboard.conf').with(
       ensure: 'file',
       owner: '0',
       group: '0',

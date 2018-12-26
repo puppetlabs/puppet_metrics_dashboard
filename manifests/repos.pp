@@ -5,7 +5,7 @@ class puppet_metrics_dashboard::repos (
   Boolean $manage_repos = $puppet_metrics_dashboard::install::manage_repos,
 ) {
 
-  case $::osfamily {
+  case $facts['os']['family'] {
 
     'RedHat': {
       if ( $manage_repos ){
@@ -33,8 +33,8 @@ class puppet_metrics_dashboard::repos (
 
     'Debian': {
 
-      $_operatingsystem = downcase($::facts['os']['name'])
-      $_oscodename = downcase($::facts['os']['distro']['codename'])
+      $_operatingsystem = downcase($facts['os']['name'])
+      $_oscodename = downcase($facts['os']['distro']['codename'])
 
       if ( $manage_repos ){
         apt::source { 'influxdb':
@@ -60,7 +60,7 @@ class puppet_metrics_dashboard::repos (
     }
 
     default: {
-      fail("${::osfamily} installation not supported")
+      fail("${facts['os']['family']} installation not supported")
     }
   }
 

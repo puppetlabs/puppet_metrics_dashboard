@@ -5,6 +5,10 @@ class puppet_metrics_dashboard::telegraf (
   String $influx_db_service_name      =  $puppet_metrics_dashboard::install::influx_db_service_name,
   Array[String] $master_list          =  $puppet_metrics_dashboard::install::master_list,
   Array[String] $puppetdb_list        =  $puppet_metrics_dashboard::install::puppetdb_list,
+  String $influxdb_urls               =  $puppet_metrics_dashboard::install::influxdb_urls,
+  String $telegraf_db_name            =  $puppet_metrics_dashboard::install::telegraf_db_name,
+  Integer[1] $telegraf_agent_interval =  $puppet_metrics_dashboard::install::telegraf_agent_interval,
+  Integer[1] $http_response_timeout   =  $puppet_metrics_dashboard::install::http_response_timeout,
   Array[String] $additional_metrics   = [],
   ) {
 
@@ -87,7 +91,7 @@ class puppet_metrics_dashboard::telegraf (
       'url'  => 'puppetlabs.puppetdb.storage:name=duplicate-pct' },
   ]
 
-  $numbers = $::pe_server_version ? {
+  $numbers = $facts['pe_server_version'] ? {
     /^2015.2/     => {'catalogs' => 6, 'facts' => 4, 'reports' => 6},
     /^2015.3/     => {'catalogs' => 7, 'facts' => 4, 'reports' => 6},
     /^2016.(1|2)/ => {'catalogs' => 8, 'facts' => 4, 'reports' => 7},
@@ -159,7 +163,7 @@ class puppet_metrics_dashboard::telegraf (
       'url'  => 'puppetlabs.puppetdb.ha:name=record-transfer-duration' },
   ]
 
-  $puppetdb_metrics = $::pe_server_version ? {
+  $puppetdb_metrics = $facts['pe_server_version'] ? {
     /^2015./ =>
       $activemq_metrics,
     /^2016\.[45]\./ =>
@@ -184,16 +188,65 @@ class puppet_metrics_dashboard::telegraf (
   }
 
   if $configure_telegraf {
+    $global_config_file = '/etc/telegraf/telegraf.conf'
+    $telegraf_agent_settings = {
+      'interval'            => "'${telegraf_agent_interval}s'",
+      'round_interval'      => true,
+      'metric_batch_size'   => 1000,
+      'metric_buffer_limit' => 10000,
+      'collection_jitter'   => "'0s'",
+      'flush_interval'      => "'10s'",
+      'flush_jitter'        => "'0s'",
+      'precision'           => "''",
+      'debug'               => false,
+      'quiet'               => false,
+      'logfile'             => "'/var/log/telegraf/telegraf.log'",
+      'hostname'            => "''",
+      'omit_hostname'       => false,
+    }
 
-    file {'/etc/telegraf/telegraf.conf':
+    $telegraf_agent_settings.each |$k, $v| {
+      ini_setting { "telegraf agent - ${k}":
+        path         => $global_config_file,
+        section      => 'agent',
+        setting      => $k,
+        value        => $v,
+        indent_width => 2,
+        notify       => Service['telegraf'],
+      }
+    }
+
+    $telegraf_influx_output = {
+      'urls'              => $influxdb_urls,
+      'database'          => "'${telegraf_db_name}'",
+      'retention_policy'  => "''",
+      'write_consistency' => "'any'",
+      'timeout'           => "'5s'",
+    }
+
+    $telegraf_influx_output.each |$k, $v| {
+      ini_setting { "telegraf outputs.influxdb - ${k}":
+        path           => $global_config_file,
+        section        => 'outputs.influxdb',
+        section_prefix => '[[',
+        section_suffix => ']]',
+        setting        => $k,
+        value          => $v,
+        indent_width   => 2,
+        notify         => Service['telegraf'],
+      }
+    }
+
+    file {'/etc/telegraf/telegraf.d/puppet_metrics_dashboard.conf':
       ensure  => file,
       owner   => 0,
       group   => 0,
       content => epp('puppet_metrics_dashboard/telegraf.conf.epp',
         {
-          puppetdb_metrics => $puppetdb_metrics,
-          master_list      => $master_list,
-          puppetdb_list    => $puppetdb_list,
+          puppetdb_metrics      => $puppetdb_metrics,
+          master_list           => $master_list,
+          puppetdb_list         => $puppetdb_list,
+          http_response_timeout => $http_response_timeout,
         }),
       notify  => Service['telegraf'],
       require => Package['telegraf'],

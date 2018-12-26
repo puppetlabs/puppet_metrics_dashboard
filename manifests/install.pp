@@ -20,7 +20,11 @@ class puppet_metrics_dashboard::install(
   Boolean $configure_telegraf             =  $puppet_metrics_dashboard::params::configure_telegraf,
   Boolean $consume_graphite               =  $puppet_metrics_dashboard::params::consume_graphite,
   Array[String] $master_list              =  $puppet_metrics_dashboard::params::master_list,
-  Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list
+  Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list,
+  String $influxdb_urls                   =  $puppet_metrics_dashboard::params::influxdb_urls,
+  String $telegraf_db_name                =  $puppet_metrics_dashboard::params::telegraf_db_name,
+  Integer[1] $telegraf_agent_interval     =  $puppet_metrics_dashboard::params::telegraf_agent_interval,
+  Integer[1] $http_response_timeout       =  $puppet_metrics_dashboard::params::http_response_timeout,
 ) inherits puppet_metrics_dashboard::params {
 
   # Enable Telegraf if `configure_telegraf` is true.
@@ -129,10 +133,14 @@ class puppet_metrics_dashboard::install(
 
   if $_enable_telegraf {
     class { 'puppet_metrics_dashboard::telegraf':
-      configure_telegraf     => $configure_telegraf,
-      influx_db_service_name => $influx_db_service_name,
-      master_list            => $master_list,
-      puppetdb_list          => $puppetdb_list,
+      configure_telegraf      => $configure_telegraf,
+      influx_db_service_name  => $influx_db_service_name,
+      master_list             => $master_list,
+      puppetdb_list           => $puppetdb_list,
+      influxdb_urls           => $influxdb_urls,
+      telegraf_db_name        => $telegraf_db_name,
+      telegraf_agent_interval => $telegraf_agent_interval,
+      http_response_timeout   => $http_response_timeout,
     }
   }
 

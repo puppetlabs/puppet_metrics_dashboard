@@ -8,6 +8,9 @@ fixtures:
       apt:
         repo: https://github.com/puppetlabs/puppetlabs-apt.git
         ref: 4.3.0
+      inifile:
+        repo: https://github.com/puppetlabs/puppetlabs-inifile.git
+        ref: 2.4.0
       grafana: 
         repo: https://github.com/voxpupuli/puppet-grafana.git
         ref: v4.5.0
