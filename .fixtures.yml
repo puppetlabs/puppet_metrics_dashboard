@@ -11,7 +11,10 @@ fixtures:
       inifile:
         repo: https://github.com/puppetlabs/puppetlabs-inifile.git
         ref: 2.4.0
-      grafana: 
+      grafana:
         repo: https://github.com/voxpupuli/puppet-grafana.git
         ref: v4.5.0
+      yumrepo:
+        repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
+        ref: 1.0.2
     forge_modules:
