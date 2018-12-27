@@ -1,233 +1,163 @@
 require 'spec_helper'
 
 describe 'puppet_metrics_dashboard::install' do
-  context 'Default Configuration' do
-    let(:facts) do
-      {
-        osfamily: 'RedHat',
-        os: {
-          family: 'RedHat',
-          release: {
-            major: '7',
-          },
-        },
-        operatingsystem: 'RedHat',
-        pe_server_version: '2017.2',
-      }
-    end
+  on_supported_os(facterversion: '3.7').each do |os, facts|
+    context "on #{os}" do
+      let(:facts) do
+        facts.merge(pe_server_version: '2017.2')
+      end
 
-    let(:params) do
-      {
-        add_dashboard_examples: false,
-        influx_db_service_name: 'influxdb',
-        influxdb_database_name: ['puppet_metrics'],
-        grafana_version: '4.6.1',
-        grafana_http_port: 3000,
-        influx_db_password: 'puppet',
-        grafana_password: 'admin',
-        use_dashboard_ssl: false,
+      context 'Default Configuration' do
+        let(:pre_condition) do
+          <<-PRE_COND
+            class {'puppet_metrics_dashboard':}
+          PRE_COND
+        end
 
-      }
-    end
+        it do
+          is_expected.to contain_package('influxdb')
+            .with(
+              'ensure' => 'present',
+            )
+        end
 
-    it do
-      is_expected.to contain_package('influxdb')
-        .with(
-          'ensure' => 'present',
-        )
-    end
+        case facts[:os]['family']
+        when 'RedHat'
+          it do
+            is_expected.to contain_service('influxdb')
+              .with(
+                'ensure' => 'running',
+                'require' => 'Package[influxdb]',
+              )
+          end
 
-    it do
-      is_expected.to contain_service('influxdb')
-        .with(
-          'ensure' => 'running',
-          'require' => 'Package[influxdb]',
-        )
-    end
+          it do
+            is_expected.to contain_exec('wait for influxdb')
+              .with(
+                'command' => '/bin/sleep 10',
+                'unless' => '/usr/bin/influx -execute "SHOW DATABASES"',
+                'require' => 'Service[influxdb]',
+              )
+          end
 
-    it do
-      is_expected.to contain_class('grafana')
-        .with(
-          'install_method' => 'repo',
-          'manage_package_repo' => false,
-          'version' => '4.6.1',
-          'cfg' => { 'server' => { 'http_port' => 3000 } },
-          'require' => 'Service[influxdb]',
-        )
-    end
+          it do
+            is_expected.to contain_class('grafana')
+              .with(
+                'install_method' => 'repo',
+                'manage_package_repo' => false,
+                'version' => '5.1.4',
+                'cfg' => { 'server' => { 'http_port' => 3000 } },
+                'require' => 'Service[influxdb]',
+              )
+          end
+        when 'Debian'
+          it do
+            is_expected.to contain_service('influxd')
+              .with(
+                'ensure' => 'running',
+                'require' => 'Package[influxdb]',
+              )
+          end
 
-    it do
-      is_expected.not_to contain_package('kapacitor')
-        .with(
-          'ensure' => 'present',
-        )
-    end
+          it do
+            is_expected.to contain_exec('wait for influxdb')
+              .with(
+                'command' => '/bin/sleep 10',
+                'unless' => '/usr/bin/influx -execute "SHOW DATABASES"',
+                'require' => 'Service[influxd]',
+              )
+          end
 
-    it do
-      is_expected.not_to contain_service('kapacitor')
-        .with(
-          'ensure' => 'running',
-          'enable' => true,
-        )
-    end
+          it do
+            is_expected.to contain_class('grafana')
+              .with(
+                'install_method' => 'repo',
+                'manage_package_repo' => false,
+                'version' => '5.1.4',
+                'cfg' => { 'server' => { 'http_port' => 3000 } },
+                'require' => 'Service[influxd]',
+              )
+          end
+        end
 
-    it do
-      is_expected.to contain_package('telegraf')
-        .with(
-          'ensure' => 'present',
-        )
-    end
+        it do
+          is_expected.not_to contain_package('kapacitor')
+            .with(
+              'ensure' => 'present',
+            )
+        end
 
-    it do
-      is_expected.to contain_service('telegraf')
-        .with(
-          'ensure' => 'running',
-          'enable' => true,
-        )
-    end
+        it do
+          is_expected.not_to contain_service('kapacitor')
+            .with(
+              'ensure' => 'running',
+              'enable' => true,
+            )
+        end
 
-    it do
-      is_expected.not_to contain_package('chronograf')
-        .with(
-          'ensure' => 'present',
-        )
-    end
+        it do
+          is_expected.to contain_package('telegraf')
+            .with(
+              'ensure' => 'present',
+            )
+        end
 
-    it do
-      is_expected.not_to contain_service('chronograf')
-        .with(
-          'ensure' => 'running',
-          'enable' => true,
-        )
-    end
+        it do
+          is_expected.to contain_service('telegraf')
+            .with(
+              'ensure' => 'running',
+              'enable' => true,
+            )
+        end
 
-    it do
-      is_expected.to contain_exec('wait for influxdb')
-        .with(
-          'command' => '/bin/sleep 10',
-          'unless' => '/usr/bin/influx -execute "SHOW DATABASES"',
-          'require' => 'Service[influxdb]',
-        )
-    end
+        it do
+          is_expected.not_to contain_package('chronograf')
+            .with(
+              'ensure' => 'present',
+            )
+        end
 
-    it do
-      is_expected.to contain_exec('create influxdb admin user')
-        .with(
-          'command' => "/usr/bin/influx -execute \"CREATE USER admin WITH PASSWORD 'puppet' WITH ALL PRIVILEGES\"",
-          'unless' => "/usr/bin/influx -username admin -password puppet -execute 'show users' | grep 'admin true'",
-        )
-    end
+        it do
+          is_expected.not_to contain_service('chronograf')
+            .with(
+              'ensure' => 'running',
+              'enable' => true,
+            )
+        end
 
-    it do
-      is_expected.to contain_exec('create influxdb puppet_metrics database puppet_metrics')
-        .with(
-          'command' => '/usr/bin/influx -username admin -password puppet -execute "create database puppet_metrics"',
-          'unless' => "/usr/bin/influx -username admin -password puppet -execute 'show databases' | grep puppet_metrics",
-        )
-    end
+        it do
+          is_expected.to contain_exec('create influxdb admin user')
+            .with(
+              'command' => "/usr/bin/influx -execute \"CREATE USER admin WITH PASSWORD 'puppet' WITH ALL PRIVILEGES\"",
+              'unless' => "/usr/bin/influx -username admin -password puppet -execute 'show users' | grep 'admin true'",
+            )
+        end
 
-    it do
-      is_expected.to contain_grafana_datasource('influxdb_puppet_metrics')
-        .with(
-          'grafana_url' => 'http://localhost:3000',
-          'type' => 'influxdb',
-          'database' => 'puppet_metrics',
-          'url' => 'http://localhost:8086',
-          'access_mode' => 'proxy',
-          'is_default' => false,
-          'user' => 'admin',
-          'password' => 'puppet',
-          'grafana_user' => 'admin',
-          'grafana_password' => 'admin',
-          'require' => ['Service[grafana-server]', 'Exec[create influxdb puppet_metrics database puppet_metrics]'],
-        )
-    end
-  end
+        it do
+          is_expected.to contain_exec('create influxdb puppet_metrics database telegraf')
+            .with(
+              'command' => '/usr/bin/influx -username admin -password puppet -execute "create database telegraf"',
+              'unless' => "/usr/bin/influx -username admin -password puppet -execute 'show databases' | grep telegraf",
+            )
+        end
 
-  context 'With dashboard exmples on Ubuntu' do
-    let(:facts) do
-      {
-        os: {
-          family: 'Debian',
-          name: 'Ubuntu',
-          release: {
-            major: '14',
-            full: '14.04.5',
-          },
-          distro: {
-            codename: 'trusty',
-          },
-        },
-        osfamily: 'Debian',
-        lsbdistcodename: 'trusty',
-        lsbdistid: 'ubuntu',
-        lsbdistrelease: '14.04',
-        puppetversion: Puppet.version,
-        operatingsystem: 'Ubuntu',
-        pe_server_version: '2017.2',
-      }
+        it do
+          is_expected.to contain_grafana_datasource('influxdb_telegraf')
+            .with(
+              'grafana_url' => 'http://localhost:3000',
+              'type' => 'influxdb',
+              'database' => 'telegraf',
+              'url' => 'http://localhost:8086',
+              'access_mode' => 'proxy',
+              'is_default' => false,
+              'user' => 'admin',
+              'password' => 'puppet',
+              'grafana_user' => 'admin',
+              'grafana_password' => 'admin',
+              'require' => ['Service[grafana-server]', 'Exec[create influxdb puppet_metrics database telegraf]'],
+            )
+        end
+      end
     end
-
-    let(:params) do
-      {
-        add_dashboard_examples: true,
-        grafana_password: 'admin',
-        grafana_http_port: 3000,
-        use_dashboard_ssl: false,
-      }
-    end
-
-    it do
-      is_expected.to contain_grafana_dashboard('Telegraf PuppetDB Performance')
-        .with(
-          'grafana_url' => 'http://localhost:3000',
-          'grafana_user' => 'admin',
-          'grafana_password' => 'admin',
-          'require' => 'Grafana_datasource[influxdb_telegraf]',
-        )
-    end
-
-    it do
-      is_expected.to contain_grafana_dashboard('Telegraf PuppetDB Workload')
-        .with(
-          'grafana_url' => 'http://localhost:3000',
-          'grafana_user' => 'admin',
-          'grafana_password' => 'admin',
-          'require' => 'Grafana_datasource[influxdb_telegraf]',
-        )
-    end
-
-    it do
-      is_expected.to contain_grafana_dashboard('Telegraf Puppetserver Performance')
-        .with(
-          'grafana_url' => 'http://localhost:3000',
-          'grafana_user' => 'admin',
-          'grafana_password' => 'admin',
-          'require' => 'Grafana_datasource[influxdb_telegraf]',
-        )
-    end
-  end
-  context 'With an empty array of masters' do
-    let(:facts) do
-      {
-        osfamily: 'RedHat',
-        os: {
-          family: 'RedHat',
-          release: {
-            major: '7',
-          },
-        },
-        operatingsystem: 'RedHat',
-        pe_server_version: '2017.2',
-      }
-    end
-
-    let(:params) do
-      {
-        master_list: [],
-      }
-    end
-
-    it { is_expected.to compile.with_all_deps }
   end
 end

@@ -4,7 +4,7 @@ describe 'puppet_metrics_dashboard::install class' do
   context 'archive metrics' do
     it 'installs and configures influxdb' do
       pp = <<-MANIFEST
-        class {'puppet_metrics_dashboard::install':
+        class {'puppet_metrics_dashboard':
             grafana_http_port => 3000,
             influxdb_database_name => ['puppet_metrics'],
             configure_telegraf => false,

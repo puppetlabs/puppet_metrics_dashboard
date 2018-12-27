@@ -1,14 +1,12 @@
-# @summary configures InfluxDB and Grafana Repos
+# @summary Configures InfluxDB and Grafana repos
+#
+# Configures InfluxDB and Grafana repos
 #
 # @api private
-class puppet_metrics_dashboard::repos (
-  Boolean $manage_repos = $puppet_metrics_dashboard::install::manage_repos,
-) {
-
+class puppet_metrics_dashboard::repos {
   case $facts['os']['family'] {
-
     'RedHat': {
-      if ( $manage_repos ){
+      if ( $puppet_metrics_dashboard::manage_repos ){
         yumrepo {'influxdb':
           ensure   => present,
           enabled  => 1,
@@ -32,11 +30,10 @@ class puppet_metrics_dashboard::repos (
     }
 
     'Debian': {
-
       $_operatingsystem = downcase($facts['os']['name'])
       $_oscodename = downcase($facts['os']['distro']['codename'])
 
-      if ( $manage_repos ){
+      if ( $puppet_metrics_dashboard::manage_repos ){
         apt::source { 'influxdb':
           location => "https://repos.influxdata.com/${_operatingsystem}",
           release  => $_oscodename,
@@ -63,5 +60,4 @@ class puppet_metrics_dashboard::repos (
       fail("${facts['os']['family']} installation not supported")
     }
   }
-
 }

@@ -9,13 +9,20 @@
 
 ### Private Classes
 
+* `puppet_metrics_dashboard::config`: Configures dashboard components.
+* `puppet_metrics_dashboard::dashboards`: Configures Grafana dashboards.
 * `puppet_metrics_dashboard::dashboards::graphite`: Installs graphite example dashboards
 * `puppet_metrics_dashboard::dashboards::puppet_metrics`: Installs puppet_metrics example dashboards
 * `puppet_metrics_dashboard::dashboards::telegraf`: Installs telegraf example dashboards
 * `puppet_metrics_dashboard::install`: Installs and configures Grafana and InfluxDB components.
 * `puppet_metrics_dashboard::params`: Default parameters for the installation
-* `puppet_metrics_dashboard::repos`: configures InfluxDB and Grafana Repos
-* `puppet_metrics_dashboard::telegraf`: Configures Telegraf
+* `puppet_metrics_dashboard::post_start_configs`: InfluxDB post-start configs
+* `puppet_metrics_dashboard::repos`: Configures InfluxDB and Grafana repos
+* `puppet_metrics_dashboard::service`: Manages services
+* `puppet_metrics_dashboard::telegraf`: Install and configure Telegraf
+* `puppet_metrics_dashboard::telegraf::config`: Configures Telegraf
+* `puppet_metrics_dashboard::telegraf::install`: Installs Telegraf
+* `puppet_metrics_dashboard::telegraf::service`: Manages the Telegraf service
 
 ## Classes
 

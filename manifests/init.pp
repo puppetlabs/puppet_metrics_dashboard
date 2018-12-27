@@ -184,31 +184,33 @@ class puppet_metrics_dashboard (
   Integer[1] $telegraf_agent_interval     =  $puppet_metrics_dashboard::params::telegraf_agent_interval,
   Integer[1] $http_response_timeout       =  $puppet_metrics_dashboard::params::http_response_timeout,
   ) inherits puppet_metrics_dashboard::params {
+  contain puppet_metrics_dashboard::repos
+  contain puppet_metrics_dashboard::install
+  contain puppet_metrics_dashboard::config
+  contain puppet_metrics_dashboard::service
+  contain puppet_metrics_dashboard::post_start_configs
 
-    class { 'puppet_metrics_dashboard::install':
-    add_dashboard_examples    =>  $add_dashboard_examples,
-    manage_repos              =>  $manage_repos,
-    use_dashboard_ssl         =>  $use_dashboard_ssl,
-    dashboard_cert_file       =>  $dashboard_cert_file,
-    dashboard_cert_key        =>  $dashboard_cert_key,
-    overwrite_dashboards      =>  $overwrite_dashboards,
-    overwrite_dashboards_file =>  $overwrite_dashboards_file,
-    influx_db_service_name    =>  $influx_db_service_name,
-    influxdb_database_name    =>  $influxdb_database_name,
-    grafana_version           =>  $grafana_version,
-    grafana_http_port         =>  $grafana_http_port,
-    influx_db_password        =>  $influx_db_password,
-    grafana_password          =>  $grafana_password,
-    enable_kapacitor          =>  $enable_kapacitor,
-    enable_chronograf         =>  $enable_chronograf,
-    enable_telegraf           =>  $enable_telegraf,
-    configure_telegraf        =>  $configure_telegraf,
-    consume_graphite          =>  $consume_graphite,
-    master_list               =>  $master_list,
-    puppetdb_list             =>  $puppetdb_list,
-    influxdb_urls             =>  $influxdb_urls,
-    telegraf_db_name          =>  $telegraf_db_name,
-    telegraf_agent_interval   =>  $telegraf_agent_interval,
-    http_response_timeout     =>  $http_response_timeout,
+  Class['puppet_metrics_dashboard::repos']
+  -> Class['puppet_metrics_dashboard::install']
+  -> Class['puppet_metrics_dashboard::config']
+  -> Class['puppet_metrics_dashboard::service']
+  -> Class['puppet_metrics_dashboard::post_start_configs']
+
+  contain puppet_metrics_dashboard::grafana
+  Class['puppet_metrics_dashboard::service']
+  -> Class['puppet_metrics_dashboard::grafana']
+
+  if $add_dashboard_examples {
+    contain puppet_metrics_dashboard::dashboards
+  }
+
+  # Enable Telegraf if `configure_telegraf` is true.
+  $_enable_telegraf = $configure_telegraf ? {
+    true    => true,
+    default => $enable_telegraf
+  }
+
+  if $_enable_telegraf {
+    contain puppet_metrics_dashboard::telegraf
   }
 }

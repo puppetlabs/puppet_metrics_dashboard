@@ -1,8 +1,6 @@
-# puppet_metrics_dashboard::params
-#
-# A description of what this class does
-#
 # @summary Default parameters for the installation
+#
+# Default parameters for the installation
 #
 # @api private
 class puppet_metrics_dashboard::params {
