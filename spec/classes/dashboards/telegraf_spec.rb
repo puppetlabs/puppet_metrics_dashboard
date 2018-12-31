@@ -17,7 +17,8 @@ describe 'puppet_metrics_dashboard::dashboards::telegraf' do
         PRE_COND
       end
 
-      it do
+      # rubocop:disable RSpec/ExampleWording
+      it 'should contain Grafana_dashboard[Telegraf PuppetDB Performance]' do
         is_expected.to contain_grafana_dashboard('Telegraf PuppetDB Performance').with(
           grafana_url: 'http://localhost:3000',
           grafana_user: 'admin',
@@ -26,7 +27,7 @@ describe 'puppet_metrics_dashboard::dashboards::telegraf' do
         )
       end
 
-      it do
+      it 'should contain Grafana_dashboard[Telegraf PuppetDB Workload]' do
         is_expected.to contain_grafana_dashboard('Telegraf PuppetDB Workload').with(
           grafana_url: 'http://localhost:3000',
           grafana_user: 'admin',
@@ -35,7 +36,7 @@ describe 'puppet_metrics_dashboard::dashboards::telegraf' do
         )
       end
 
-      it do
+      it 'should contain Grafana_dashboard[Telegraf Puppetserver Performance]' do
         is_expected.to contain_grafana_dashboard('Telegraf Puppetserver Performance').with(
           grafana_url: 'http://localhost:3000',
           grafana_user: 'admin',
@@ -44,7 +45,7 @@ describe 'puppet_metrics_dashboard::dashboards::telegraf' do
         )
       end
 
-      it do
+      it 'should contain Grafana_dashboard[Telegraf File Sync Metrics]' do
         is_expected.to contain_grafana_dashboard('Telegraf File Sync Metrics').with(
           grafana_url: 'http://localhost:3000',
           grafana_user: 'admin',
@@ -52,6 +53,7 @@ describe 'puppet_metrics_dashboard::dashboards::telegraf' do
           require: 'Grafana_datasource[influxdb_telegraf]',
         )
       end
+      # rubocop:enable RSpec/ExampleWording
     end
   end
 end

@@ -17,7 +17,8 @@ describe 'puppet_metrics_dashboard::dashboards::graphite' do
         PRE_COND
       end
 
-      it do
+      # rubocop:disable RSpec/ExampleWording
+      it 'should contain Grafana_dashboard[Graphite Puppetserver Performance]' do
         is_expected.to contain_grafana_dashboard('Graphite Puppetserver Performance').with(
           grafana_url: 'http://localhost:3000',
           grafana_user: 'admin',
@@ -25,6 +26,7 @@ describe 'puppet_metrics_dashboard::dashboards::graphite' do
           require: 'Grafana_datasource[influxdb_graphite]',
         )
       end
+      # rubocop:enable RSpec/ExampleWording
     end
   end
 end

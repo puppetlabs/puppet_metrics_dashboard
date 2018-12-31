@@ -21,6 +21,7 @@ class puppet_metrics_dashboard::service {
 
   service { $puppet_metrics_dashboard::influx_db_service_name:
     ensure  => running,
+    enable  => true,
     require => Package['influxdb'],
   }
 

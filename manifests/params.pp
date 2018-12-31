@@ -34,7 +34,6 @@ class puppet_metrics_dashboard::params {
   $overwrite_dashboards_file = '/opt/puppetlabs/puppet/cache/state/overwrite_dashboards_disabled'
 
   case $facts['os']['family'] {
-
     'RedHat': {
       $influx_db_service_name = 'influxdb'
     }

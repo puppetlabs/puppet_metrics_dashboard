@@ -184,14 +184,18 @@ class puppet_metrics_dashboard (
   Integer[1] $telegraf_agent_interval     =  $puppet_metrics_dashboard::params::telegraf_agent_interval,
   Integer[1] $http_response_timeout       =  $puppet_metrics_dashboard::params::http_response_timeout,
   ) inherits puppet_metrics_dashboard::params {
-  contain puppet_metrics_dashboard::repos
+  if $manage_repos {
+    contain puppet_metrics_dashboard::repos
+    Class['puppet_metrics_dashboard::repos']
+    -> Class['puppet_metrics_dashboard::install']
+  }
+
   contain puppet_metrics_dashboard::install
   contain puppet_metrics_dashboard::config
   contain puppet_metrics_dashboard::service
   contain puppet_metrics_dashboard::post_start_configs
 
-  Class['puppet_metrics_dashboard::repos']
-  -> Class['puppet_metrics_dashboard::install']
+  Class['puppet_metrics_dashboard::install']
   -> Class['puppet_metrics_dashboard::config']
   -> Class['puppet_metrics_dashboard::service']
   -> Class['puppet_metrics_dashboard::post_start_configs']

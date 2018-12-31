@@ -4,9 +4,9 @@
 #
 # @api private
 class puppet_metrics_dashboard::repos {
-  case $facts['os']['family'] {
-    'RedHat': {
-      if ( $puppet_metrics_dashboard::manage_repos ){
+  if $puppet_metrics_dashboard::manage_repos {
+    case $facts['os']['family'] {
+      'RedHat': {
         yumrepo {'influxdb':
           ensure   => present,
           enabled  => 1,
@@ -27,13 +27,11 @@ class puppet_metrics_dashboard::repos {
           sslcacert     => '/etc/pki/tls/certs/ca-bundle.crt',
         }
       }
-    }
 
-    'Debian': {
-      $_operatingsystem = downcase($facts['os']['name'])
-      $_oscodename = downcase($facts['os']['distro']['codename'])
+      'Debian': {
+        $_operatingsystem = downcase($facts['os']['name'])
+        $_oscodename = downcase($facts['os']['distro']['codename'])
 
-      if ( $puppet_metrics_dashboard::manage_repos ){
         apt::source { 'influxdb':
           location => "https://repos.influxdata.com/${_operatingsystem}",
           release  => $_oscodename,
@@ -54,10 +52,10 @@ class puppet_metrics_dashboard::repos {
           },
         }
       }
-    }
 
-    default: {
-      fail("${facts['os']['family']} installation not supported")
+      default: {
+        fail("${facts['os']['family']} installation not supported")
+      }
     }
   }
 }
