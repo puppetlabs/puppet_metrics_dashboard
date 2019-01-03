@@ -46,5 +46,24 @@ class puppet_metrics_dashboard::grafana {
     version             => $puppet_metrics_dashboard::grafana_version,
     cfg                 => $grafana_cfg,
     require             => Service[$puppet_metrics_dashboard::influx_db_service_name],
+    notify              => Exec['update Grafana admin password'],
+  }
+
+  $_uri = $puppet_metrics_dashboard::use_dashboard_ssl ? {
+    true    => 'https',
+    default => 'http',
+  }
+
+  exec { 'update Grafana admin password':
+    path        => '/usr/bin',
+    command     => @("CHANGE_GRAFANA_PW"),
+      curl -X PUT -H "Content-Type: application/json" -d '{
+        "oldPassword": "${puppet_metrics_dashboard::grafana_old_password}",
+        "newPassword": "${puppet_metrics_dashboard::grafana_password}",
+        "confirmNew": "${puppet_metrics_dashboard::grafana_password}"
+      }' ${_uri}://admin:${puppet_metrics_dashboard::grafana_old_password}@localhost:${puppet_metrics_dashboard::grafana_http_port}/api/user/password
+      | CHANGE_GRAFANA_PW
+    cwd         => '/usr/share/grafana',
+    refreshonly => true,
   }
 }

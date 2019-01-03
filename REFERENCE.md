@@ -14,7 +14,8 @@
 * `puppet_metrics_dashboard::dashboards::graphite`: Installs graphite example dashboards
 * `puppet_metrics_dashboard::dashboards::puppet_metrics`: Installs puppet_metrics example dashboards
 * `puppet_metrics_dashboard::dashboards::telegraf`: Installs telegraf example dashboards
-* `puppet_metrics_dashboard::install`: Installs and configures Grafana and InfluxDB components.
+* `puppet_metrics_dashboard::grafana`: Install and configure Grafana
+* `puppet_metrics_dashboard::install`: Installs InfluxDB components.
 * `puppet_metrics_dashboard::params`: Default parameters for the installation
 * `puppet_metrics_dashboard::post_start_configs`: InfluxDB post-start configs
 * `puppet_metrics_dashboard::repos`: Configures InfluxDB and Grafana repos
@@ -177,6 +178,15 @@ Valid values are Integers from `1024` to `65536`. Defaults to `3000`
 The grafana port for the web interface. This should be a nonprivileged port (above 1024).
 
 Default value: $puppet_metrics_dashboard::params::grafana_http_port
+
+##### `grafana_old_password`
+
+Data type: `String`
+
+The current password for the Grafana admin user. This is used when changing the password.
+Defaults to `'admin'`
+
+Default value: $puppet_metrics_dashboard::params::grafana_password
 
 ##### `grafana_password`
 

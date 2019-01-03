@@ -41,6 +41,10 @@
 #   Valid values are Integers from `1024` to `65536`. Defaults to `3000`
 #   The grafana port for the web interface. This should be a nonprivileged port (above 1024).
 #
+# @param grafana_old_password
+#   The current password for the Grafana admin user. This is used when changing the password.
+#   Defaults to `'admin'`
+#
 # @param grafana_password
 #   The password for the Grafana admin user.
 #   Defaults to `'admin'`
@@ -171,6 +175,7 @@ class puppet_metrics_dashboard (
   String $grafana_version                 =  $puppet_metrics_dashboard::params::grafana_version,
   Integer $grafana_http_port              =  $puppet_metrics_dashboard::params::grafana_http_port,
   String $influx_db_password              =  $puppet_metrics_dashboard::params::influx_db_password,
+  String $grafana_old_password            =  $puppet_metrics_dashboard::params::grafana_password,
   String $grafana_password                =  $puppet_metrics_dashboard::params::grafana_password,
   Boolean $enable_kapacitor               =  $puppet_metrics_dashboard::params::enable_kapacitor,
   Boolean $enable_chronograf              =  $puppet_metrics_dashboard::params::enable_chronograf,
