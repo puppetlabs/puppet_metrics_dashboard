@@ -16,6 +16,7 @@ class puppet_metrics_dashboard::params {
   $grafana_version         =  '5.1.4'
   $grafana_http_port       =  3000
   $influx_db_password      =  'puppet'
+  $grafana_old_password    =  'admin'
   $grafana_password        =  'admin'
   $consume_graphite        =  false
   # Influxdb TICK stack

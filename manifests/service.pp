@@ -10,6 +10,16 @@ class puppet_metrics_dashboard::service {
     require => Package['influxdb'],
   }
 
+  http_conn_validator { 'influxdb-conn-validator' :
+    host        => 'localhost',
+    port        => 8086,
+    use_ssl     => false,
+    test_url    => '/ping?verbose=true',
+    verify_peer => false,
+    try_sleep   => 10,
+    require     => Service[$puppet_metrics_dashboard::influx_db_service_name],
+  }
+
   if $puppet_metrics_dashboard::enable_chronograf {
     service { 'chronograf':
       ensure  => running,

@@ -184,6 +184,15 @@ The grafana port for the web interface. This should be a nonprivileged port (abo
 
 Default value: $puppet_metrics_dashboard::params::grafana_http_port
 
+##### `grafana_old_password`
+
+Data type: `String`
+
+The current password for the Grafana admin user. This is used when changing the password.
+Defaults to `'admin'`
+
+Default value: $puppet_metrics_dashboard::params::grafana_password
+
 ##### `grafana_password`
 
 Data type: `String`

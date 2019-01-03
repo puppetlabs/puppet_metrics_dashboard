@@ -40,17 +40,16 @@ describe 'puppet_metrics_dashboard::grafana' do
             .with_manage_package_repo(false)
             .with_version('5.1.4')
             .with_cfg('server' => { 'http_port' => 3000 })
+            .with_require('Http_conn_validator[influxdb-conn-validator]')
+        end
 
-          case facts[:os]['family']
-          when 'Debian'
-            is_expected.to contain_class('grafana')
-              .with_require('Service[influxd]')
-          when 'RedHat'
-            is_expected.to contain_class('grafana')
-              .with_require('Service[influxdb]')
-          end
+        it 'should contain Http_conn_validator[grafana-conn-validator]' do
+          is_expected.to contain_http_conn_validator('grafana-conn-validator')
+            .with_test_url('/public/img/grafana_icon.svg')
         end
         # rubocop:enable RSpec/ExampleWording
+
+        it { is_expected.to contain_exec('update Grafana admin password') }
       end
 
       context 'with ssl enabled' do

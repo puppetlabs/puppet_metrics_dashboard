@@ -9,6 +9,10 @@
   "issues_url": "https://github.com/puppetlabs/puppet_metrics_dashboard/issues",
   "dependencies": [
     {
+      "name": "puppet-healthcheck",
+      "version_requirement": ">= 0.4.1 < 1.0.0"
+    },
+    {
       "name": "puppetlabs-stdlib",
       "version_requirement": ">= 1.0.0 < 6.0.0"
     },

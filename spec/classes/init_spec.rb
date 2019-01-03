@@ -47,6 +47,7 @@ describe 'puppet_metrics_dashboard' do
             .with_grafana_version('5.1.4')
             .with_grafana_http_port(3000)
             .with_influx_db_password('puppet')
+            .with_grafana_old_password('admin')
             .with_grafana_password('admin')
             .with_enable_kapacitor(false)
             .with_enable_chronograf(false)
