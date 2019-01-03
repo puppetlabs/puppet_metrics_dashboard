@@ -1,6 +1,4 @@
 fixtures:
-    symlinks:
-      pe_metrics_dashboard: "#{source_dir}"
     repositories:
       stdlib:
         repo: https://github.com/puppetlabs/puppetlabs-stdlib.git

@@ -1,8 +1,6 @@
-# puppet_metrics_dashboard::params
-#
-# A description of what this class does
-#
 # @summary Default parameters for the installation
+#
+# Default parameters for the installation
 #
 # @api private
 class puppet_metrics_dashboard::params {
@@ -36,7 +34,6 @@ class puppet_metrics_dashboard::params {
   $overwrite_dashboards_file = '/opt/puppetlabs/puppet/cache/state/overwrite_dashboards_disabled'
 
   case $facts['os']['family'] {
-
     'RedHat': {
       $influx_db_service_name = 'influxdb'
     }
