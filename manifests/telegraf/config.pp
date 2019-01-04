@@ -231,6 +231,7 @@ class puppet_metrics_dashboard::telegraf::config {
           puppetdb_metrics      => $_puppetdb_metrics,
           master_list           => $puppet_metrics_dashboard::master_list,
           puppetdb_list         => $puppet_metrics_dashboard::puppetdb_list,
+          postgres_host         => $puppet_metrics_dashboard::postgres_host,
           http_response_timeout => $puppet_metrics_dashboard::http_response_timeout,
         }),
       notify  => Service['telegraf'],

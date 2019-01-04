@@ -101,6 +101,9 @@
 #   An array of PuppetDB servers to collect metrics from. Defaults to `["$settings::certname"]`
 #   A list of PuppetDB servers that will be configured for telegraf to query.
 #
+# @param postgres_host
+#   String that specifies a postgres instance to monitor.  Defaults to $settings::certname
+#
 # @param use_dashboard_ssl
 #   Whether to enable SSL on Grafana.
 #   Valid values are `true`, `false`. Defaults to `false`
@@ -179,6 +182,7 @@ class puppet_metrics_dashboard (
   Boolean $consume_graphite               =  $puppet_metrics_dashboard::params::consume_graphite,
   Array[String] $master_list              =  $puppet_metrics_dashboard::params::master_list,
   Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list,
+  String $postgres_host                   =  $puppet_metrics_dashboard::params::postgres_host,
   String $influxdb_urls                   =  $puppet_metrics_dashboard::params::influxdb_urls,
   String $telegraf_db_name                =  $puppet_metrics_dashboard::params::telegraf_db_name,
   Integer[1] $telegraf_agent_interval     =  $puppet_metrics_dashboard::params::telegraf_agent_interval,
