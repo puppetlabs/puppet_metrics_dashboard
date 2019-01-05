@@ -53,6 +53,15 @@ describe 'puppet_metrics_dashboard::dashboards::telegraf' do
           require: 'Grafana_datasource[influxdb_telegraf]',
         )
       end
+
+      it 'should contain Grafana_dashboard[Telegraf Postgres Metrics]' do
+        is_expected.to contain_grafana_dashboard('Telegraf Postgres Metrics').with(
+          grafana_url: 'http://localhost:3000',
+          grafana_user: 'admin',
+          grafana_password: 'puppetlabs',
+          require: 'Grafana_datasource[influxdb_telegraf]',
+        )
+      end
       # rubocop:enable RSpec/ExampleWording
     end
   end

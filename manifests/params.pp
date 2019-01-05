@@ -10,8 +10,8 @@ class puppet_metrics_dashboard::params {
   $manage_repos            =  true
   $overwrite_dashboards    =  true
   $use_dashboard_ssl       =  false
-  $dashboard_cert_file     = "/etc/grafana/${facts['networking']['fqdn']}_cert.pem"
-  $dashboard_cert_key      = "/etc/grafana/${facts['networking']['fqdn']}_key.pem"
+  $dashboard_cert_file     = "/etc/grafana/${clientcert}_cert.pem"
+  $dashboard_cert_key      = "/etc/grafana/${clientcert}_key.pem"
   $influxdb_database_name  =  ['telegraf']
   $grafana_version         =  '5.1.4'
   $grafana_http_port       =  3000
@@ -24,9 +24,9 @@ class puppet_metrics_dashboard::params {
   $enable_chronograf       =  false
   # telegraf config
   $configure_telegraf      =  true
-  $master_list             =  [$settings::certname]
-  $puppetdb_list           =  [$settings::certname]
-  $postgres_host           =  $settings::certname
+  $master_list             =  [$trusted['certname']]
+  $puppetdb_list           =  [$trusted['certname']]
+  $postgres_host_list      =  [$settings::certname]
   $influxdb_urls           =  "['http://localhost:8086']"
   $telegraf_db_name        =  'telegraf'
   $telegraf_agent_interval = 5

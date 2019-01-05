@@ -2,7 +2,7 @@
       Array[Hash] $puppetdb_metrics,
       Array $master_list,
       Array $puppetdb_list,
-      String $postgres_host,
+      Array $postgres_host_list,
 | -%>
 [[inputs.httpjson]]
   name = 'puppet_stats'
@@ -55,10 +55,11 @@
 <% } -%>
 <%# -%>
 
-<% if $postgres_host {-%>
-
+<% unless $postgres_host_list.empty {-%>
+<% $postgres_host_list.each | $pg_host| {-%>
 [[inputs.postgresql_extensible]]
-  address = "postgres://telegraf@<%= $postgres_host %>/pe-puppetdb?sslmode=require&sslkey=/etc/telegraf/<%= $fqdn %>.private_key.pem&sslcert=/etc/telegraf/<%= $fqdn %>.public_key.pem&sslrootcert=/etc/telegraf/ca.pem"
+  address = "postgres://telegraf@<%= $pg_host %>/pe-puppetdb?sslmode=require&sslkey=/etc/telegraf/<%= $facts['networking']['fqdn'] %>_key.pem&sslcert=/etc/telegraf/<%= $facts['networking']['fqdn'] %>_cert.pem&sslrootcert=/etc/telegraf/ca.pem"
+  outputaddress = "<%= $pg_host %>"
   databases = ["pe-puppetdb","pe-rbac","pe-activity","pe-classifier"]
   [[inputs.postgresql_extensible.query]]
     sqlquery="SELECT * FROM pg_stat_database"
@@ -80,5 +81,8 @@
     version=901
     withdbname=false
     tagvalue="io_table"
+
+<% } -%>
+<%# -%>
 
 <% } -%>

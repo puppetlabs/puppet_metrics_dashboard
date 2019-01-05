@@ -13,12 +13,12 @@ define puppet_metrics_dashboard::certs(
     mode    => '0400',
   }
 
-  file { "${cert_dir}/${facts['networking']['fqdn']}.private_key.pem":
+  file { "${cert_dir}/${clientcert}_key.pem":
     source => $client_pem_key,
   }
 
-  file { "${cert_dir}/${facts['networking']['fqdn']}.public_key.pem":
-    source => "${ssl_dir}/certs/${facts['networking']['fqdn']}.pem",
+  file { "${cert_dir}/${clientcert}_cert.pem":
+    source => $client_cert,
   }
 
   file { "${cert_dir}/ca.pem":

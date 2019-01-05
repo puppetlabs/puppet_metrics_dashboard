@@ -16,16 +16,18 @@ class puppet_metrics_dashboard::grafana {
       },
     }
 
+    puppet_metrics_dashboard::certs{'grafana':
+      notify  => Service['grafana-server'],
+      require => Package['grafana'],
+      before  => Service['grafana-server'],
+    }
+
   } else {
     $grafana_cfg = {
       server    => {
         http_port => $puppet_metrics_dashboard::grafana_http_port,
       },
     }
-  }
-
-  puppet_metrics_dashboard::certs{'grafana':
-    notify => Service['grafana-server'],
   }
 
   class { 'grafana':
