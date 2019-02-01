@@ -17,12 +17,12 @@ class puppet_metrics_dashboard::repos {
 
         yumrepo { 'grafana-repo':
           ensure        => 'present',
-          baseurl       => 'https://packagecloud.io/grafana/stable/el/6/$basearch',
+          baseurl       => 'https://packages.grafana.com/oss/rpm',
           descr         => 'grafana-repository',
           enabled       => '1',
           repo_gpgcheck => '1',
           gpgcheck      => '1',
-          gpgkey        => 'https://packagecloud.io/gpg.key https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana',
+          gpgkey        => 'https://packages.grafana.com/gpg.key',
           sslverify     => '1',
           sslcacert     => '/etc/pki/tls/certs/ca-bundle.crt',
         }
@@ -43,12 +43,12 @@ class puppet_metrics_dashboard::repos {
         }
 
         apt::source { 'grafana':
-          location => 'https://packagecloud.io/grafana/stable/debian/',
-          release  => 'jessie',
+          location => 'https://packages.grafana.com/oss/deb',
+          release  => 'stable',
           repos    => 'main',
           key      =>  {
-            'id'     => '418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB',
-            'source' => 'https://packagecloud.io/gpg.key',
+            'id'     => '4E40DDF6D76E284A4A6780E48C8C34C524098CB6',
+            'source' => 'https://packages.grafana.com/gpg.key',
           },
         }
       }
