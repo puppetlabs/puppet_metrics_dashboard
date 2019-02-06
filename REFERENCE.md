@@ -6,6 +6,7 @@
 ### Public Classes
 
 * [`puppet_metrics_dashboard`](#puppet_metrics_dashboard): Installs and configures Grafana with InfluxDB for monitoring Puppet infrastructure.
+* [`puppet_metrics_dashboard::profile::postgres`](#puppet_metrics_dashboardprofilepostgres): Apply this class to a PE-managed postgres instance to allow access from telegraf
 
 ### Private Classes
 
@@ -14,7 +15,8 @@
 * `puppet_metrics_dashboard::dashboards::graphite`: Installs graphite example dashboards
 * `puppet_metrics_dashboard::dashboards::puppet_metrics`: Installs puppet_metrics example dashboards
 * `puppet_metrics_dashboard::dashboards::telegraf`: Installs telegraf example dashboards
-* `puppet_metrics_dashboard::install`: Installs and configures Grafana and InfluxDB components.
+* `puppet_metrics_dashboard::grafana`: Install and configure Grafana
+* `puppet_metrics_dashboard::install`: Installs InfluxDB components.
 * `puppet_metrics_dashboard::params`: Default parameters for the installation
 * `puppet_metrics_dashboard::post_start_configs`: InfluxDB post-start configs
 * `puppet_metrics_dashboard::repos`: Configures InfluxDB and Grafana repos
@@ -23,6 +25,10 @@
 * `puppet_metrics_dashboard::telegraf::config`: Configures Telegraf
 * `puppet_metrics_dashboard::telegraf::install`: Installs Telegraf
 * `puppet_metrics_dashboard::telegraf::service`: Manages the Telegraf service
+
+## Defined types
+
+* [`puppet_metrics_dashboard::certs`](#puppet_metrics_dashboardcerts): 
 
 ## Classes
 
@@ -251,7 +257,7 @@ Default value: $puppet_metrics_dashboard::params::enable_telegraf
 
 Data type: `Array[String]`
 
-An array of Puppet Master servers to collect metrics from. Defaults to `["$settings::certname"]`
+An array of Puppet Master servers to collect metrics from. Defaults to `[$trusted['certname']]`
 A list of Puppet master servers that will be configured for telegraf to query.
 
 Default value: $puppet_metrics_dashboard::params::master_list
@@ -303,10 +309,18 @@ Default value: $puppet_metrics_dashboard::params::overwrite_dashboards
 
 Data type: `Array[String]`
 
-An array of PuppetDB servers to collect metrics from. Defaults to `["$settings::certname"]`
+An array of PuppetDB servers to collect metrics from. Defaults to `[$trusted['certname']]`
 A list of PuppetDB servers that will be configured for telegraf to query.
 
 Default value: $puppet_metrics_dashboard::params::puppetdb_list
+
+##### `postgres_host_list`
+
+Data type: `Array[String]`
+
+An array of Postgres hosts to monitor.  Defaults to `[$trusted['certname']]`
+
+Default value: $puppet_metrics_dashboard::params::postgres_host_list
 
 ##### `use_dashboard_ssl`
 
@@ -332,4 +346,39 @@ Data type: `String`
 Name of the influxdb service for the operating system
 
 Default value: $puppet_metrics_dashboard::params::influx_db_service_name
+
+### puppet_metrics_dashboard::profile::postgres
+
+Apply this class to a PE-managed postgres instance to allow access from telegraf
+
+#### Parameters
+
+The following parameters are available in the `puppet_metrics_dashboard::profile::postgres` class.
+
+##### `grafana_host`
+
+Data type: `String`
+
+The FQDN of the host where telegraf runs.
+Defaults to an empty string.  You can explicitly set this parameter or the class attempts to lookup which host has the puppet_metrics_dashboard class applied in PuppetDB.  If the parameter is not set and the lookup does not return anything we issue a warning.
+
+Default value: ''
+
+## Defined types
+
+### puppet_metrics_dashboard::certs
+
+The puppet_metrics_dashboard::certs class.
+
+#### Parameters
+
+The following parameters are available in the `puppet_metrics_dashboard::certs` defined type.
+
+##### `service`
+
+Data type: `Any`
+
+
+
+Default value: $name
 

@@ -26,7 +26,7 @@ class puppet_metrics_dashboard::params {
   $configure_telegraf      =  true
   $master_list             =  [$trusted['certname']]
   $puppetdb_list           =  [$trusted['certname']]
-  $postgres_host_list      =  [$settings::certname]
+  $postgres_host_list      =  [$trusted['certname']]
   $influxdb_urls           =  "['http://localhost:8086']"
   $telegraf_db_name        =  'telegraf'
   $telegraf_agent_interval = 5
