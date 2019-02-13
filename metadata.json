@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-puppet_metrics_dashboard",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "author": "puppetlabs",
   "summary": "A module for managing the installation and configuration of metrics dashboards for Puppet Infrastructure.",
   "license": "Apache-2.0",
@@ -29,7 +29,8 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "8"
+        "9",
+	"8"
       ]
     },
     {
@@ -42,6 +43,7 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
+        "18.04",      
         "16.04"
       ]
     }

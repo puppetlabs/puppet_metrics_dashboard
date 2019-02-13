@@ -1,9 +1,21 @@
 # Change log
 
+## 2019-2-13 - Release - 1.1.0
+### Summary
+
+#### Changes
+ - Code refactor to more standard layout
+ - Various CI and testing updates
+ - Updated apt-get / yum repo resources
+ - New feature: postgres metrics
+ - Moved telegraf config file from `/etc/telegraf/telegraf.conf` to `/etc/telegraf/telegraf.d/puppet_metrics_dashboard.conf`
+ - The SSL dashboard option no longer relies on puppetlabs/puppet_agent
+ - Tested and working on PE 2019.0.x
+
 ## 2018-11-30 - Release - 1.0.3
 ### Summary
 
-#### Chnages:
+#### Changes:
  - Minor fix for dependency versions
 
 ## 2018-08-03 - Release - 1.0.2
