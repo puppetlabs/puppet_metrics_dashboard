@@ -76,7 +76,7 @@
 #   Installs telegraf. No configuration is done unless the `configure_telegraf` parameter is set to `true`.
 #
 # @param master_list
-#   An array of Puppet Master servers to collect metrics from. Defaults to `["$settings::certname"]`
+#   An array of Puppet Master servers to collect metrics from. Defaults to `[$trusted['certname']]`
 #   A list of Puppet master servers that will be configured for telegraf to query.
 #
 # @param influxdb_urls
@@ -98,8 +98,11 @@
 #   `overwrite_dashboards_disabled` fact. This only takes effect when `add_dashboard_examples` is set to true.
 #
 # @param puppetdb_list
-#   An array of PuppetDB servers to collect metrics from. Defaults to `["$settings::certname"]`
+#   An array of PuppetDB servers to collect metrics from. Defaults to `[$trusted['certname']]`
 #   A list of PuppetDB servers that will be configured for telegraf to query.
+#
+# @param postgres_host_list
+#   An array of Postgres hosts to monitor.  Defaults to `[$trusted['certname']]`
 #
 # @param use_dashboard_ssl
 #   Whether to enable SSL on Grafana.
@@ -179,6 +182,7 @@ class puppet_metrics_dashboard (
   Boolean $consume_graphite               =  $puppet_metrics_dashboard::params::consume_graphite,
   Array[String] $master_list              =  $puppet_metrics_dashboard::params::master_list,
   Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list,
+  Array[String] $postgres_host_list       =  $puppet_metrics_dashboard::params::postgres_host_list,
   String $influxdb_urls                   =  $puppet_metrics_dashboard::params::influxdb_urls,
   String $telegraf_db_name                =  $puppet_metrics_dashboard::params::telegraf_db_name,
   Integer[1] $telegraf_agent_interval     =  $puppet_metrics_dashboard::params::telegraf_agent_interval,

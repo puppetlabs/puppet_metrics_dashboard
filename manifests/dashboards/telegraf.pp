@@ -28,5 +28,8 @@ class puppet_metrics_dashboard::dashboards::telegraf {
     'Telegraf File Sync Metrics':
       content => file('puppet_metrics_dashboard/Telegraf_File_Sync.json'),
     ;
+    'Telegraf Postgres Metrics':
+      content => file('puppet_metrics_dashboard/Telegraf_Postgres.json'),
+    ;
   }
 }

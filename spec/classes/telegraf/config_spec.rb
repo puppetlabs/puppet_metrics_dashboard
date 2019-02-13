@@ -37,6 +37,8 @@ describe 'puppet_metrics_dashboard::telegraf::config' do
         it { is_expected.to contain_ini_setting('telegraf outputs.influxdb - write_consistency').with_value("'any'") }
         it { is_expected.to contain_ini_setting('telegraf outputs.influxdb - timeout').with_value("'5s'") }
         it { is_expected.to contain_file('/etc/telegraf/telegraf.d/puppet_metrics_dashboard.conf') }
+        it { is_expected.to contain_file('/etc/telegraf/testhost.example.com_cert.pem') }
+        it { is_expected.to contain_file('/etc/telegraf/testhost.example.com_key.pem') }
       end
     end
   end

@@ -2,6 +2,7 @@
       Array[Hash] $puppetdb_metrics,
       Array $master_list,
       Array $puppetdb_list,
+      Array $postgres_host_list,
 | -%>
 [[inputs.httpjson]]
   name = 'puppet_stats'
@@ -53,3 +54,35 @@
 <% } -%>
 <% } -%>
 <%# -%>
+
+<% unless $postgres_host_list.empty {-%>
+<% $postgres_host_list.each | $pg_host| {-%>
+[[inputs.postgresql_extensible]]
+  address = "postgres://telegraf@<%= $pg_host %>/pe-puppetdb?sslmode=require&sslkey=/etc/telegraf/<%= $facts['networking']['fqdn'] %>_key.pem&sslcert=/etc/telegraf/<%= $facts['networking']['fqdn'] %>_cert.pem&sslrootcert=/etc/telegraf/ca.pem"
+  outputaddress = "<%= $pg_host %>"
+  databases = ["pe-puppetdb","pe-rbac","pe-activity","pe-classifier"]
+  [[inputs.postgresql_extensible.query]]
+    sqlquery="SELECT * FROM pg_stat_database"
+    version=901
+    withdbname=false
+    tagvalue=""
+  [[inputs.postgresql_extensible.query]]
+    sqlquery="SELECT relname as s_table, pg_relation_size(relid) As size FROM pg_catalog.pg_statio_user_tables ORDER BY pg_total_relation_size(relid) DESC"
+    version=901
+    withdbname=false
+    tagvalue="s_table"
+  [[inputs.postgresql_extensible.query]]
+    sqlquery="select relname as v_table, autovacuum_count, vacuum_count, n_live_tup, n_dead_tup from pg_stat_user_tables"
+    version=901
+    withdbname=false
+    tagvalue="v_table"
+  [[inputs.postgresql_extensible.query]]
+    sqlquery="select relname as io_table, heap_blks_read, heap_blks_hit, idx_blks_read, idx_blks_hit, toast_blks_read, toast_blks_hit, tidx_blks_read, tidx_blks_hit from pg_statio_user_tables"
+    version=901
+    withdbname=false
+    tagvalue="io_table"
+
+<% } -%>
+<%# -%>
+
+<% } -%>

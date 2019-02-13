@@ -16,22 +16,12 @@ class puppet_metrics_dashboard::grafana {
       },
     }
 
-    file {
-      default:
-        ensure  => present,
-        owner   => 'grafana',
-        mode    => '0400',
-        require => Package['grafana'],
-        notify  => Service['grafana-server'],
-        before  => Service['grafana-server'],
-      ;
-      $puppet_metrics_dashboard::dashboard_cert_file:
-        source  => "${facts['puppet_sslpaths']['certdir']['path']}/${facts['clientcert']}.pem",
-      ;
-      $puppet_metrics_dashboard::dashboard_cert_key:
-        source  => "${facts['puppet_sslpaths']['privatekeydir']['path']}/${facts['clientcert']}.pem",
-      ;
+    puppet_metrics_dashboard::certs{'grafana':
+      notify  => Service['grafana-server'],
+      require => Package['grafana'],
+      before  => Service['grafana-server'],
     }
+
   } else {
     $grafana_cfg = {
       server    => {

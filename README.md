@@ -64,7 +64,7 @@ class { 'puppet_metrics_dashboard':
 }
 ```
 
-### Configure telegraf for one or more masters / puppetdb nodes:
+### Configure telegraf for one or more masters / puppetdb nodes / postgres nodes:
 
 ```
 class { 'puppet_metrics_dashboard':
@@ -72,8 +72,21 @@ class { 'puppet_metrics_dashboard':
   enable_telegraf     => true,
   master_list         => ['master1.com','master2.com'],
   puppetdb_list       => ['puppetdb1','puppetdb2'],
+  postgres_host_list  => ['postgres01','postgres02'],
 }
 ```
+
+### Allow access to PE-managed postgres nodes with the following class:
+
+This is required for collection of postgres metrics.
+
+```
+class { 'puppet_metrics_dashboard::profile::postgres':
+  grafana_host => 'postgres01',
+}
+```
+
+`grafana_host` is optional.  If you do not specify it, the class will look for a node with the `puppet_metrics_dashboard` class applied in PuppetDB and use the `certname` of the first host returned.  If the PuppetDB lookup fails and you do not specify `grafana_host` then the class outputs a warning.
 
 ### Enable Graphite support
 
@@ -149,6 +162,7 @@ To recify the issue, please update `nss` and `curl` on the affected system.
 yum install curl nss --disablerepo influxdb
 ```
 
+### Postgres metrics collection requires telegraf version 1.9.1 or later
 
 ## Development
 

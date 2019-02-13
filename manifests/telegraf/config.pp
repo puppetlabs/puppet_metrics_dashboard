@@ -222,6 +222,12 @@ class puppet_metrics_dashboard::telegraf::config {
         $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
     }
 
+    puppet_metrics_dashboard::certs{'telegraf':
+      notify  => Service['telegraf'],
+      require => Package['telegraf'],
+      before  => Service['telegraf'],
+    }
+
     file {'/etc/telegraf/telegraf.d/puppet_metrics_dashboard.conf':
       ensure  => file,
       owner   => 0,
@@ -231,6 +237,7 @@ class puppet_metrics_dashboard::telegraf::config {
           puppetdb_metrics      => $_puppetdb_metrics,
           master_list           => $puppet_metrics_dashboard::master_list,
           puppetdb_list         => $puppet_metrics_dashboard::puppetdb_list,
+          postgres_host_list    => $puppet_metrics_dashboard::postgres_host_list,
           http_response_timeout => $puppet_metrics_dashboard::http_response_timeout,
         }),
       notify  => Service['telegraf'],
