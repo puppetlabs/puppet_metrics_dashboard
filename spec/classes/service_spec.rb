@@ -18,7 +18,6 @@ describe 'puppet_metrics_dashboard::service' do
           PRE_COND
         end
 
-        # rubocop:disable RSpec/RepeatedExample
         case facts[:os]['family']
         when 'RedHat'
           it do
@@ -27,16 +26,12 @@ describe 'puppet_metrics_dashboard::service' do
               .with_enable(true)
           end
         when 'Debian'
-          it { is_expected.not_to contain_file('/usr/lib/tmpfiles.d/grafana.conf') }
-          it { is_expected.not_to contain_exec('Create Systemd Temp Files') }
-
           it do
             is_expected.to contain_service('influxd')
               .with_ensure('running')
               .with_enable(true)
           end
         end
-        # rubocop:enable RSpec/RepeatedExample
       end
 
       context 'with alternate influx_db_service_name name' do
