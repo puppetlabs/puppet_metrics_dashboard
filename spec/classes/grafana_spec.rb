@@ -38,7 +38,7 @@ describe 'puppet_metrics_dashboard::grafana' do
           is_expected.to contain_class('grafana')
             .with_install_method('repo')
             .with_manage_package_repo(false)
-            .with_version('5.1.4')
+            .with_version('6.0.2')
             .with_cfg('server' => { 'http_port' => 3000 })
 
           case facts[:os]['family']

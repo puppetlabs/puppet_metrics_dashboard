@@ -44,7 +44,7 @@ describe 'puppet_metrics_dashboard' do
             .with_overwrite_dashboards(true)
             .with_overwrite_dashboards_file('/opt/puppetlabs/puppet/cache/state/overwrite_dashboards_disabled')
             .with_influxdb_database_name(['telegraf'])
-            .with_grafana_version('5.1.4')
+            .with_grafana_version('6.0.2')
             .with_grafana_http_port(3000)
             .with_influx_db_password('puppet')
             .with_grafana_password('admin')
