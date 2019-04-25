@@ -70,7 +70,10 @@ class { 'puppet_metrics_dashboard':
 class { 'puppet_metrics_dashboard':
   configure_telegraf  => true,
   enable_telegraf     => true,
-  master_list         => ['master1.com','master2.com'],
+  master_list         => ['master1.com',
+                          # Alternate ports may be configured using
+                          # a pair of: [hostname, port_number]
+                          ['master2.com', 9140]],
   puppetdb_list       => ['puppetdb1','puppetdb2'],
   postgres_host_list  => ['postgres01','postgres02'],
 }
