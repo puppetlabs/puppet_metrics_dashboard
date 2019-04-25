@@ -1,5 +1,19 @@
 # Change log
 
+## 2019-4-25 - Release - 1.1.5
+### Summary
+
+#### Changes
+ - Added a metric for last successful file-sync commit
+ - Added puppetdb heap / status metrics
+ - Improve FOSS puppet support
+ - Allow port numbers of services to be specified
+
+#### Bugfixes
+ - Stop creating /run/grafana on CentOS 7
+ - Cleanup /run/grafana spec tests for ubuntu
+ - Fixed grafana version req
+
 ## 2019-2-13 - Release - 1.1.0
 ### Summary
 
