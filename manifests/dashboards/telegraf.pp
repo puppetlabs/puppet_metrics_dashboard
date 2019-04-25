@@ -9,9 +9,11 @@ class puppet_metrics_dashboard::dashboards::telegraf {
     default => 'http',
   }
 
-  $puppetserver_perf_template = $facts['pe_server_version'] ? {
-    undef   => 'Telegraf_FOSS_Puppetserver_Performance.json',
-    default => 'Telegraf_Puppetserver_Performance.json',
+  if is_function_available('pe_compiling_server_version') {
+    $puppetserver_perf_template = 'Telegraf_Puppetserver_Performance.json'
+  }
+  else {
+    $puppetserver_perf_template = 'Telegraf_FOSS_Puppetserver_Performance.json'
   }
 
   grafana_dashboard {
