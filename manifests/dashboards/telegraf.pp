@@ -9,6 +9,7 @@ class puppet_metrics_dashboard::dashboards::telegraf {
     default => 'http',
   }
 
+  ## This tests if the installation is PE or not.  We have a different dashboard for FOSS
   if is_function_available('pe_compiling_server_version') {
     $puppetserver_perf_template = 'Telegraf_Puppetserver_Performance.json'
   }
