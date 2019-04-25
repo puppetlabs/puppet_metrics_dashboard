@@ -9,6 +9,11 @@ class puppet_metrics_dashboard::dashboards::telegraf {
     default => 'http',
   }
 
+  $puppetserver_perf_template = $facts['pe_server_version'] ? {
+    undef   => 'Telegraf_FOSS_Puppetserver_Performance.json',
+    default => 'Telegraf_Puppetserver_Performance.json',
+  }
+
   grafana_dashboard {
     default:
       grafana_url      => "${_uri}://localhost:${puppet_metrics_dashboard::grafana_http_port}",
@@ -23,7 +28,7 @@ class puppet_metrics_dashboard::dashboards::telegraf {
       content => file('puppet_metrics_dashboard/Telegraf_PuppetDB_Workload.json'),
     ;
     'Telegraf Puppetserver Performance':
-      content => file('puppet_metrics_dashboard/Telegraf_Puppetserver_Performance.json'),
+      content => file("puppet_metrics_dashboard/${puppetserver_perf_template}"),
     ;
     'Telegraf File Sync Metrics':
       content => file('puppet_metrics_dashboard/Telegraf_File_Sync.json'),
