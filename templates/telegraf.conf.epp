@@ -1,8 +1,8 @@
 <%- | Integer[1] $http_response_timeout,
       Array[Hash] $puppetdb_metrics,
-      Array $master_list,
-      Array $puppetdb_list,
-      Array $postgres_host_list,
+      Array[String] $master_list,
+      Array[String] $puppetdb_list,
+      Array[String] $postgres_host_list,
 | -%>
 [[inputs.httpjson]]
   name = 'puppet_stats'
@@ -10,7 +10,7 @@
     <%# -%>
     <% unless $master_list.empty {-%>
     <% $master_list.each |$master| {-%>
-    "https://<%= $master %>:8140/status/v1/services?level=debug",
+    "https://<%= $master %>/status/v1/services?level=debug",
     <% } -%>
     <% } -%>
     <%# -%>
@@ -23,7 +23,7 @@
     <%# -%>
     <% unless $master_list.empty {-%>
     <% $master_list.each |$master| {-%>
-    "https://<%= $master %>:8140/status/v1/services/file-sync-client-service?level=debug",
+    "https://<%= $master %>/status/v1/services/file-sync-client-service?level=debug",
     <% } -%>
     <% } -%>
     <%# -%>
@@ -38,7 +38,7 @@
     <%# -%>
     <% unless $puppetdb_list.empty {-%>
     <% $puppetdb_list.each |$puppetdb| {-%>
-    "https://<%= $puppetdb %>:8081/status/v1/services?level=debug",
+    "https://<%= $puppetdb %>/status/v1/services?level=debug",
     <% } -%>
     <% } -%>
     <%# -%>
@@ -56,7 +56,7 @@
     <%# -%>
     <% unless $puppetdb_list.empty {-%>
     <% $puppetdb_list.each |$puppetdb| {-%>
-    "https://<%= $puppetdb %>:8081/metrics/v1/mbeans/<%= $metric['url'] %>",
+    "https://<%= $puppetdb %>/metrics/v1/mbeans/<%= $metric['url'] %>",
     <% } -%>
     <% } -%>
     <%# -%>

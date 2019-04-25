@@ -76,8 +76,14 @@
 #   Installs telegraf. No configuration is done unless the `configure_telegraf` parameter is set to `true`.
 #
 # @param master_list
-#   An array of Puppet Master servers to collect metrics from. Defaults to `[$trusted['certname']]`
-#   A list of Puppet master servers that will be configured for telegraf to query.
+#   A list of Puppet Master servers that Telegraf will be configured to
+#   collect metrics from. Entries in the list may be:
+#     - A single string that contains a hostname or IP address.
+#       The module will use a default port number of 8140.
+#     - A list of length two, where the first entry is a string that
+#       contains a hostname or IP address and the second entry is an
+#       integer that specifies the port number.
+#   Defaults to `[$trusted['certname']]`
 #
 # @param influxdb_urls
 #   The string for telegraf's config defining where influxdb is
@@ -98,11 +104,24 @@
 #   `overwrite_dashboards_disabled` fact. This only takes effect when `add_dashboard_examples` is set to true.
 #
 # @param puppetdb_list
-#   An array of PuppetDB servers to collect metrics from. Defaults to `[$trusted['certname']]`
-#   A list of PuppetDB servers that will be configured for telegraf to query.
+#   A list of PuppetDB servers that Telegraf will be configured to
+#   collect metrics from. Entries in the list may be:
+#     - A single string that contains a hostname or IP address.
+#       The module will use a default port number of 8081.
+#     - A list of length two, where the first entry is a string that
+#       contains a hostname or IP address and the second entry is an
+#       integer that specifies the port number.
+#   Defaults to `[$trusted['certname']]`
 #
-# @param postgres_host_list
-#   An array of Postgres hosts to monitor.  Defaults to `[$trusted['certname']]`
+# @param puppetdb_list
+#   A list of PostgreSQL servers that Telegraf will be configured to
+#   collect metrics from. Entries in the list may be:
+#     - A single string that contains a hostname or IP address.
+#       The module will use a default port number of 5432.
+#     - A list of length two, where the first entry is a string that
+#       contains a hostname or IP address and the second entry is an
+#       integer that specifies the port number.
+#   Defaults to `[$trusted['certname']]`
 #
 # @param use_dashboard_ssl
 #   Whether to enable SSL on Grafana.
@@ -121,8 +140,12 @@
 #   class { 'puppet_metrics_dashboard':
 #     configure_telegraf  => true,
 #     enable_telegraf     => true,
-#     master_list         => ['master1.com','master2.com'],
-#     puppetdb_list       => ['puppetdb1','puppetdb2'],
+#     master_list         => ['master1.com',
+#                             # Alternate ports may be configured using
+#                             # a list of: `[hostname, port_number]`
+#                             ['master2.com', 9140]],
+#     puppetdb_list       => ['puppetdb1',
+#                             ['puppetdb2', 8100]],
 #   }
 #
 # @example Install example dashboards for all of the collection methods
@@ -180,9 +203,9 @@ class puppet_metrics_dashboard (
   Boolean $enable_telegraf                =  $puppet_metrics_dashboard::params::enable_telegraf,
   Boolean $configure_telegraf             =  $puppet_metrics_dashboard::params::configure_telegraf,
   Boolean $consume_graphite               =  $puppet_metrics_dashboard::params::consume_graphite,
-  Array[String] $master_list              =  $puppet_metrics_dashboard::params::master_list,
-  Array[String] $puppetdb_list            =  $puppet_metrics_dashboard::params::puppetdb_list,
-  Array[String] $postgres_host_list       =  $puppet_metrics_dashboard::params::postgres_host_list,
+  Puppet_metrics_dashboard::HostList $master_list        = $puppet_metrics_dashboard::params::master_list,
+  Puppet_metrics_dashboard::HostList $puppetdb_list      = $puppet_metrics_dashboard::params::puppetdb_list,
+  Puppet_metrics_dashboard::HostList $postgres_host_list = $puppet_metrics_dashboard::params::postgres_host_list,
   String $influxdb_urls                   =  $puppet_metrics_dashboard::params::influxdb_urls,
   String $telegraf_db_name                =  $puppet_metrics_dashboard::params::telegraf_db_name,
   Integer[1] $telegraf_agent_interval     =  $puppet_metrics_dashboard::params::telegraf_agent_interval,
