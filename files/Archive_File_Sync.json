@@ -13,7 +13,7 @@
       "includeVars": true,
       "keepTime": true,
       "tags": [
-        "telegraf"
+        "archive"
       ],
       "type": "dashboards"
     }
@@ -885,8 +885,7 @@
   "schemaVersion": 14,
   "style": "dark",
   "tags": [
-    "telegraf",
-    "puppetserver"
+    "archive"
   ],
   "templating": {
     "list": [
