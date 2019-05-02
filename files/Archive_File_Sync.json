@@ -29,7 +29,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_puppet_metrics",
+          "datasource": "$datasource",
           "fill": 1,
           "id": 3,
           "legend": {
@@ -330,7 +330,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_puppet_metrics",
+          "datasource": "$datasource",
           "fill": 1,
           "id": 1,
           "legend": {
@@ -610,7 +610,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_puppet_metrics",
+          "datasource": "$datasource",
           "fill": 1,
           "id": 2,
           "legend": {
@@ -890,6 +890,21 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "tags": [],
+          "text": "influxdb_puppet_metrics",
+          "value": "influxdb_puppet_metrics"
+        },
+        "hide": 0,
+        "label": "datasource",
+        "name": "datasource",
+        "options": [],
+        "query": "influxdb",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {
           "text": "All",
@@ -897,7 +912,7 @@
             "$__all"
           ]
         },
-        "datasource": "influxdb_telegraf",
+        "datasource": "$datasource",
         "hide": 0,
         "includeAll": true,
         "label": "server",
