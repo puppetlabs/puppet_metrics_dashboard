@@ -1,39 +1,8 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_INFLUXDB_PE_METRICS",
-      "label": "influxdb_puppet_metrics",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "influxdb",
-      "pluginName": "InfluxDB"
-    }
-  ],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "4.5.2"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "influxdb",
-      "name": "InfluxDB",
-      "version": "1.0.0"
-    }
-  ],
   "annotations": {
     "list": []
   },
   "editable": true,
-  "gnetId": null,
   "graphTooltip": 1,
   "hideControls": false,
   "id": null,
