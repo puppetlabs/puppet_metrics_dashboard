@@ -3,17 +3,16 @@
     "list": []
   },
   "editable": true,
-  "gnetId": null,
-  "graphTooltip": 0,
+  "graphTooltip": 1,
   "hideControls": false,
-  "id": 9,
+  "id": null,
   "links": [
     {
       "icon": "external link",
       "includeVars": true,
       "keepTime": true,
       "tags": [
-        "telegraf"
+        "archive"
       ],
       "type": "dashboards"
     }
@@ -29,7 +28,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_puppet_metrics",
+          "datasource": "$datasource",
           "fill": 1,
           "id": 3,
           "legend": {
@@ -330,7 +329,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_puppet_metrics",
+          "datasource": "$datasource",
           "fill": 1,
           "id": 1,
           "legend": {
@@ -610,7 +609,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influxdb_puppet_metrics",
+          "datasource": "$datasource",
           "fill": 1,
           "id": 2,
           "legend": {
@@ -885,11 +884,25 @@
   "schemaVersion": 14,
   "style": "dark",
   "tags": [
-    "telegraf",
-    "puppetserver"
+    "archive"
   ],
   "templating": {
     "list": [
+      {
+        "current": {
+          "tags": [],
+          "text": "influxdb_puppet_metrics",
+          "value": "influxdb_puppet_metrics"
+        },
+        "hide": 0,
+        "label": "datasource",
+        "name": "datasource",
+        "options": [],
+        "query": "influxdb",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
       {
         "allValue": null,
         "current": {
@@ -898,7 +911,7 @@
             "$__all"
           ]
         },
-        "datasource": "influxdb_telegraf",
+        "datasource": "$datasource",
         "hide": 0,
         "includeAll": true,
         "label": "server",
