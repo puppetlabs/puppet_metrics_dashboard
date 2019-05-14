@@ -101,6 +101,22 @@ describe 'puppet_metrics_dashboard::telegraf::config' do
             .with_content(%r{some-other\.host\.test:9000})
         end
       end
+      context 'when http_response_timeout is set' do
+        let(:pre_condition) do
+          <<-PRE_COND
+            class { 'puppet_metrics_dashboard':
+              http_response_timeout => 123,
+            }
+          PRE_COND
+        end
+
+        it do
+          is_expected.to contain_file('/etc/telegraf/telegraf.d/puppet_metrics_dashboard.conf')\
+            .with_content(%r{\s*timeout\s*=\s*\'123s\'})
+          is_expected.to contain_file('/etc/telegraf/telegraf.d/puppet_metrics_dashboard.conf')\
+            .with_content(%r{\s*response_timeout\s*=\s*\'123s\'})
+        end
+      end
     end
   end
 end
