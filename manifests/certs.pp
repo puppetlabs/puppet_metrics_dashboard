@@ -4,8 +4,8 @@ define puppet_metrics_dashboard::certs(
 
   $ssl_dir        = $settings::ssldir
   $cert_dir       = "/etc/${service}"
-  $client_pem_key = "${ssl_dir}/private_keys/${facts['networking']['fqdn']}.pem"
-  $client_cert    = "${ssl_dir}/certs/${facts['networking']['fqdn']}.pem"
+  $client_pem_key = "${ssl_dir}/private_keys/${trusted['certname']}.pem"
+  $client_cert    = "${ssl_dir}/certs/${trusted['certname']}.pem"
 
   File {
     owner   => $service,
