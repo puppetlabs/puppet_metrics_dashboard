@@ -72,22 +72,25 @@ class puppet_metrics_dashboard::telegraf::config {
         'url'  => 'puppetlabs.puppetdb.mq:name=global.discarded' },
       { 'name' => 'global_fatal',
         'url'  => 'puppetlabs.puppetdb.mq:name=global.fatal' },
-      { 'name' => 'global_generate-retry-message-time',
-        'url'  => 'puppetlabs.puppetdb.mq:name=global.generate-retry-message-time' },
       { 'name' => 'global_message-persistence-time',
         'url'  => 'puppetlabs.puppetdb.mq:name=global.message-persistence-time' },
       { 'name' => 'global_retried',
         'url'  => 'puppetlabs.puppetdb.mq:name=global.retried' },
       { 'name' => 'global_retry-counts',
         'url'  => 'puppetlabs.puppetdb.mq:name=global.retry-counts' },
-      { 'name' => 'global_retry-persistence-time',
-        'url'  => 'puppetlabs.puppetdb.mq:name=global.retry-persistence-time' },
       { 'name' => 'global_seen',
         'url'  => 'puppetlabs.puppetdb.mq:name=global.seen' },
       { 'name' => 'global_processed',
         'url'  => 'puppetlabs.puppetdb.mq:name=global.processed' },
       { 'name' => 'global_processing-time',
         'url'  => 'puppetlabs.puppetdb.mq:name=global.processing-time' },
+    ]
+
+    $base_metrics_through_4_2 = [
+      { 'name' => 'global_generate-retry-message-time',
+        'url'  => 'puppetlabs.puppetdb.mq:name=global.generate-retry-message-time' },
+      { 'name' => 'global_retry-persistence-time',
+        'url'  => 'puppetlabs.puppetdb.mq:name=global.retry-persistence-time' },
     ]
 
     $storage_metrics = [
@@ -213,9 +216,9 @@ class puppet_metrics_dashboard::telegraf::config {
       /^2015./ =>
         $activemq_metrics,
       /^2016\.[45]\./ =>
-        $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics + $ha_sync_metrics,
+        $activemq_metrics + $base_metrics + $base_metrics_through_4_2 + $storage_metrics + $connection_pool_metrics + $version_specific_metrics + $ha_sync_metrics,
       /^2016./ =>
-        $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
+        $activemq_metrics + $base_metrics + $base_metrics_through_4_2 + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
       /^201[78]\./ =>
         $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics + $ha_sync_metrics,
       default  =>
