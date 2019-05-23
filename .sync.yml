@@ -3,8 +3,11 @@ appveyor.yml:
   delete: true
 .gitlab-ci.yml:
   delete: true
+.project:
+  delete: true
 
 .travis.yml:
+  dist: 'xenial'
   bundler_args: -----without system_tests
   docker_sets:
     - set: docker/centos-7
