@@ -27,10 +27,11 @@ class puppet_metrics_dashboard::params {
   $master_list             =  [$trusted['certname']]
   $puppetdb_list           =  [$trusted['certname']]
   $postgres_host_list      =  [$trusted['certname']]
-  $influxdb_urls           =  "['http://localhost:8086']"
+  $influxdb_urls           =  ['http://localhost:8086']
   $telegraf_db_name        =  'telegraf'
-  $telegraf_agent_interval = 5
-  $http_response_timeout   = 5 # this is the default value for the HTTP JSON Input
+  $telegraf_agent_interval = '5s'
+  $http_response_timeout   = '5s' # this is the default value for the HTTP JSON Input
+  $pg_query_interval       = '10m'
 
   $overwrite_dashboards_file = '/opt/puppetlabs/puppet/cache/state/overwrite_dashboards_disabled'
 

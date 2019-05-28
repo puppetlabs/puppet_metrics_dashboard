@@ -8,7 +8,7 @@ describe 'puppet_metrics_dashboard' do
 
       let(:facts) do
         facts.merge(
-          pe_server_version: '2017.2',
+          pe_server_version: '2019.1',
           puppet_sslpaths: {
             certdir: {
               path: '/etc/puppetlabs/puppet/ssl/certs',
@@ -55,10 +55,10 @@ describe 'puppet_metrics_dashboard' do
             .with_consume_graphite(false)
             .with_master_list(['testhost.example.com'])
             .with_puppetdb_list(['testhost.example.com'])
-            .with_influxdb_urls("['http://localhost:8086']")
+            .with_influxdb_urls(['http://localhost:8086'])
             .with_telegraf_db_name('telegraf')
-            .with_telegraf_agent_interval(5)
-            .with_http_response_timeout(5)
+            .with_telegraf_agent_interval('5s')
+            .with_http_response_timeout('5s')
 
           case facts[:os]['family']
           when 'Debian'
@@ -291,7 +291,7 @@ describe 'puppet_metrics_dashboard' do
         let(:pre_condition) do
           <<-PRE_COND
             class {'puppet_metrics_dashboard':
-              influxdb_urls => "['http://influxdb.example.com:8086']"
+              influxdb_urls => ['http://influxdb.example.com:8086']
             }
           PRE_COND
         end
@@ -316,8 +316,8 @@ describe 'puppet_metrics_dashboard' do
         let(:pre_condition) do
           <<-PRE_COND
             class {'puppet_metrics_dashboard':
-              telegraf_agent_interval => 30,
-              http_response_timeout   => 30
+              telegraf_agent_interval => '30s',
+              http_response_timeout   => '30s'
             }
           PRE_COND
         end

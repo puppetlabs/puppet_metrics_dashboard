@@ -1,17 +1,30 @@
 # @summary Aplly this class to an agent running pe-postgresql to collect postgres metrics
 #
-# @param interval
-#   How often to run the queries.  Defaults to 10 minutes.
+# @param query_interval
+#   How often to run the queries in minutes.  Defaults to 10 minutes.
 #
-class puppet_metrics_dashboard::profile::master::postgres (
-  Integer[1] $interval = 10,
+# @param postgres_host
+#   The FQDN of the postgres host.  Defaults to the FQDN of the server where the profile is applied
+#
+define puppet_metrics_dashboard::profile::master::postgres (
+  Variant[String,Tuple[String, Integer]] $postgres_host = $facts['networking']['fqdn'],
+  String[2] $query_interval                             = $puppet_metrics_dashboard::params::pg_query_interval,
+  Integer[1] $port                                      = 5432,
   ){
 
-  telegraf::input { 'pe-postgres':
+  if ! defined(Puppet_metrics_dashboard::Certs['telegraf']) {
+    puppet_metrics_dashboard::certs{'telegraf':
+      notify  => Service['telegraf'],
+      require => Package['telegraf'],
+      before  => Service['telegraf'],
+    }
+  }
+
+  telegraf::input { "pe_postgres_${postgres_host}":
     plugin_type => 'postgresql_extensible',
     options     => [{
-      'interval'      => "${interval}m",
-      'address'       => 'postgres://telegraf@localhost/pe-puppetdb?sslmode=disable',
+      'interval'      => $query_interval,
+      'address'       => "postgres://telegraf@${postgres_host}:${port}/pe-puppetdb?sslmode=require&sslkey=/etc/telegraf/${trusted['certname']}_key.pem&sslcert=/etc/telegraf/${trusted['certname']}_cert.pem&sslrootcert=/etc/telegraf/ca.pem",
       'outputaddress' => $facts['networking']['fqdn'],
       'databases'     => ['pe-puppetdb','pe-rbac','pe-activity','pe-classifier'],
       'query'         => [{
@@ -35,5 +48,7 @@ class puppet_metrics_dashboard::profile::master::postgres (
         'tagvalue'   => 'io_table',
         }]
     }],
+    notify      => Service['telegraf'],
+    require     => Package['telegraf'],
   }
 }

@@ -86,16 +86,19 @@
 #   Defaults to `[$trusted['certname']]`
 #
 # @param influxdb_urls
-#   The string for telegraf's config defining where influxdb is
+#   An array for telegraf's config defining where influxdb instances are
 #
 # @param telegraf_db_name
 #   The database in influxdb where telefraf metrics are stored
 #
 # @param telegraf_agent_interval
-#   How often the telefraf agent queries for metrics
+#   How often the telefraf agent queries for metrics.  Defaults to "5s"
 #
 # @param http_response_timeout
-#   How long to wait for the queries by telegraf to finish before giving up
+#   How long to wait for the queries by telegraf to finish before giving up. Defaults to "5s"
+#
+# @param pg_query_interval
+#   How often postgres queries will run when monitoring a postgres host. Defaults to "10m"
 #
 # @param overwrite_dashboards
 #   Whether to overwrite the example Grafana dashboards.
@@ -207,10 +210,11 @@ class puppet_metrics_dashboard (
   Puppet_metrics_dashboard::HostList $puppetdb_list           = $puppet_metrics_dashboard::params::puppetdb_list,
   Puppet_metrics_dashboard::HostList $postgres_host_list      = $puppet_metrics_dashboard::params::postgres_host_list,
   Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = $puppet_metrics_dashboard::params::puppetdb_metrics,
-  String $influxdb_urls                   =  $puppet_metrics_dashboard::params::influxdb_urls,
+  Array[String] $influxdb_urls            =  $puppet_metrics_dashboard::params::influxdb_urls,
   String $telegraf_db_name                =  $puppet_metrics_dashboard::params::telegraf_db_name,
-  Integer[1] $telegraf_agent_interval     =  $puppet_metrics_dashboard::params::telegraf_agent_interval,
-  Integer[1] $http_response_timeout       =  $puppet_metrics_dashboard::params::http_response_timeout,
+  String[2] $telegraf_agent_interval     =  $puppet_metrics_dashboard::params::telegraf_agent_interval,
+  String[2] $http_response_timeout       =  $puppet_metrics_dashboard::params::http_response_timeout,
+  String[2] $pg_query_interval           =  $puppet_metrics_dashboard::params::pg_query_interval,
   ) inherits puppet_metrics_dashboard::params {
   if $manage_repos {
     contain puppet_metrics_dashboard::repos
