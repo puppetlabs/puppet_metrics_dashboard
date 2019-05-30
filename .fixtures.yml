@@ -16,3 +16,4 @@ fixtures:
         repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
         ref: 1.0.2
     forge_modules:
+      healthcheck: "puppet/healthcheck"

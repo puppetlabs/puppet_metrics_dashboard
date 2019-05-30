@@ -24,12 +24,20 @@ describe 'puppet_metrics_dashboard::service' do
             is_expected.to contain_service('influxdb')
               .with_ensure('running')
               .with_enable(true)
+
+            is_expected.to contain_http_conn_validator('influxdb-conn-validator')
+              .with_test_url('/ping?verbose=true')
+              .with_require('Service[influxdb]')
           end
         when 'Debian'
           it do
             is_expected.to contain_service('influxd')
               .with_ensure('running')
               .with_enable(true)
+
+            is_expected.to contain_http_conn_validator('influxdb-conn-validator')
+              .with_test_url('/ping?verbose=true')
+              .with_require('Service[influxd]')
           end
         end
       end

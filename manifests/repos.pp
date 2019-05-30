@@ -9,9 +9,10 @@ class puppet_metrics_dashboard::repos {
       'RedHat': {
         yumrepo {'influxdb':
           ensure   => present,
+          descr    => 'InfluxDB Repository - RHEL $releasever',
+          baseurl  => 'https://repos.influxdata.com/rhel/$releasever/$basearch/stable',
           enabled  => 1,
           gpgcheck => 1,
-          baseurl  => 'https://repos.influxdata.com/rhel/$releasever/$basearch/stable',
           gpgkey   => 'https://repos.influxdata.com/influxdb.key',
         }
 
