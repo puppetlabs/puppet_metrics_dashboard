@@ -4,7 +4,9 @@
 #
 # @api private
 class puppet_metrics_dashboard::telegraf::install {
-  package { 'telegraf':
-    ensure  => present,
+  unless $puppet_metrics_dashboard::configure_telegraf {
+    package { 'telegraf':
+      ensure  => present,
+    }
   }
 }

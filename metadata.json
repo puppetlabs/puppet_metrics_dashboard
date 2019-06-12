@@ -23,6 +23,10 @@
     {
       "name": "puppet-grafana",
       "version_requirement": ">= 3.0.0 < 7.0.0"
+    },
+    {
+      "name": "puppet-telegraf",
+      "version_requirement": ">= 2.0.0 < 3.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -54,7 +58,7 @@
       "version_requirement": ">= 4.7.0 < 7.0.0"
     }
   ],
-  "pdk-version": "1.11.0.pre (heads/master-0-gefa15f2)",
-  "template-url": "https://github.com/puppetlabs/pdk-templates#master",
-  "template-ref": "heads/master-0-ge1be36a"
+  "pdk-version": "1.10.0",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#1.10.0",
+  "template-ref": "1.10.0-0-gbba9ac3"
 }

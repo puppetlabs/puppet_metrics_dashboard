@@ -28,6 +28,8 @@ RSpec.configure do |c|
 
       on host, puppet('module', 'install', 'puppet-grafana')
       on host, puppet('module', 'install', 'puppetlabs-inifile')
+      on host, puppet('module', 'install', 'puppet-telegraf')
+      on host, puppet('resource', 'package', 'toml-rb', 'ensure=installed', 'provider=puppet_gem')
       if fact('osfamily') == 'Debian'
         on host, puppet('module', 'install', 'puppetlabs-apt')
       end

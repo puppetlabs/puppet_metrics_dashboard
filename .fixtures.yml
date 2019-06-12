@@ -15,4 +15,7 @@ fixtures:
       yumrepo:
         repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
         ref: 1.0.2
+      telegraf:
+        repo: https://github.com/voxpupuli/puppet-telegraf.git
+        ref: v2.1.0
     forge_modules:
