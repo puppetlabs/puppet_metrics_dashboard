@@ -78,7 +78,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "global_message-persistence-time.FiveMinuteRate",
+              "measurement": "global_message-persistence-time.Mean",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -87,7 +87,7 @@
                 [
                   {
                     "params": [
-                      "FiveMinuteRate"
+                      "Mean"
                     ],
                     "type": "field"
                   },
@@ -109,7 +109,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Command Persistance Time",
+          "title": "Average Command Persistance Time",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -125,7 +125,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "ms",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -208,7 +208,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "PDBReadPool_pool_Usage.50thPercentile",
+              "measurement": "PDBReadPool_pool_Usage.Mean",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -217,7 +217,7 @@
                 [
                   {
                     "params": [
-                      "50thPercentile"
+                      "Mean"
                     ],
                     "type": "field"
                   },
@@ -239,7 +239,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Read Pool Usage",
+          "title": "Average Read Duration",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -255,7 +255,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "ms",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -326,7 +326,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "PDBReadPool_pool_Wait.FifteenMinuteRate",
+              "measurement": "PDBReadPool_pool_Wait.999thPercentile",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -335,7 +335,7 @@
                 [
                   {
                     "params": [
-                      "FifteenMinuteRate"
+                      "999thPercentile"
                     ],
                     "type": "field"
                   },
@@ -357,7 +357,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Read Pool Wait",
+          "title": "Peak Read Pool Wait",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -373,7 +373,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "ms",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -574,7 +574,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "PDBWritePool_pool_Usage.50thPercentile",
+              "measurement": "PDBWritePool_pool_Usage.Mean",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -583,7 +583,7 @@
                 [
                   {
                     "params": [
-                      "50thPercentile"
+                      "Mean"
                     ],
                     "type": "field"
                   },
@@ -605,7 +605,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Write Pool Usage",
+          "title": "Average Write Duration",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -621,7 +621,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "ms",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -692,7 +692,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "PDBWritePool_pool_Wait.FifteenMinuteRate",
+              "measurement": "PDBWritePool_pool_Wait.999thPercentile",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -701,7 +701,7 @@
                 [
                   {
                     "params": [
-                      "FifteenMinuteRate"
+                      "999thPercentile"
                     ],
                     "type": "field"
                   },
@@ -723,7 +723,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Write Pool Wait",
+          "title": "Peak Write Pool Wait",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -739,7 +739,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "ms",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -988,7 +988,7 @@
           "yaxes": [
             {
               "format": "short",
-              "label": null,
+              "label": "Discards per Second",
               "logBase": 1,
               "max": null,
               "min": null,
@@ -1106,7 +1106,7 @@
           "yaxes": [
             {
               "format": "short",
-              "label": null,
+              "label": "Fatalities per Second",
               "logBase": 1,
               "max": null,
               "min": null,

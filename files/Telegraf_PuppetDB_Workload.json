@@ -84,7 +84,7 @@
                 [
                   {
                     "params": [
-                      "FiveMinuteRate"
+                      "Mean"
                     ],
                     "type": "field"
                   },
@@ -106,7 +106,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Command Persistence Time",
+          "title": "Average Command Persistence Time",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -122,7 +122,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "ms",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -238,7 +238,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Read Pool Usage",
+          "title": "Average Read Duration",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -254,7 +254,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "ms",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -333,7 +333,7 @@
                 [
                   {
                     "params": [
-                      "Mean"
+                      "999thPercentile"
                     ],
                     "type": "field"
                   },
@@ -355,7 +355,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Read Pool Wait",
+          "title": "Peak Read Pool Wait",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -371,7 +371,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "ms",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -601,7 +601,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Write Pool Usage",
+          "title": "Average Write Duration",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -617,7 +617,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "ms",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -696,7 +696,7 @@
                 [
                   {
                     "params": [
-                      "Mean"
+                      "999thPercentile"
                     ],
                     "type": "field"
                   },
@@ -718,7 +718,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Write Pool Wait",
+          "title": "Peak Write Pool Wait",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -734,7 +734,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "ms",
               "label": null,
               "logBase": 1,
               "max": null,
