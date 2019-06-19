@@ -135,7 +135,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "wps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -223,7 +223,7 @@
             [
               {
                 "params": [
-                  "FiveMinuteRate"
+                  "95thPercentile"
                 ],
                 "type": "field"
               },
@@ -262,7 +262,7 @@
       "yaxes": [
         {
           "format": "ms",
-          "label": null,
+          "label": "95th Percentile",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -725,7 +725,7 @@
       "yaxes": [
         {
           "format": "ms",
-          "label": null,
+          "label": "95th Percentile",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -851,7 +851,7 @@
       "yaxes": [
         {
           "format": "ms",
-          "label": null,
+          "label": "95th Percentile",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -977,7 +977,7 @@
       "yaxes": [
         {
           "format": "ms",
-          "label": null,
+          "label": "95th Percentile",
           "logBase": 1,
           "max": null,
           "min": null,
