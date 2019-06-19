@@ -800,7 +800,7 @@
                   },
                   {
                     "params": [],
-                    "type": "mean"
+                    "type": "distinct"
                   }
                 ]
               ],
@@ -809,6 +809,12 @@
                   "key": "server",
                   "operator": "=~",
                   "value": "/^$server$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "name",
+                  "operator": "=~",
+                  "value": "/^compile$|^static_compile$/"
                 }
               ]
             }
