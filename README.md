@@ -13,13 +13,20 @@
 
 ## Description
 
-This module is used to configure grafana, telegraf, and influxdb to consume metrics from Puppet service.
+This module is used to configure grafana and influxdb to consume metrics from Puppet services.
+By default the metrics collection is done by another service called telegraf.
 
-You have the option of getting metrics from any or all of three of these methods:
+These services can all run on a single server by applying the base class.  You also have the option
+to use the [included defined types](#profile-defined-types) to configure telegraf on each of your Puppet infrastructure components
+(master,compilers, puppetdb, postgres server) and the metrics will be stored on another server
+running grafana and influxdb.  In environments where there is an existing grafana / influxdb
+instance, the later option probably makes the most sense.
 
+You have the option of collecting metrics using any or all of these methods:
+
+* Through telegraf, which polls several of Puppet's metrics endpoints (recommended)
 * Through Archive files from the [puppetlabs/puppet_metrics_collector](https://forge.puppet.com/puppetlabs/puppet_metrics_collector) module
 * Natively, via Puppetserver's [built-in graphite support](https://puppet.com/docs/pe/2019.0/getting_started_with_graphite.html#task-7933)
-* Through telegraf, which polls several of Puppet's metrics endpoints
 
 ## Setup
 
@@ -27,9 +34,8 @@ You have the option of getting metrics from any or all of three of these methods
 
 Previous versions of this module put several `[[inputs.httpjson]]` entries in
 `/etc/telegraf/telegraf.conf`. These entries should be removed now as all
-module-specific settings now reside in
-`/etc/telegraf/telegraf.d/puppet_metrics_dashboard.conf`. Telegraf will
-continue to work if you do not remove them, however, the old 
+module-specific settings now reside in individual files within
+`/etc/telegraf/telegraf.d/`. Telegraf will continue to work if you do not remove them, however, the old
 `[[inputs.httpjson]]` will not be updated going forward.
 
 
@@ -45,12 +51,11 @@ include puppet_metrics_dashboard
 
 ## Usage
 
-### To install example dashboards for all of the collection methods:
+### To install example dashboards and use the telegraf collection method (default):
 
 ```
 class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
-  influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
 }
 ```
 
@@ -59,7 +64,6 @@ class { 'puppet_metrics_dashboard':
 ```
 class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
-  influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
   overwrite_dashboards   => false,
 }
 ```
@@ -68,8 +72,6 @@ class { 'puppet_metrics_dashboard':
 
 ```
 class { 'puppet_metrics_dashboard':
-  configure_telegraf  => true,
-  enable_telegraf     => true,
   master_list         => ['master1.com',
                           # Alternate ports may be configured using
                           # a pair of: [hostname, port_number]
@@ -78,18 +80,6 @@ class { 'puppet_metrics_dashboard':
   postgres_host_list  => ['postgres01','postgres02'],
 }
 ```
-
-### Allow access to PE-managed postgres nodes with the following class:
-
-This is required for collection of postgres metrics.
-
-```
-class { 'puppet_metrics_dashboard::profile::postgres':
-  grafana_host => 'postgres01',
-}
-```
-
-`grafana_host` is optional.  If you do not specify it, the class will look for a node with the `puppet_metrics_dashboard` class applied in PuppetDB and use the `certname` of the first host returned.  If the PuppetDB lookup fails and you do not specify `grafana_host` then the class outputs a warning.
 
 ### Enable Graphite support
 
@@ -102,17 +92,15 @@ class { 'puppet_metrics_dashboard':
 }
 ```
 
-* This method requires enabling on the master side as described [here](https://puppet.com/docs/pe/2017.3/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support).  The hostname(s) that you use in `master_list` should match the value(s) that you used for `metrics_server_id` in the `puppet_enterprise::profile::master` class. 
+* This method requires enabling on the master side as described [here](https://puppet.com/docs/pe/2017.3/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support).  The hostname(s) that you use in `master_list` should match the value(s) that you used for `metrics_server_id` in the `puppet_enterprise::profile::master` class.
 
-### Enable Telegraf, Graphite, and Archive
+### Enable Telegraf, Graphite, and Archive (puppet_metrics)
 
 ```
 class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
   influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
   consume_graphite       => true,
-  configure_telegraf     => true,
-  enable_telegraf        => true,
 }
 ```
 
@@ -130,14 +118,63 @@ By default, this will create a set of certificates in `/etc/grafana` that are ba
 
 _Note:_ Enabling SSL on Grafana will not allow for running on privileged ports such as `443`. To enable this capability you can use the suggestions documented in [this Grafana documentation](http://docs.grafana.org/installation/configuration/#http-port)
 
+### Allow access to PE-managed postgres nodes with the following class:
+
+This is required for collection of postgres metrics.  The class should be applied to the master (or postgres server if using external postgres).
+
+```
+class { 'puppet_metrics_dashboard::profile::postgres':
+  grafana_host => 'grafana-server.example.com',
+}
+```
+
+`grafana_host` is optional.  If you do not specify it, the class will look for a node with the `puppet_metrics_dashboard` class applied in PuppetDB and use the `certname` of the first host returned.  If the PuppetDB lookup fails and you do not specify `grafana_host` then the class outputs a warning.
+
+### Profile defined types
+
+The module includes defined types that you can use with an existing grafana implementation.  For example:
+
+#### Add telegraf to a master / compiler
+
+```
+puppet_metrics_dashboard::profile::compiler{ $facts['networking']['fqdn']:
+  timeout => '5s',
+}
+```
+
+#### Add telegraf to a puppetdb node (see params.pp for `puppetdb_metrics` examples)
+
+```
+puppet_metrics_dashboard::profile::puppetdb{ $facts['networking']['fqdn']:
+  timeout => '5s',
+  puppetdb_metrics => [
+  { 'name' => 'global_command-parse-time',
+    'url'  => 'puppetlabs.puppetdb.mq:name=global.command-parse-time' },
+  { 'name' => 'global_discarded',
+    'url'  => 'puppetlabs.puppetdb.mq:name=global.discarded' },
+  ]
+}
+```
+
+#### Add telegraf to a postgres server
+
+```
+puppet_metrics_dashboard::profile::master::postgres{ $facts['networking']['fqdn']:
+  query_interval => '10m',
+}
+```
+
+#### Note on using defined the types
+
+Because of the way that the telegraf module works, these examples will overwrite any configuration in telegraf.config if it is *not* already puppet-managed.  See the [puppet-telegraf documentation](https://forge.puppet.com/puppet/telegraf#usage) on how to manage this file and add important settings.
+
 ### Other possibilities
 
-Configure the passwords for the InfluxDB and Grafana administrator users and enable additional [TICK Stack](https://www.influxdata.com/time-series-platform/) components.
+Configure the passwords for the InfluxDB and enable additional [TICK Stack](https://www.influxdata.com/time-series-platform/) components.
 
 ```
 class { 'puppet_metrics_dashboard':
   influx_db_password  => 'secret',
-  grafana_password    => 'secret',
   grafana_http_port   => 8080,
   grafana_version     => '4.5.2',
   enable_chronograf   => true,
@@ -147,7 +184,7 @@ class { 'puppet_metrics_dashboard':
 
 ## Reference
 
-**Note** This section is no longer maintained. Please see the REFERENCE.MD file for current listings. 
+**Note** This section is no longer maintained. Please see the REFERENCE.MD file for current listings.
 
 ## Limitations
 
@@ -159,7 +196,7 @@ Error: Execution of '/usr/bin/yum -d 0 -e 0 -y install telegraf' returned 1: Err
 Error: /Stage[main]/Pe_metrics_dashboard::Telegraf/Package[telegraf]/ensure: change from purged to present failed: Execution of '/usr/bin/yum -d 0 -e 0 -y install telegraf' returned 1: Error: Cannot retrieve repository metadata (repomd.xml) for repository: influxdb. Please verify its path and try again
 ```
 
-To recify the issue, please update `nss` and `curl` on the affected system.
+To rectify the issue, please update `nss` and `curl` on the affected system.
 
 ```
 yum install curl nss --disablerepo influxdb
