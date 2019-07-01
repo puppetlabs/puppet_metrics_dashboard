@@ -1,4 +1,4 @@
-# @summary Apply this class to an agent running puppetdb to collect puppetdb metrics
+# @summary Apply this class to a node running puppetdb to collect puppetdb metrics
 #
 # @param timeout
 #   Default timeout of http calls.  Defaults to 5 seconds

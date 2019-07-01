@@ -20,7 +20,8 @@ These services can all run on a single server by applying the base class.  You a
 to use the [included defined types](#profile-defined-types) to configure telegraf on each of your Puppet infrastructure components
 (master,compilers, puppetdb, postgres server) and the metrics will be stored on another server
 running grafana and influxdb.  In environments where there is an existing grafana / influxdb
-instance, the later option probably makes the most sense.
+instance, the later option is recommended. See [Determining where telegraf runs](#determining-where-telegraf-runs) for further
+details.
 
 You have the option of collecting metrics using any or all of these methods:
 
@@ -30,7 +31,13 @@ You have the option of collecting metrics using any or all of these methods:
 
 ## Setup
 
-### Upgrade note
+### Upgrade notes, breaking changes in v2
+
+The `puppet_metrics_dashboard::profile::postgres` class is now deprecated and you should use the `puppet_metrics_dashboard::profile::Master::postgres_access` class instead.
+
+Parameters `telegraf_agent_interval` and `http_response_timeout` were previously integers but are now strings.  The value should match a time interval, such as `5s`, `10m`, or `1h`.
+
+`influxdb_urls` was previously a string, it should now be an array.
 
 Previous versions of this module put several `[[inputs.httpjson]]` entries in
 `/etc/telegraf/telegraf.conf`. These entries should be removed now as all
@@ -38,6 +45,12 @@ module-specific settings now reside in individual files within
 `/etc/telegraf/telegraf.d/`. Telegraf will continue to work if you do not remove them, however, the old
 `[[inputs.httpjson]]` will not be updated going forward.
 
+### Determining where telegraf runs
+
+Telegraf can run on the grafana server or on each Puppet infrastructure node.  To configure telegraf to run on the same host that
+grafana runs on, use the `puppet_metrics_dashboard` class and the parameters: `master_list`, `puppetdb_list` and `postgres_host_list`.  These parameters determine which hosts that telegraf polls.
+
+To configure telegraf to run on each Puppet infrastructure node, use the corresponding profiles for those hosts.  See [Profile defined types](#profile-defined-types).  The `puppet_metrics_dashboard` class is still applied to a separate host to setup grafana and influxdb and the profile classes configure telegraf when applied to your Puppet infrastructure hosts.
 
 ### Beginning with puppet_metrics_dashboard
 
@@ -92,7 +105,7 @@ class { 'puppet_metrics_dashboard':
 }
 ```
 
-* This method requires enabling on the master side as described [here](https://puppet.com/docs/pe/2017.3/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support).  The hostname(s) that you use in `master_list` should match the value(s) that you used for `metrics_server_id` in the `puppet_enterprise::profile::master` class.
+* This method requires enabling on the master side as described [here](https://puppet.com/docs/pe/latest/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support).  The hostname(s) that you use in `master_list` should match the value(s) that you used for `metrics_server_id` in the `puppet_enterprise::profile::master` class.
 
 ### Enable Telegraf, Graphite, and Archive (puppet_metrics)
 
@@ -123,12 +136,12 @@ _Note:_ Enabling SSL on Grafana will not allow for running on privileged ports s
 This is required for collection of postgres metrics.  The class should be applied to the master (or postgres server if using external postgres).
 
 ```
-class { 'puppet_metrics_dashboard::profile::postgres':
-  grafana_host => 'grafana-server.example.com',
+class { 'puppet_metrics_dashboard::profile::master::postgres_access':
+  telegraf_host => 'grafana-server.example.com',
 }
 ```
 
-`grafana_host` is optional.  If you do not specify it, the class will look for a node with the `puppet_metrics_dashboard` class applied in PuppetDB and use the `certname` of the first host returned.  If the PuppetDB lookup fails and you do not specify `grafana_host` then the class outputs a warning.
+`telegraf_host` is optional.  If you do not specify it, the class will look for a node with the `puppet_metrics_dashboard` class applied in PuppetDB and use the `certname` of the first host returned.  If the PuppetDB lookup fails and you do not specify `telegraf_host` then the class outputs a warning.
 
 ### Profile defined types
 
@@ -164,7 +177,7 @@ puppet_metrics_dashboard::profile::master::postgres{ $facts['networking']['fqdn'
 }
 ```
 
-#### Note on using defined the types
+#### Note on using the defined types
 
 Because of the way that the telegraf module works, these examples will overwrite any configuration in telegraf.config if it is *not* already puppet-managed.  See the [puppet-telegraf documentation](https://forge.puppet.com/puppet/telegraf#usage) on how to manage this file and add important settings.
 

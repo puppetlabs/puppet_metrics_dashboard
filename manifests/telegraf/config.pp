@@ -20,12 +20,15 @@ class puppet_metrics_dashboard::telegraf::config {
           {
             'urls'              => $puppet_metrics_dashboard::influxdb_urls,
             'database'          => $puppet_metrics_dashboard::telegraf_db_name,
-            'retention_policy'  => '',
             'write_consistency' => 'any',
             'timeout'           => '5s',
           },
         ],
       },
+    }
+
+    file {'/etc/telegraf/telegraf.d/puppet_metrics_dashboard.conf':
+      ensure => absent,
     }
 
     # Transform the host lists into arrays of "hostname:port", using a

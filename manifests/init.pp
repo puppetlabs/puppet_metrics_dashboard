@@ -32,7 +32,7 @@
 # @param consume_graphite
 #   Whether to enable the InfluxDB Graphite plugin.
 #   Valid values are `true`, `false`. Defaults to `false`
-#   This parameter enables the Graphite plugin for InfluxDB to allow for injesting Graphite metrics. Ensure `influxdb_database_name` 
+#   This parameter enables the Graphite plugin for InfluxDB to allow for injesting Graphite metrics. Ensure `influxdb_database_name`
 #   contains `graphite` when using this parameter.
 #   _Note:_ If using Graphite metrics from the Puppet Master, this needs to be set to `true`.
 #
@@ -52,8 +52,8 @@
 # @param influxdb_database_name
 #   An array of databases that should be created in InfluxDB.
 #   Valid values are 'puppet_metrics','telegraf', 'graphite', and any other string. Defaults to `['puppet_metrics']`
-#   Each database in the array will be created in InfluxDB. 'puppet_metrics','telegraf', and 'graphite' are specially named and will 
-#   be used with their associated metric collection method. Any other database name will be created, but not utilized with 
+#   Each database in the array will be created in InfluxDB. 'puppet_metrics','telegraf', and 'graphite' are specially named and will
+#   be used with their associated metric collection method. Any other database name will be created, but not utilized with
 #   components in this module.
 #
 # @param influx_db_password
@@ -116,7 +116,7 @@
 #       integer that specifies the port number.
 #   Defaults to `[$trusted['certname']]`
 #
-# @param puppetdb_list
+# @param postgres_host_list
 #   A list of PostgreSQL servers that Telegraf will be configured to
 #   collect metrics from. Entries in the list may be:
 #     - A single string that contains a hostname or IP address.
