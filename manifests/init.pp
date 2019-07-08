@@ -32,7 +32,7 @@
 # @param consume_graphite
 #   Whether to enable the InfluxDB Graphite plugin.
 #   Valid values are `true`, `false`. Defaults to `false`
-#   This parameter enables the Graphite plugin for InfluxDB to allow for injesting Graphite metrics. Ensure `influxdb_database_name` 
+#   This parameter enables the Graphite plugin for InfluxDB to allow for injesting Graphite metrics. Ensure `influxdb_database_name`
 #   contains `graphite` when using this parameter.
 #   _Note:_ If using Graphite metrics from the Puppet Master, this needs to be set to `true`.
 #
@@ -52,8 +52,8 @@
 # @param influxdb_database_name
 #   An array of databases that should be created in InfluxDB.
 #   Valid values are 'puppet_metrics','telegraf', 'graphite', and any other string. Defaults to `['puppet_metrics']`
-#   Each database in the array will be created in InfluxDB. 'puppet_metrics','telegraf', and 'graphite' are specially named and will 
-#   be used with their associated metric collection method. Any other database name will be created, but not utilized with 
+#   Each database in the array will be created in InfluxDB. 'puppet_metrics','telegraf', and 'graphite' are specially named and will
+#   be used with their associated metric collection method. Any other database name will be created, but not utilized with
 #   components in this module.
 #
 # @param influx_db_password
@@ -86,16 +86,19 @@
 #   Defaults to `[$trusted['certname']]`
 #
 # @param influxdb_urls
-#   The string for telegraf's config defining where influxdb is
+#   An array for telegraf's config defining where influxdb instances are
 #
 # @param telegraf_db_name
 #   The database in influxdb where telefraf metrics are stored
 #
 # @param telegraf_agent_interval
-#   How often the telefraf agent queries for metrics
+#   How often the telefraf agent queries for metrics.  Defaults to "5s"
 #
 # @param http_response_timeout
-#   How long to wait for the queries by telegraf to finish before giving up
+#   How long to wait for the queries by telegraf to finish before giving up. Defaults to "5s"
+#
+# @param pg_query_interval
+#   How often postgres queries will run when monitoring a postgres host. Defaults to "10m"
 #
 # @param overwrite_dashboards
 #   Whether to overwrite the example Grafana dashboards.
@@ -113,7 +116,7 @@
 #       integer that specifies the port number.
 #   Defaults to `[$trusted['certname']]`
 #
-# @param puppetdb_list
+# @param postgres_host_list
 #   A list of PostgreSQL servers that Telegraf will be configured to
 #   collect metrics from. Entries in the list may be:
 #     - A single string that contains a hostname or IP address.
@@ -203,13 +206,15 @@ class puppet_metrics_dashboard (
   Boolean $enable_telegraf                =  $puppet_metrics_dashboard::params::enable_telegraf,
   Boolean $configure_telegraf             =  $puppet_metrics_dashboard::params::configure_telegraf,
   Boolean $consume_graphite               =  $puppet_metrics_dashboard::params::consume_graphite,
-  Puppet_metrics_dashboard::HostList $master_list        = $puppet_metrics_dashboard::params::master_list,
-  Puppet_metrics_dashboard::HostList $puppetdb_list      = $puppet_metrics_dashboard::params::puppetdb_list,
-  Puppet_metrics_dashboard::HostList $postgres_host_list = $puppet_metrics_dashboard::params::postgres_host_list,
-  String $influxdb_urls                   =  $puppet_metrics_dashboard::params::influxdb_urls,
+  Puppet_metrics_dashboard::HostList $master_list             = $puppet_metrics_dashboard::params::master_list,
+  Puppet_metrics_dashboard::HostList $puppetdb_list           = $puppet_metrics_dashboard::params::puppetdb_list,
+  Puppet_metrics_dashboard::HostList $postgres_host_list      = $puppet_metrics_dashboard::params::postgres_host_list,
+  Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = $puppet_metrics_dashboard::params::puppetdb_metrics,
+  Array[String] $influxdb_urls            =  $puppet_metrics_dashboard::params::influxdb_urls,
   String $telegraf_db_name                =  $puppet_metrics_dashboard::params::telegraf_db_name,
-  Integer[1] $telegraf_agent_interval     =  $puppet_metrics_dashboard::params::telegraf_agent_interval,
-  Integer[1] $http_response_timeout       =  $puppet_metrics_dashboard::params::http_response_timeout,
+  String[2] $telegraf_agent_interval     =  $puppet_metrics_dashboard::params::telegraf_agent_interval,
+  String[2] $http_response_timeout       =  $puppet_metrics_dashboard::params::http_response_timeout,
+  String[2] $pg_query_interval           =  $puppet_metrics_dashboard::params::pg_query_interval,
   ) inherits puppet_metrics_dashboard::params {
   if $manage_repos {
     contain puppet_metrics_dashboard::repos

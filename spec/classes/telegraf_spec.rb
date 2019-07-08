@@ -18,7 +18,6 @@ describe 'puppet_metrics_dashboard::telegraf' do
           PRE_COND
         end
 
-        it { is_expected.to contain_class('puppet_metrics_dashboard::telegraf::install') }
         it { is_expected.to contain_class('puppet_metrics_dashboard::telegraf::config') }
         it { is_expected.to contain_class('puppet_metrics_dashboard::telegraf::service') }
       end
@@ -33,7 +32,6 @@ describe 'puppet_metrics_dashboard::telegraf' do
           PRE_COND
         end
 
-        it { is_expected.not_to contain_class('puppet_metrics_dashboard::telegraf::install') }
         it { is_expected.not_to contain_class('puppet_metrics_dashboard::telegraf::config') }
         it { is_expected.not_to contain_class('puppet_metrics_dashboard::telegraf::service') }
       end

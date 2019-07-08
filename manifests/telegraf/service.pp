@@ -8,7 +8,6 @@ class puppet_metrics_dashboard::telegraf::service {
     ensure  => running,
     enable  => true,
     require => [
-      Package['telegraf'],
       Service[$puppet_metrics_dashboard::influx_db_service_name]],
   }
 }
