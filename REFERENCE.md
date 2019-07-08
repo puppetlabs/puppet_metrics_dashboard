@@ -23,7 +23,6 @@
 * `puppet_metrics_dashboard::service`: Manages services
 * `puppet_metrics_dashboard::telegraf`: Install and configure Telegraf
 * `puppet_metrics_dashboard::telegraf::config`: Configures Telegraf
-* `puppet_metrics_dashboard::telegraf::install`: Installs Telegraf
 * `puppet_metrics_dashboard::telegraf::service`: Manages the Telegraf service
 
 ## Defined types

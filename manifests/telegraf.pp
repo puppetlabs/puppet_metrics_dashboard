@@ -11,12 +11,10 @@ class puppet_metrics_dashboard::telegraf {
   }
 
   if $_enable_telegraf {
-    contain puppet_metrics_dashboard::telegraf::install
     contain puppet_metrics_dashboard::telegraf::config
     contain puppet_metrics_dashboard::telegraf::service
 
-    Class['puppet_metrics_dashboard::telegraf::install']
-    -> Class['puppet_metrics_dashboard::telegraf::config']
+    Class['puppet_metrics_dashboard::telegraf::config']
     -> Class['puppet_metrics_dashboard::telegraf::service']
   }
 }
