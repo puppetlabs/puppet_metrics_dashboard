@@ -1,4 +1,4 @@
-# @summary Aplly this class to an agent running pe-postgresql to collect postgres metrics
+# @summary Apply this class to an agent running pe-postgresql to collect postgres metrics
 #
 # @param query_interval
 #   How often to run the queries in minutes.  Defaults to 10 minutes.

@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-puppet_metrics_dashboard",
-  "version": "1.1.5",
+  "version": "2.0.0",
   "author": "puppetlabs",
   "summary": "A module for managing the installation and configuration of metrics dashboards for Puppet Infrastructure.",
   "license": "Apache-2.0",
@@ -18,7 +18,7 @@
     },
     {
       "name": "puppetlabs-apt",
-      "version_requirement": ">= 4.3.0 < 7.0.0"
+      "version_requirement": ">= 4.3.0 < 7.0.1"
     },
     {
       "name": "puppet-grafana",
@@ -58,7 +58,7 @@
       "version_requirement": ">= 4.7.0 < 7.0.0"
     }
   ],
-  "pdk-version": "1.10.0",
-  "template-url": "https://github.com/puppetlabs/pdk-templates#1.10.0",
-  "template-ref": "1.10.0-0-gbba9ac3"
+  "pdk-version": "1.11.1",
+  "template-url": "pdk-default#1.11.1",
+  "template-ref": "1.11.1-0-g2ff8c24"
 }

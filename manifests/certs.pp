@@ -1,3 +1,12 @@
+# @summary This class creates a certificates for Grafana and for connecting to PE Postgres.
+#
+# This class creates a set of certificates in /etc/${service}. These certificates
+# are used when configuring Grafana to use SSL and to connect to PE Postgres.
+# The certificates are based on the agent's own Puppet certificates.
+#
+# @param service
+#   The service name associated with these certificates.
+#
 define puppet_metrics_dashboard::certs(
   $service = $name
 ){

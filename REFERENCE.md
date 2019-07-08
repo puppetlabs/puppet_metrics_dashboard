@@ -27,9 +27,9 @@
 
 ## Defined types
 
-* [`puppet_metrics_dashboard::certs`](#puppet_metrics_dashboardcerts): 
+* [`puppet_metrics_dashboard::certs`](#puppet_metrics_dashboardcerts): This class creates a certificates for Grafana and for connecting to PE Postgres.
 * [`puppet_metrics_dashboard::profile::compiler`](#puppet_metrics_dashboardprofilecompiler): Apply this class to a master or compiler to collect puppetserver metrics
-* [`puppet_metrics_dashboard::profile::master::postgres`](#puppet_metrics_dashboardprofilemasterpostgres): Aplly this class to an agent running pe-postgresql to collect postgres metrics
+* [`puppet_metrics_dashboard::profile::master::postgres`](#puppet_metrics_dashboardprofilemasterpostgres): Apply this class to an agent running pe-postgresql to collect postgres metrics
 * [`puppet_metrics_dashboard::profile::puppetdb`](#puppet_metrics_dashboardprofilepuppetdb): Apply this class to a node running puppetdb to collect puppetdb metrics
 
 ## Functions
@@ -389,7 +389,9 @@ Default value: ''
 
 ### puppet_metrics_dashboard::certs
 
-The puppet_metrics_dashboard::certs class.
+This class creates a set of certificates in /etc/${service}. These certificates
+are used when configuring Grafana to use SSL and to connect to PE Postgres.
+The certificates are based on the agent's own Puppet certificates.
 
 #### Parameters
 
@@ -399,7 +401,7 @@ The following parameters are available in the `puppet_metrics_dashboard::certs` 
 
 Data type: `Any`
 
-
+The service name associated with these certificates.
 
 Default value: $name
 
@@ -425,7 +427,7 @@ The following parameters are available in the `puppet_metrics_dashboard::profile
 
 Data type: `String[2]`
 
-Deafault timeout of http calls.  Defaults to 5 seconds
+Default timeout of http calls.  Defaults to 5 seconds
 
 Default value: lookup('puppet_metrics_dashboard::http_response_timeout')
 
@@ -455,7 +457,7 @@ Default value: '5s'
 
 ### puppet_metrics_dashboard::profile::master::postgres
 
-Aplly this class to an agent running pe-postgresql to collect postgres metrics
+Apply this class to an agent running pe-postgresql to collect postgres metrics
 
 #### Examples
 
