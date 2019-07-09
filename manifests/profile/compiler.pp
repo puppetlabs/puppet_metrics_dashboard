@@ -11,8 +11,14 @@
 #
 # @param interval
 #   The frequency that telegraf will poll for metrics.  Defaults to '5s'
+#
+# @example Add telegraf to a master / compiler
+#   puppet_metrics_dashboard::profile::compiler{ $facts['networking']['fqdn']:
+#     timeout => '5s',
+#   }
+#
 define puppet_metrics_dashboard::profile::compiler (
-  String[2] $timeout                               = $puppet_metrics_dashboard::params::http_response_timeout,
+  String[2] $timeout                               = lookup('puppet_metrics_dashboard::http_response_timeout'),
   Variant[String,Tuple[String, Integer]] $compiler = $facts['networking']['fqdn'],
   Integer[1] $port                                 = 8140,
   String[2] $interval                              = '5s',

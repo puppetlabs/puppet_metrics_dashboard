@@ -85,6 +85,10 @@
 #       integer that specifies the port number.
 #   Defaults to `[$trusted['certname']]`
 #
+# @param puppetdb_metrics
+#   An array of hashes containing name / url pairs for each puppetdb metric.
+#   See functions/puppetdb_metrics.pp for defaults.
+#
 # @param influxdb_urls
 #   An array for telegraf's config defining where influxdb instances are
 #
@@ -188,34 +192,38 @@
 #   }
 #
 class puppet_metrics_dashboard (
-  Boolean $add_dashboard_examples         =  $puppet_metrics_dashboard::params::add_dashboard_examples,
-  Boolean $manage_repos                   =  $puppet_metrics_dashboard::params::manage_repos,
-  Boolean $use_dashboard_ssl              =  $puppet_metrics_dashboard::params::use_dashboard_ssl,
-  String $dashboard_cert_file             =  $puppet_metrics_dashboard::params::dashboard_cert_file,
-  String $dashboard_cert_key              =  $puppet_metrics_dashboard::params::dashboard_cert_key,
-  Boolean $overwrite_dashboards           =  $puppet_metrics_dashboard::params::overwrite_dashboards,
-  String $overwrite_dashboards_file       =  $puppet_metrics_dashboard::params::overwrite_dashboards_file,
-  String $influx_db_service_name          =  $puppet_metrics_dashboard::params::influx_db_service_name,
-  Array[String] $influxdb_database_name   =  $puppet_metrics_dashboard::params::influxdb_database_name,
-  String $grafana_version                 =  $puppet_metrics_dashboard::params::grafana_version,
-  Integer $grafana_http_port              =  $puppet_metrics_dashboard::params::grafana_http_port,
-  String $influx_db_password              =  $puppet_metrics_dashboard::params::influx_db_password,
-  String $grafana_password                =  $puppet_metrics_dashboard::params::grafana_password,
-  Boolean $enable_kapacitor               =  $puppet_metrics_dashboard::params::enable_kapacitor,
-  Boolean $enable_chronograf              =  $puppet_metrics_dashboard::params::enable_chronograf,
-  Boolean $enable_telegraf                =  $puppet_metrics_dashboard::params::enable_telegraf,
-  Boolean $configure_telegraf             =  $puppet_metrics_dashboard::params::configure_telegraf,
-  Boolean $consume_graphite               =  $puppet_metrics_dashboard::params::consume_graphite,
-  Puppet_metrics_dashboard::HostList $master_list             = $puppet_metrics_dashboard::params::master_list,
-  Puppet_metrics_dashboard::HostList $puppetdb_list           = $puppet_metrics_dashboard::params::puppetdb_list,
-  Puppet_metrics_dashboard::HostList $postgres_host_list      = $puppet_metrics_dashboard::params::postgres_host_list,
-  Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = $puppet_metrics_dashboard::params::puppetdb_metrics,
-  Array[String] $influxdb_urls            =  $puppet_metrics_dashboard::params::influxdb_urls,
-  String $telegraf_db_name                =  $puppet_metrics_dashboard::params::telegraf_db_name,
-  String[2] $telegraf_agent_interval     =  $puppet_metrics_dashboard::params::telegraf_agent_interval,
-  String[2] $http_response_timeout       =  $puppet_metrics_dashboard::params::http_response_timeout,
-  String[2] $pg_query_interval           =  $puppet_metrics_dashboard::params::pg_query_interval,
-  ) inherits puppet_metrics_dashboard::params {
+  Boolean $add_dashboard_examples,
+  Boolean $manage_repos,
+  Boolean $use_dashboard_ssl,
+  String $dashboard_cert_file,
+  String $dashboard_cert_key,
+  Boolean $overwrite_dashboards,
+  String $overwrite_dashboards_file,
+  String $influx_db_service_name,
+  Array[String] $influxdb_database_name,
+  String $grafana_version,
+  Integer $grafana_http_port,
+  String $influx_db_password,
+  String $grafana_password,
+  Boolean $enable_kapacitor,
+  Boolean $enable_chronograf,
+  Boolean $enable_telegraf,
+  Boolean $configure_telegraf,
+  Boolean $consume_graphite,
+  Puppet_metrics_dashboard::HostList $master_list,
+  Puppet_metrics_dashboard::HostList $puppetdb_list,
+  Puppet_metrics_dashboard::HostList $postgres_host_list,
+  Array[String] $influxdb_urls,
+  String $telegraf_db_name,
+  String[2] $telegraf_agent_interval,
+  String[2] $http_response_timeout,
+  String[2] $pg_query_interval,
+  Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = puppet_metrics_dashboard::puppetdb_metrics(),
+  ) {
+  unless $facts['os']['family'] =~ /^(RedHat|Debian)$/ {
+    fail("${facts['os']['family']} installation not supported")
+  }
+
   if $manage_repos {
     contain puppet_metrics_dashboard::repos
     Class['puppet_metrics_dashboard::repos']

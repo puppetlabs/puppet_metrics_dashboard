@@ -22,7 +22,6 @@ describe 'puppet_metrics_dashboard' do
 
       context 'with default values for all parameters' do
         it { is_expected.to contain_class('puppet_metrics_dashboard') }
-        it { is_expected.to contain_class('puppet_metrics_dashboard::params') }
         it { is_expected.to contain_class('puppet_metrics_dashboard::repos') }
         it { is_expected.to contain_class('puppet_metrics_dashboard::install') }
         it { is_expected.to contain_class('puppet_metrics_dashboard::config') }
