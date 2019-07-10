@@ -4,7 +4,8 @@
 #   Default timeout of http calls.  Defaults to 5 seconds
 #
 # @param puppetdb_metrics
-#   An array of hashes containing name / url pairs for each puppetdb metric.  See params.pp for defaults.
+#   An array of hashes containing name / url pairs for each puppetdb metric.
+#   See functions/puppetdb_metrics.pp for defaults.
 #
 # @param puppetdb_host
 #   The FQDN of the puppetdb host.  Defaults to the FQDN of the server where the profile is applied.
@@ -14,10 +15,17 @@
 #
 # @param interval
 #   The frequency that telegraf will poll for metrics.  Defaults to '5s'
+#
+# @example Add telegraf to a puppetdb node
+#   puppet_metrics_dashboard::profile::puppetdb{ $facts['networking']['fqdn']:
+#     timeout          => '5s',
+#     puppetdb_metrics => puppet_metrics_dashboard::puppetdb_metrics(), # this is the default value
+#   }
+#
 define puppet_metrics_dashboard::profile::puppetdb (
-  String[2] $timeout                                          = $puppet_metrics_dashboard::params::http_response_timeout,
+  String[2] $timeout                                          = lookup('puppet_metrics_dashboard::http_response_timeout'),
   Variant[String,Tuple[String, Integer]] $puppetdb_host       = $facts['networking']['fqdn'],
-  Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = $puppet_metrics_dashboard::params::puppetdb_metrics,
+  Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = puppet_metrics_dashboard::puppetdb_metrics(),
   Integer[1] $port                                            = 8081,
   String[2] $interval                                         = '5s',
   ){

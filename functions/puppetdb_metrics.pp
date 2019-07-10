@@ -1,40 +1,13 @@
-# @summary Default parameters for the installation
+# @summary function used to determine the set of needed PuppetDB metrics based on PE version
 #
-# Default parameters for the installation
+# The list of metrics to pull from PuppetDB depends on the PE version. To avoid
+# having a data file for each version we utilize this function to build the
+# needed array of hashes.
 #
-# @api private
-class puppet_metrics_dashboard::params {
-
-  # Default Installation parameters
-  $add_dashboard_examples  =  false
-  $manage_repos            =  true
-  $overwrite_dashboards    =  true
-  $use_dashboard_ssl       =  false
-  $dashboard_cert_file     = "/etc/grafana/${clientcert}_cert.pem"
-  $dashboard_cert_key      = "/etc/grafana/${clientcert}_key.pem"
-  $influxdb_database_name  =  ['telegraf']
-  $grafana_version         =  '5.1.4'
-  $grafana_http_port       =  3000
-  $influx_db_password      =  'puppet'
-  $grafana_password        =  'admin'
-  $consume_graphite        =  false
-  # Influxdb TICK stack
-  $enable_telegraf         =  true
-  $enable_kapacitor        =  false
-  $enable_chronograf       =  false
-  # telegraf config
-  $configure_telegraf      =  true
-  $master_list             =  [$trusted['certname']]
-  $puppetdb_list           =  [$trusted['certname']]
-  $postgres_host_list      =  [$trusted['certname']]
-  $influxdb_urls           =  ['http://localhost:8086']
-  $telegraf_db_name        =  'telegraf'
-  $telegraf_agent_interval = '5s'
-  $http_response_timeout   = '5s' # this is the default value for the HTTP JSON Input
-  $pg_query_interval       = '10m'
-
-  $overwrite_dashboards_file = '/opt/puppetlabs/puppet/cache/state/overwrite_dashboards_disabled'
-
+# @return [Array[Hash]]
+#   An array of hashes containing name / url pairs for each puppetdb metric.
+#
+function puppet_metrics_dashboard::puppetdb_metrics() >> Array[Hash] {
   $activemq_metrics = [
     { 'name' => 'amq_metrics',
       'url'  => 'org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=puppetlabs.puppetdb.commands' },
@@ -103,16 +76,6 @@ class puppet_metrics_dashboard::params {
       'url'  => 'puppetlabs.puppetdb.storage:name=resource-hashes' },
     { 'name' => 'storage_store-report-time',
       'url'  => 'puppetlabs.puppetdb.storage:name=store-report-time' },
-  ]
-
-  #TODO: Track these on a less frequent cadence because they are slow to run
-  $storage_metrics_db_queries = [
-    { 'name' => 'storage_catalog-volitilty',
-      'url'  => 'puppetlabs.puppetdb.storage:name=catalog-volitilty' },
-    { 'name' => 'storage_duplicate-catalogs',
-      'url'  => 'puppetlabs.puppetdb.storage:name=duplicate-catalogs' },
-    { 'name' => 'storage_duplicate-pct',
-      'url'  => 'puppetlabs.puppetdb.storage:name=duplicate-pct' },
   ]
 
   $numbers = $facts['pe_server_version'] ? {
@@ -188,7 +151,7 @@ class puppet_metrics_dashboard::params {
   ]
 
   # lint:ignore:140chars
-  $puppetdb_metrics = $facts['pe_server_version'] ? {
+  $returned_value = $facts['pe_server_version'] ? {
     /^2015./ =>
       $activemq_metrics,
     /^2016\.[45]\./ =>
@@ -201,17 +164,4 @@ class puppet_metrics_dashboard::params {
       $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
   }
   # lint:endignore
-
-  case $facts['os']['family'] {
-    'RedHat': {
-      $influx_db_service_name = 'influxdb'
-    }
-    'Debian': {
-      $influx_db_service_name = 'influxd'
-    }
-    default: {
-      fail("${facts['os']['family']} installation not supported")
-    }
-  }
-
 }

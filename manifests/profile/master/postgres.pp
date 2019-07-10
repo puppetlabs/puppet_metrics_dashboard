@@ -8,9 +8,15 @@
 #
 # @param port
 #   The port that the postgres service listens on.  Defaults to 5432
+#
+# @example Add telegraf to a postgres server
+#   puppet_metrics_dashboard::profile::master::postgres{ $facts['networking']['fqdn']:
+#     query_interval => '10m',
+#   }
+#
 define puppet_metrics_dashboard::profile::master::postgres (
   Variant[String,Tuple[String, Integer]] $postgres_host = $facts['networking']['fqdn'],
-  String[2] $query_interval                             = $puppet_metrics_dashboard::params::pg_query_interval,
+  String[2] $query_interval                             = lookup('puppet_metrics_dashboard::pg_query_interval'),
   Integer[1] $port                                      = 5432,
   ){
 
