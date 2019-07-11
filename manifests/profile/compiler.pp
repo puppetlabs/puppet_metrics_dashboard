@@ -1,7 +1,7 @@
 # @summary Apply this class to a master or compiler to collect puppetserver metrics
 #
 # @param timeout
-#   Deafault timeout of http calls.  Defaults to 5 seconds
+#   Default timeout of http calls.  Defaults to 5 seconds
 #
 # @param compiler
 #   The FQDN of the compiler / master.  Defaults to the FQDN of the server where the profile is applied
