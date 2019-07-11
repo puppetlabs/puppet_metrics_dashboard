@@ -4,6 +4,7 @@
 - [Setup](#Setup)
   - [Upgrade notes, breaking changes in v2](#Upgrade-notes-breaking-changes-in-v2)
   - [Determining where Telegraf runs](#Determining-where-Telegraf-runs)
+  - [Requirements](#requirements)
   - [Beginning with puppet_metrics_dashboard](#Beginning-with-puppet_metrics_dashboard)
     - [Minimal configuration](#Minimal-configuration)
 - [Usage](#Usage)
@@ -44,6 +45,8 @@ You have the option of collecting metrics using any or all of these methods:
 
 ### Upgrade notes, breaking changes in v2
 
+Version 2 and up now requires the toml-rb gem installed on the master
+
 The `puppet_metrics_dashboard::profile::postgres` class is now deprecated and you should use the `puppet_metrics_dashboard::profile::Master::postgres_access` class instead.
 
 Parameters `telegraf_agent_interval` and `http_response_timeout` were previously integers but are now strings.  The value should match a time interval, such as `5s`, `10m`, or `1h`.
@@ -62,6 +65,18 @@ Telegraf can run on the Grafana server or on each Puppet infrastructure node.  T
 Grafana runs on, use the `puppet_metrics_dashboard` class and the parameters: `master_list`, `puppetdb_list` and `postgres_host_list`.  These parameters determine which hosts that Telegraf polls.
 
 To configure Telegraf to run on each Puppet infrastructure node, use the corresponding profiles for those hosts.  See [Profile defined types](#profile-defined-types).  The `puppet_metrics_dashboard` class is still applied to a separate host to setup Grafana and InfluxDB and the profile classes configure Telegraf when applied to your Puppet infrastructure hosts.
+
+### Requirements
+
+This module **requires** the [toml-rb](https://github.com/eMancu/toml-rb) gem.  You can install the gem using puppet's native gem provider, [puppetserver_gem](https://forge.puppetlabs.com/puppetlabs/puppetserver_gem), [pe_gem](https://forge.puppetlabs.com/puppetlabs/pe_gem), [pe_puppetserver_gem](https://forge.puppetlabs.com/puppetlabs/pe_puppetserver_gem), or manually using one of the following methods:
+```
+  # apply on puppet-master
+  gem install toml-rb
+  # PE apply
+  /opt/puppetlabs/puppet/bin/gem install toml-rb
+  # AIO or PE puppetserver
+  /opt/puppet/bin/puppetserver gem install toml-rb
+```
 
 ### Beginning with puppet_metrics_dashboard
 
