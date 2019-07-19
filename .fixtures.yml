@@ -1,21 +1,10 @@
 fixtures:
-    repositories:
-      stdlib:
-        repo: https://github.com/puppetlabs/puppetlabs-stdlib.git
-        ref: 4.25.1
-      apt:
-        repo: https://github.com/puppetlabs/puppetlabs-apt.git
-        ref: 4.3.0
-      inifile:
-        repo: https://github.com/puppetlabs/puppetlabs-inifile.git
-        ref: 2.4.0
-      grafana:
-        repo: https://github.com/voxpupuli/puppet-grafana.git
-        ref: v4.5.0
-      yumrepo:
-        repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
-        ref: 1.0.2
-      telegraf:
-        repo: https://github.com/voxpupuli/puppet-telegraf.git
-        ref: v2.1.0
-    forge_modules:
+  repositories:
+    stdlib: https://github.com/puppetlabs/puppetlabs-stdlib.git
+    apt: https://github.com/puppetlabs/puppetlabs-apt.git
+    inifile: https://github.com/puppetlabs/puppetlabs-inifile.git
+    grafana: https://github.com/voxpupuli/puppet-grafana.git
+    yumrepo:
+      repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
+      puppet_version: ">= 6.0.0"
+    telegraf: https://github.com/voxpupuli/puppet-telegraf.git
