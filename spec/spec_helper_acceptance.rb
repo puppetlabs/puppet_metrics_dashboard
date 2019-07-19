@@ -1,38 +1,9 @@
-require 'puppet'
-require 'beaker-rspec'
-require 'beaker-puppet'
-require 'beaker-pe'
-require 'beaker/puppet_install_helper'
-require 'beaker/module_install_helper'
+# frozen_string_literal: true
 
-run_puppet_install_helper
-install_ca_certs unless ENV['PUPPET_INSTALL_TYPE'] =~ %r{pe}i
-install_module_on(hosts)
-# install_module_dependencies_on(hosts)
+require 'puppetlabs_spec_helper/module_spec_helper'
+require 'serverspec'
+require 'puppet_litmus'
+require 'spec_helper_acceptance_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_acceptance_local.rb'))
+include PuppetLitmus
 
-UNSUPPORTED_PLATFORMS = ['Windows', 'Solaris', 'AIX'].freeze
-
-RSpec.configure do |c|
-  # Readable test descriptions
-  c.formatter = :documentation
-
-  # Configure all nodes in nodeset
-  c.before :suite do
-    hosts.each do |host|
-      # Required for binding tests.
-      if fact('osfamily') == 'RedHat'
-        if fact('operatingsystemmajrelease') =~ %r{7} || fact('operatingsystem') =~ %r{Fedora}
-          shell('yum install -y bzip2')
-        end
-      end
-
-      on host, puppet('module', 'install', 'puppet-grafana')
-      on host, puppet('module', 'install', 'puppetlabs-inifile')
-      on host, puppet('module', 'install', 'puppet-telegraf')
-      on host, puppet('resource', 'package', 'toml-rb', 'ensure=installed', 'provider=puppet_gem')
-      if fact('osfamily') == 'Debian'
-        on host, puppet('module', 'install', 'puppetlabs-apt')
-      end
-    end
-  end
-end
+PuppetLitmus.configure!

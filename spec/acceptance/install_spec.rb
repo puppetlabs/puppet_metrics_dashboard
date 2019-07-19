@@ -9,13 +9,14 @@ describe 'puppet_metrics_dashboard::install class' do
             influxdb_database_name => ['puppet_metrics'],
             configure_telegraf => false,
             enable_telegraf => false,
-            add_dashboard_examples => true,
+            add_dashboard_examples => false,
         }
         MANIFEST
 
       # Run it twice and test for idempotency
       expect(apply_manifest(pp).exit_code).not_to eq(1)
-      expect(apply_manifest(pp).exit_code).to eq(0)
+      expect(apply_manifest(pp).exit_code).not_to eq(1)
+      idempotent_apply(pp)
     end
     describe port('3000') do
       it { is_expected.to be_listening }
@@ -32,10 +33,7 @@ describe 'puppet_metrics_dashboard::install class' do
           curl -i -X POST 'http://127.0.0.1:8086/write?db=puppet_metrics&precision=s&u=admin&p=puppetlabs' \
           --data-binary 'puppetserver.jruby-metrics.num-free-jrubies,server=127-0-0-1 num-free-jrubies=1 1523993402'
           QUERY
-        shell(curlquery.to_s) do |r|
-          expect(r.exit_code).to eq(0)
-          expect(r.stdout).to match(%r{HTTP/1.1 20?.*})
-        end
+        expect(run_shell(curlquery.to_s).stdout).to match(%r{HTTP/1.1 20?.*})
       end
 
       it 'influxdb answers data queries' do
@@ -43,20 +41,14 @@ describe 'puppet_metrics_dashboard::install class' do
           curl -i -X POST 'http://127.0.0.1:8086/query?db=puppet_metrics&u=admin&p=puppetlabs' \
           --data-urlencode 'q=SELECT * FROM "puppetserver.jruby-metrics.num-free-jrubies"'
           QUERY
-        shell(curlquery.to_s) do |r|
-          expect(r.exit_code).to eq(0)
-          expect(r.stdout).to match(%r{puppetserver.jruby-metrics.num-free-jrubies})
-        end
+        expect(run_shell(curlquery.to_s).stdout).to match(%r{num-free-jrubies})
       end
 
       it 'grafana has a data source' do
         curlquery = <<-QUERY
           curl -G http://admin:admin@127.0.0.1:3000/api/datasources/name/influxdb_puppet_metrics
           QUERY
-        shell(curlquery.to_s) do |r|
-          expect(r.exit_code).to eq(0)
-          expect(r.stdout).to match(%r{influxdb_puppet_metrics})
-        end
+        expect(run_shell(curlquery.to_s).stdout).to match(%r{influxdb_puppet_metrics})
       end
     end
   end

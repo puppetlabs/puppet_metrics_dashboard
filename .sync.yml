@@ -7,35 +7,14 @@ appveyor.yml:
   delete: true
 
 .travis.yml:
-  dist: 'xenial'
-  bundler_args: -----without system_tests
-  docker_sets:
-    - set: docker/centos-7
-      options:
-    - set: docker/ubuntu-16.04
-      options:
   branches:
     - /.*/
+  use_litmus: true
 
 Gemfile:
   required:
     ':development':
-      - gem: 'puppet-strings'
-        version: '~> 2.0.0'
       - gem: 'toml-rb'
-    ':system_tests':
-      - gem: 'puppet-module-posix-system-r#{minor_version}'
-        platforms: ruby
-      - gem: beaker
-        version: '~> 4'
-      - gem: beaker-puppet
-        version: '~> 1.0'
-      - gem: beaker-abs
-        version: '~> 0.1'
-      - gem: beaker-pe
-      - gem: beaker-rspec
-      - gem: beaker-docker
-      - gem: beaker-vagrant
 
 spec/spec_helper.rb:
   mock_with: ':rspec'
