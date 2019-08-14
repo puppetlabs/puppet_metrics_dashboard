@@ -23,14 +23,14 @@ define puppet_metrics_dashboard::certs(
   }
 
   file { "${cert_dir}/${clientcert}_key.pem":
-    source => $client_pem_key,
+    source => "file://${client_pem_key}",
   }
 
   file { "${cert_dir}/${clientcert}_cert.pem":
-    source => $client_cert,
+    source => "file://${client_cert}",
   }
 
   file { "${cert_dir}/ca.pem":
-    source => "${ssl_dir}/certs/ca.pem",
+    source => "file://${ssl_dir}/certs/ca.pem",
   }
 }
