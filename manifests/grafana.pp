@@ -30,11 +30,18 @@ class puppet_metrics_dashboard::grafana {
     }
   }
 
+  $_grafana_cfg = $grafana_cfg.merge({
+    'security' => {
+      'admin_user'     => 'admin',
+      'admin_password' => $puppet_metrics_dashboard::grafana_password,
+    }
+  })
+
   class { 'grafana':
     install_method      => 'repo',
     manage_package_repo => false,
     version             => $puppet_metrics_dashboard::grafana_version,
-    cfg                 => $grafana_cfg,
+    cfg                 => $_grafana_cfg,
     require             => Service[$puppet_metrics_dashboard::influx_db_service_name],
   }
 }
