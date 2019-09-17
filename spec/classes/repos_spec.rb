@@ -54,7 +54,7 @@ describe 'puppet_metrics_dashboard::repos' do
             is_expected.to contain_apt__source('influxdb')
               .with(
                 'location' => 'https://repos.influxdata.com/debian',
-                'release' => 'jessie',
+                'release' => facts[:os]['distro']['codename'],
                 'repos' => 'stable',
               )
           end
@@ -72,7 +72,7 @@ describe 'puppet_metrics_dashboard::repos' do
             is_expected.to contain_apt__source('influxdb')
               .with(
                 'location' => 'https://repos.influxdata.com/ubuntu',
-                'release' => 'xenial',
+                'release' => facts[:os]['distro']['codename'],
                 'repos' => 'stable',
               )
           end
