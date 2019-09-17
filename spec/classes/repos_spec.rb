@@ -1,7 +1,7 @@
 require 'spec_helper'
 describe 'puppet_metrics_dashboard::repos' do
-  on_supported_os(facterversion: '3.7').each do |os, facts|
-    context "with facter 3.7 on #{os}" do
+  on_supported_os.each do |os, facts|
+    context "with facter #{RSpec.configuration.default_facter_version} on #{os}" do
       let(:node) do
         'testhost.example.com'
       end
@@ -54,7 +54,7 @@ describe 'puppet_metrics_dashboard::repos' do
             is_expected.to contain_apt__source('influxdb')
               .with(
                 'location' => 'https://repos.influxdata.com/debian',
-                'release' => 'jessie',
+                'release' => facts[:os]['distro']['codename'],
                 'repos' => 'stable',
               )
           end
@@ -72,7 +72,7 @@ describe 'puppet_metrics_dashboard::repos' do
             is_expected.to contain_apt__source('influxdb')
               .with(
                 'location' => 'https://repos.influxdata.com/ubuntu',
-                'release' => 'xenial',
+                'release' => facts[:os]['distro']['codename'],
                 'repos' => 'stable',
               )
           end

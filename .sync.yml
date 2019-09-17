@@ -22,6 +22,7 @@ Gemfile:
     ':development':
       - gem: 'puppet-strings'
         version: '~> 2.0.0'
+      - gem: 'toml-rb'
     ':system_tests':
       - gem: 'puppet-module-posix-system-r#{minor_version}'
         platforms: ruby
@@ -38,6 +39,13 @@ Gemfile:
 
 spec/spec_helper.rb:
   mock_with: ':rspec'
+  spec_overrides:
+    - 'RSpec.configure do |c|'
+    - "  c.default_facter_version = '3.14.0'"
+    - "  c.after(:suite) do"
+    - "    RSpec::Puppet::Coverage.report!"
+    - "  end"
+    - "end"
 
 Rakefile:
   requires:

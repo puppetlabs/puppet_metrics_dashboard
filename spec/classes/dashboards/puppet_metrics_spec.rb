@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'puppet_metrics_dashboard::dashboards::puppet_metrics' do
-  on_supported_os(facterversion: '3.7').each do |os, facts|
-    context "on #{os}" do
+  on_supported_os.each do |os, facts|
+    context "with facter #{RSpec.configuration.default_facter_version} on #{os}" do
       let(:facts) do
         facts.merge(pe_server_version: '2017.2')
       end
