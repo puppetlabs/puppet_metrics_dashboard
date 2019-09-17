@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'puppet_metrics_dashboard::telegraf::service' do
-  on_supported_os(facterversion: '3.7').each do |os, facts|
-    context "with facter 3.7 on #{os}" do
+  on_supported_os.each do |os, facts|
+    context "with facter #{RSpec.configuration.default_facter_version}  on #{os}" do
       let(:node) do
         'testhost.example.com'
       end
