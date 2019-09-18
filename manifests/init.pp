@@ -235,8 +235,8 @@ class puppet_metrics_dashboard (
   String[2] $telegraf_agent_interval,
   String[2] $http_response_timeout,
   String[2] $pg_query_interval,
-  Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = puppet_metrics_dashboard::puppetdb_metrics(),
   Hash $grafana_config,
+  Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = puppet_metrics_dashboard::puppetdb_metrics(),
   ) {
   unless $facts['os']['family'] =~ /^(RedHat|Debian)$/ {
     fail("${facts['os']['family']} installation not supported")
