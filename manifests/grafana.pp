@@ -35,7 +35,7 @@ class puppet_metrics_dashboard::grafana {
       'admin_user'     => 'admin',
       'admin_password' => $puppet_metrics_dashboard::grafana_password,
     }
-  })
+  }).merge($puppet_metrics_dashboard::grafana_config) # Merge any custom config over the top finally
 
   class { 'grafana':
     install_method      => 'repo',

@@ -140,8 +140,25 @@
 # @param influx_db_service_name
 #   Name of the influxdb service for the operating system
 #
+# @param grafana_config
+#   Hash of arbitrary config to pass to grafana, this is placed in the
+#   grafana.ini file with top-level keys becoming sections and their
+#   key-value children becoming settings.
+#
 # @example Default Configuration
 #   include puppet_metrics_dashboard
+#
+# @example Default Configuration with no login
+#   class { 'puppet_metrics_dashboard':
+#     grafana_config => {
+#       'users'          => {
+#         'allow_sign_up' => false,
+#       },
+#       'auth.anonymous' => {
+#         'enabled' => true,
+#       },
+#     },
+#   }
 #
 # @example Configure Telegraf on a list of masters and PuppetDB servers
 #   class { 'puppet_metrics_dashboard':
@@ -218,6 +235,7 @@ class puppet_metrics_dashboard (
   String[2] $telegraf_agent_interval,
   String[2] $http_response_timeout,
   String[2] $pg_query_interval,
+  Hash $grafana_config,
   Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = puppet_metrics_dashboard::puppetdb_metrics(),
   ) {
   unless $facts['os']['family'] =~ /^(RedHat|Debian)$/ {
