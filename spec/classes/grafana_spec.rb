@@ -39,7 +39,7 @@ describe 'puppet_metrics_dashboard::grafana' do
             .with_install_method('repo')
             .with_manage_package_repo(false)
             .with_version('5.1.4')
-            .with_cfg('server' => { 'http_port' => 3000 })
+            .with_cfg('server' => { 'http_port' => 3000 }, 'security' => { 'admin_user' => 'admin', 'admin_password' => 'admin' })
 
           case facts[:os]['family']
           when 'Debian'
@@ -73,12 +73,18 @@ describe 'puppet_metrics_dashboard::grafana' do
         # rubocop:disable RSpec/ExampleWording
         it 'should contain Class[grafana] with an https config' do
           is_expected.to contain_class('grafana')
-            .with_cfg('server' => {
-                        'http_port' => 3000,
-                        'protocol'  => 'https',
-                        'cert_file' => '/etc/grafana/testhost.example.com_cert.pem',
-                        'cert_key'  => '/etc/grafana/testhost.example.com_key.pem',
-                      })
+            .with_cfg(
+              'server' => {
+                'http_port' => 3000,
+                'protocol'  => 'https',
+                'cert_file' => '/etc/grafana/testhost.example.com_cert.pem',
+                'cert_key'  => '/etc/grafana/testhost.example.com_key.pem',
+              },
+              'security' => {
+                'admin_user'     => 'admin',
+                'admin_password' => 'admin',
+              },
+            )
         end
         # rubocop:enable RSpec/ExampleWording
       end
