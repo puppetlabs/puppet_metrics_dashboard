@@ -10,7 +10,7 @@
 #   }
 #
 class puppet_metrics_dashboard::profile::master::postgres_access (
-  String $telegraf_host = ''
+  String $telegraf_host = ""
 ){
 
   ##If a value is not supplied, we try a lookup
