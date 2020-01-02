@@ -9,11 +9,11 @@
   "issues_url": "https://github.com/puppetlabs/puppet_metrics_dashboard/issues",
   "dependencies": [
     {
-      "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 1.0.0 < 7.0.0"
+      "name": "puppet-grafana",
+      "version_requirement": ">= 3.0.0 < 7.0.0"
     },
     {
-      "name": "puppetlabs-inifile",
+      "name": "puppet-telegraf",
       "version_requirement": ">= 2.0.0 < 4.0.0"
     },
     {
@@ -21,12 +21,16 @@
       "version_requirement": ">= 4.3.0 < 8.0.0"
     },
     {
-      "name": "puppet-grafana",
-      "version_requirement": ">= 3.0.0 < 7.0.0"
+      "name": "puppetlabs-inifile",
+      "version_requirement": ">= 2.0.0 < 5.0.0"
     },
     {
-      "name": "puppet-telegraf",
-      "version_requirement": ">= 2.0.0 < 3.0.0"
+      "name": "puppetlabs-puppetserver_gem",
+      "version_requirement": ">= 1.1.1 < 3.0.0"
+    },
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0 < 7.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -58,7 +62,7 @@
       "version_requirement": ">= 4.7.0 < 7.0.0"
     }
   ],
-  "pdk-version": "1.13.0",
-  "template-url": "pdk-default#1.13.0",
-  "template-ref": "1.13.0-0-g66e1443"
+  "pdk-version": "1.15.0",
+  "template-url": "pdk-default#1.15.0",
+  "template-ref": "tags/1.15.0-0-g0bc522e"
 }
