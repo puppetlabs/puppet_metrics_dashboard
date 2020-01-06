@@ -5,8 +5,8 @@
 
 ### Public Classes
 
-* [`puppet_metrics_dashboard`](#puppet_metrics_dashboard): Installs and configures Grafana with InfluxDB for monitoring Puppet infrastructure.
-* [`puppet_metrics_dashboard::profile::master::postgres_access`](#puppet_metrics_dashboardprofilemasterpostgres_access): Apply this class to a PE-managed postgres instance to allow access from telegraf
+* [`puppet_metrics_dashboard`](#puppet_metrics_dashboard): Installs and configures a stack for collecting, storing, and displaying Puppet Infrastructure metrics
+* [`puppet_metrics_dashboard::profile::master::postgres_access`](#puppet_metrics_dashboardprofilemasterpostgres_access): Apply this class to a PE PostgreSQL node to allow access by Telegraf.
 * [`puppet_metrics_dashboard::profile::postgres`](#puppet_metrics_dashboardprofilepostgres): This class is deprecated.  Please use the Puppet_metrics_dashboard::Profile::Master::Postgres_access class.
 
 ### Private Classes
@@ -34,86 +34,69 @@
 
 ## Functions
 
+* [`puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile`](#puppet_metrics_dashboardlocalhost_or_hosts_with_pe_profile): 
 * [`puppet_metrics_dashboard::puppetdb_metrics`](#puppet_metrics_dashboardpuppetdb_metrics): function used to determine the set of needed PuppetDB metrics based on PE version
 
 ## Classes
 
 ### puppet_metrics_dashboard
 
-The puppet_metrics_dashboard module installs and configures an InfluxDB stack
-monitor the Puppet infrastructure components.
+Installs and configures a stack for collecting, storing, and displaying Puppet Infrastructure metrics.
+Refer to `data/common.yaml` for additional parameter defaults.
 
 #### Examples
 
-##### Default Configuration
-
-```puppet
-include puppet_metrics_dashboard
-```
-
-##### Configure Telegraf on a list of masters and PuppetDB servers
+##### Grafana with no login
 
 ```puppet
 class { 'puppet_metrics_dashboard':
-  configure_telegraf  => true,
-  enable_telegraf     => true,
-  master_list         => ['master1.com',
-                          # Alternate ports may be configured using
-                          # a list of: `[hostname, port_number]`
-                          ['master2.com', 9140]],
-  puppetdb_list       => ['puppetdb1',
-                          ['puppetdb2', 8100]],
+  grafana_config => {
+    'users'          => {
+      'allow_sign_up' => false,
+    },
+    'auth.anonymous' => {
+      'enabled' => true,
+    },
+  },
 }
 ```
 
-##### Install example dashboards for all of the collection methods
+##### Configure Telegraf to collect metrics from a list of Masters, PuppetDB, and PostgreSQL servers
 
 ```puppet
 class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
-  influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
+  overwrite_dashboards   => false,
+  configure_telegraf     => true,
+  enable_telegraf        => true,
+  master_list            => ['master.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
+  puppetdb_list          => ['puppetdb01.example.com', 'puppetdb02.example.com'],
+  postgres_host_list     => ['postgres01.example.com', 'postgres02.example.com'],
 }
 ```
 
-##### Configure telegraf for one or more masters / puppetdb nodes
-
-```puppet
-class { 'puppet_metrics_dashboard':
-  configure_telegraf  => true,
-  enable_telegraf     => true,
-  master_list         => ['master1.com','master2.com'],
-  puppetdb_list       => ['puppetdb1','puppetdb2'],
-}
-```
-
-##### Enable Graphite support
+##### Configure Graphite to accept metrics from a list of Masters
 
 ```puppet
 class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
+  overwrite_dashboards   => false,
   consume_graphite       => true,
-  influxdb_database_name => ["graphite"],
-  master_list            => ["master01.example.com","master02.org"],
+  influxdb_database_name => ['graphite'],
+  master_list            => ['master', 'master02'],
 }
 ```
 
-##### Enable Telegraf, Graphite, and Archive
+##### Configure Telegraf, Graphite, and Archive
 
 ```puppet
 class { 'puppet_metrics_dashboard':
   add_dashboard_examples => true,
-  influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
+  overwrite_dashboards   => false,
   consume_graphite       => true,
   configure_telegraf     => true,
   enable_telegraf        => true,
-}
-```
-
-##### Enable SSL
-
-```puppet
-class { 'puppet_metrics_dashboard':
-  use_dashboard_ssl => true,
+  influxdb_database_name => ['telegraf', 'graphite', 'puppet_metrics'],
 }
 ```
 
@@ -121,237 +104,241 @@ class { 'puppet_metrics_dashboard':
 
 The following parameters are available in the `puppet_metrics_dashboard` class.
 
-##### `add_dashboard_examples`
-
-Data type: `Boolean`
-
-Whether to add the Grafana dashboard example dashboards for the configured InfluxDB databases.
-Valid values are `true`, `false`. Defaults to `false`.
-_Note_: These dashboards are managed and any changes will be overwritten unless the `overwrite_dashboards` is set to `false`.
-
 ##### `manage_repos`
 
 Data type: `Boolean`
 
-Whether or not to setup yum / apt repositories for the dependent packages
-Valid values are `true`, `false`. Defaults to `true`
+Whether to configure apt / yum repositories for required packages.
+
+##### `add_dashboard_examples`
+
+Data type: `Boolean`
+
+Whether to add the example Grafana dashboards for the configured InfluxDB databases. Defaults to `false`.
+_Note_: These dashboards are managed and any changes will be overwritten unless the `overwrite_dashboards` is set to `false`.
+
+##### `overwrite_dashboards`
+
+Data type: `Boolean`
+
+Whether to overwrite the example Grafana dashboards. Defaults to `true`
+This parameter disables overwriting the example Grafana dashboards.
+It takes effect after the second Puppet run, and populates a `overwrite_dashboards_disabled` fact.
+Only used when `add_dashboard_examples` is `true`.
+
+##### `enable_chronograf`
+
+Data type: `Boolean`
+
+Whether to install chronograf. Defaults to `false`
+No configuration of chronograf is included at this time.
+
+##### `enable_kapacitor`
+
+Data type: `Boolean`
+
+Whether to install kapacitor. Defaults to `false`
+No configuration of kapacitor is included at this time.
+
+##### `enable_telegraf`
+
+Data type: `Boolean`
+
+Whether to install telegraf. Defaults to `true`
+No configuration is done unless `configure_telegraf` is set to `true`.
+
+##### `configure_telegraf`
+
+Data type: `Boolean`
+
+Whether to configure the Telegraf service. Defaults to `true`
+This parameter enables and configures Telegraf to query the `*_list` hosts for metrics.
+Metrics will be stored in the `telegraf` database in InfluxDb.
+Ensure that `influxdb_database_name` contains `telegraf` when using this parameter.
+Only used when `enable_telegraf` is `true`.
+
+##### `consume_graphite`
+
+Data type: `Boolean`
+
+Whether to enable the InfluxDB Graphite plugin. Defaults to `false`
+This parameter enables the Graphite plugin for InfluxDB to allow for consuming Graphite metrics.
+Ensure `influxdb_database_name` contains `graphite` when using this parameter.
+_Note:_ To consume metrics sent from Puppet Server, this must to be set to `true`.
+
+##### `influxdb_database_name`
+
+Data type: `Array[String]`
+
+An Array of databases that should be created in InfluxDB.
+Valid values are `telegraf`, `graphite`, `puppet_metrics`, and any other string. Defaults to `["telegraf"]`
+Each database in the array will be created in InfluxDB.
+`telegraf`, `graphite`, and `puppet_metrics` are specially named and will be used with their associated metric collection method.
+Any other database name will be created, but not associated with components in this module.
+
+##### `influxdb_urls`
+
+Data type: `Array[String]`
+
+An Array containing urls defining InfluxDB instances for Telegraf.
+
+##### `influx_db_service_name`
+
+Data type: `String`
+
+Name of the InfluxDB service used by the operating system.
+
+##### `influx_db_password`
+
+Data type: `String`
+
+The password for the InfluxDB `admin` user.
+Defaults to `puppet`
+
+##### `telegraf_db_name`
+
+Data type: `String`
+
+The InfluxDB database where Telegraf metrics are stored.
+
+##### `http_response_timeout`
+
+Data type: `String[2]`
+
+Timeout for Telegraf HTTP requests. Defaults to `5s`
+
+##### `telegraf_agent_interval`
+
+Data type: `String[2]`
+
+Frequency of Telegraf HTTP queries for metrics. Defaults to `5s`
+
+##### `pg_query_interval`
+
+Data type: `String[2]`
+
+Frequency of Telegraf PostgreSQL queries for metrics. Defaults to `10m`
+
+##### `use_dashboard_ssl`
+
+Data type: `Boolean`
+
+Whether to enable SSL in Grafana.
+Valid values are `true`, `false`. Defaults to `false`
 
 ##### `dashboard_cert_file`
 
 Data type: `String`
 
 The location of the Grafana certficiate.
-Defaults to `"/etc/grafana/${clientcert}_cert.pem"`
-Only used when configuring `use_dashboard_ssl` is true.
+Defaults to `/etc/grafana/${clientcert}_cert.pem`
+Only used when `use_dashboard_ssl` is `true`.
 
 ##### `dashboard_cert_key`
 
 Data type: `String`
 
 The location of the Grafana private key.
-Defaults to `"/etc/grafana/${clientcert}_key.pem"`
-Only used when configuring `use_dashboard_ssl` is true.
-
-##### `configure_telegraf`
-
-Data type: `Boolean`
-
-Whether to configure the telegraf service.
-Valid values are `true`, `false`. Defaults to `true`
-This parameter enables configuring telegraf to query the `master_list` and `puppetdb_list` endpoints for metrics. Metrics will be stored
-in the `telegraf` database in InfluxDb. Ensure that `influxdb_database_name` contains `telegraf` when using this parameter.
-_Note:_ This parameter is only used if `enable_telegraf` is set to true.
-
-##### `consume_graphite`
-
-Data type: `Boolean`
-
-Whether to enable the InfluxDB Graphite plugin.
-Valid values are `true`, `false`. Defaults to `false`
-This parameter enables the Graphite plugin for InfluxDB to allow for injesting Graphite metrics. Ensure `influxdb_database_name`
-contains `graphite` when using this parameter.
-_Note:_ If using Graphite metrics from the Puppet Master, this needs to be set to `true`.
+Defaults to `/etc/grafana/${clientcert}_key.pem`
+Only used when `use_dashboard_ssl` is `true`.
 
 ##### `grafana_http_port`
 
 Data type: `Integer`
 
-The port to run Grafana on.
+The port for the Grafana web interface.
 Valid values are Integers from `1024` to `65536`. Defaults to `3000`
-The grafana port for the web interface. This should be a nonprivileged port (above 1024).
+This should be a nonprivileged port (above 1024).
 
 ##### `grafana_password`
 
 Data type: `String`
 
-The password for the Grafana admin user.
-Defaults to `'admin'`
+The password for the Grafana `admin` user.
+Defaults to `admin`
 
 ##### `grafana_version`
 
 Data type: `String`
 
-The grafana version to install.
-Valid values are String versions of Grafana. Defaults to `'4.5.2'`
-
-##### `influxdb_database_name`
-
-Data type: `Array[String]`
-
-An array of databases that should be created in InfluxDB.
-Valid values are 'puppet_metrics','telegraf', 'graphite', and any other string. Defaults to `['puppet_metrics']`
-Each database in the array will be created in InfluxDB. 'puppet_metrics','telegraf', and 'graphite' are specially named and will
-be used with their associated metric collection method. Any other database name will be created, but not utilized with
-components in this module.
-
-##### `influx_db_password`
-
-Data type: `String`
-
-The password for the InfluxDB admin user.
-Defaults to `'puppet'`
-
-##### `enable_kapacitor`
-
-Data type: `Boolean`
-
-Whether to install kapacitor.
-Valid values are `true`, `false`. Defaults to `false`
-Install kapacitor. No configuration of kapacitor is included at this time.
-
-##### `enable_chronograf`
-
-Data type: `Boolean`
-
-Whether to install chronograf.
-Valid values are `true`, `false`. Defaults to `false`
-Installs chronograf. No configuration of chronograf is included at this time.
-
-##### `enable_telegraf`
-
-Data type: `Boolean`
-
-Whether to install telegraf.
-Valid values are `true`, `false`. Defaults to `false`
-Installs telegraf. No configuration is done unless the `configure_telegraf` parameter is set to `true`.
-
-##### `master_list`
-
-Data type: `Puppet_metrics_dashboard::HostList`
-
-A list of Puppet Master servers that Telegraf will be configured to
-collect metrics from. Entries in the list may be:
-  - A single string that contains a hostname or IP address.
-    The module will use a default port number of 8140.
-  - A list of length two, where the first entry is a string that
-    contains a hostname or IP address and the second entry is an
-    integer that specifies the port number.
-Defaults to `[$trusted['certname']]`
-
-##### `puppetdb_metrics`
-
-Data type: `Puppet_metrics_dashboard::Puppetdb_metric`
-
-An array of hashes containing name / url pairs for each puppetdb metric.
-See functions/puppetdb_metrics.pp for defaults.
-
-Default value: puppet_metrics_dashboard::puppetdb_metrics()
-
-##### `influxdb_urls`
-
-Data type: `Array[String]`
-
-An array for telegraf's config defining where influxdb instances are
-
-##### `telegraf_db_name`
-
-Data type: `String`
-
-The database in influxdb where telefraf metrics are stored
-
-##### `telegraf_agent_interval`
-
-Data type: `String[2]`
-
-How often the telefraf agent queries for metrics.  Defaults to "5s"
-
-##### `http_response_timeout`
-
-Data type: `String[2]`
-
-How long to wait for the queries by telegraf to finish before giving up. Defaults to "5s"
-
-##### `pg_query_interval`
-
-Data type: `String[2]`
-
-How often postgres queries will run when monitoring a postgres host. Defaults to "10m"
-
-##### `overwrite_dashboards`
-
-Data type: `Boolean`
-
-Whether to overwrite the example Grafana dashboards.
-Valid values are `true`, `false`. Defaults to `false`
-This paramater disables overwriting the example Grafana dashboards. It takes effect after the second Puppet run and popultes the
-`overwrite_dashboards_disabled` fact. This only takes effect when `add_dashboard_examples` is set to true.
-
-##### `puppetdb_list`
-
-Data type: `Puppet_metrics_dashboard::HostList`
-
-A list of PuppetDB servers that Telegraf will be configured to
-collect metrics from. Entries in the list may be:
-  - A single string that contains a hostname or IP address.
-    The module will use a default port number of 8081.
-  - A list of length two, where the first entry is a string that
-    contains a hostname or IP address and the second entry is an
-    integer that specifies the port number.
-Defaults to `[$trusted['certname']]`
-
-##### `postgres_host_list`
-
-Data type: `Puppet_metrics_dashboard::HostList`
-
-A list of PostgreSQL servers that Telegraf will be configured to
-collect metrics from. Entries in the list may be:
-  - A single string that contains a hostname or IP address.
-    The module will use a default port number of 5432.
-  - A list of length two, where the first entry is a string that
-    contains a hostname or IP address and the second entry is an
-    integer that specifies the port number.
-Defaults to `[$trusted['certname']]`
-
-##### `use_dashboard_ssl`
-
-Data type: `Boolean`
-
-Whether to enable SSL on Grafana.
-Valid values are `true`, `false`. Defaults to `false`
+The version of Grafana to install.
+Valid values are String versions of Grafana.
 
 ##### `overwrite_dashboards_file`
 
 Data type: `String`
 
-File in use to populate the overwrite_dashboards fact
+File used to populate the `overwrite_dashboards` fact.
 
-##### `influx_db_service_name`
+##### `grafana_config`
 
-Data type: `String`
+Data type: `Hash`
 
-Name of the influxdb service for the operating system
+Hash of arbitrary configuration settings to pass to Grafana.
+These are added to `grafana.ini` with top-level keys becoming sections and their key-value children becoming settings.
+
+##### `master_list`
+
+Data type: `Puppet_metrics_dashboard::HostList`
+
+An Array of servers that Telegraf will collect Puppet Server metrics from.
+Entries may be:
+  - A String that contains a hostname or IP address.
+    (The module will use a default port number of `8140`)
+  - An Array where the first entry is a String that contains a hostname or IP address,
+    and the second entry is an Integer that specifies the port number.
+Defaults to the result of a PuppetDB query, or `[$trusted['certname']]`
+
+Default value: puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile('master')
+
+##### `puppetdb_list`
+
+Data type: `Puppet_metrics_dashboard::HostList`
+
+An Array of servers that Telegraf will collect PuppetDB metrics from.
+Entries may be:
+  - A String that contains a hostname or IP address.
+    (The module will use a default port number of `8081`)
+  - An Array where the first entry is a String that contains a hostname or IP address,
+    and the second entry is an Integer that specifies the port number.
+Defaults to the result of a PuppetDB query, or `[$trusted['certname']]`
+
+Default value: puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile('puppetdb')
+
+##### `postgres_host_list`
+
+Data type: `Puppet_metrics_dashboard::HostList`
+
+An Array of servers that Telegraf will collect PostgreSQL metrics from.
+Entries may be:
+  - A String that contains a hostname or IP address.
+    (The module will use a default port number of `5432`)
+  - An Array where the first entry is a String that contains a hostname or IP address,
+    and the second entry is an Integer that specifies the port number.
+Defaults to the results of a PuppetDB query, or `[$trusted['certname']]`
+
+Default value: puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile('database')
+
+##### `puppetdb_metrics`
+
+Data type: `Puppet_metrics_dashboard::Puppetdb_metric`
+
+An Array of Hashes containing name/url pairs for each PuppetDB metric.
+Refer to `functions/puppetdb_metrics.pp` for defaults.
+
+Default value: puppet_metrics_dashboard::puppetdb_metrics()
 
 ### puppet_metrics_dashboard::profile::master::postgres_access
 
-Apply this class to a PE-managed postgres instance to allow access from telegraf
+Apply this class to a PE PostgreSQL node to allow access by Telegraf.
 
 #### Examples
 
-##### Allow access to PE-managed Postgres nodes
+##### Apply this class to PE PostgreSQL nodes
 
 ```puppet
 class { 'puppet_metrics_dashboard::profile::master::postgres_access':
-  telegraf_host => 'grafana-server.example.com',
+  telegraf_host => 'dashboard.example.com',
 }
 ```
 
@@ -361,12 +348,12 @@ The following parameters are available in the `puppet_metrics_dashboard::profile
 
 ##### `telegraf_host`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
-The FQDN of the host where telegraf runs.
-Defaults to an empty string.  You can explicitly set this parameter or the class attempts to lookup which host has the puppet_metrics_dashboard class applied in PuppetDB.  If the parameter is not set and the lookup does not return anything we issue a warning.
+The FQDN of the host running Telegraf. Defaults to an empty string.
+You can define this parameter, otherwise this class will query PuppetDB for a dashboard host.
 
-Default value: ''
+Default value: `undef`
 
 ### puppet_metrics_dashboard::profile::postgres
 
@@ -558,6 +545,22 @@ The frequency that telegraf will poll for metrics.  Defaults to '5s'
 Default value: '5s'
 
 ## Functions
+
+### puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile
+
+Type: Puppet Language
+
+The puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile class.
+
+#### `puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile(String $profile)`
+
+Returns: `Array`
+
+##### `profile`
+
+Data type: `String`
+
+
 
 ### puppet_metrics_dashboard::puppetdb_metrics
 
