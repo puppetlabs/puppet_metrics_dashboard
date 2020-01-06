@@ -1,49 +1,42 @@
-# @summary Installs and configures a stack for collecting, storing, and displaying Puppet Infrastructure metrics.
+# @summary Installs and configures a stack for collecting, storing, and displaying Puppet Infrastructure metrics
 #
-# Refer to `data/common.yaml` for defaults.
+# Installs and configures a stack for collecting, storing, and displaying Puppet Infrastructure metrics.
+# Refer to `data/common.yaml` for additional parameter defaults.
 #
-# @param manage_repos
+# @param [Boolean] manage_repos
 #   Whether to configure apt / yum repositories for required packages.
-#   Valid values are `true`, `false`. Defaults to `true`
 #
-# @param add_dashboard_examples
-#   Whether to add the example Grafana dashboards for the configured InfluxDB databases.
-#   Valid values are `true`, `false`. Defaults to `false`.
+# @param [Boolean] add_dashboard_examples
+#   Whether to add the example Grafana dashboards for the configured InfluxDB databases. Defaults to `false`.
 #   _Note_: These dashboards are managed and any changes will be overwritten unless the `overwrite_dashboards` is set to `false`.
 #
-# @param overwrite_dashboards
-#   Whether to overwrite the example Grafana dashboards.
-#   Valid values are `true`, `false`. Defaults to `true`
+# @param [Boolean] overwrite_dashboards
+#   Whether to overwrite the example Grafana dashboards. Defaults to `true`
 #   This parameter disables overwriting the example Grafana dashboards.
 #   It takes effect after the second Puppet run, and populates a `overwrite_dashboards_disabled` fact. 
 #   Only used when `add_dashboard_examples` is `true`.
 #
-# @param enable_chronograf
-#   Whether to install chronograf.
-#   Valid values are `true`, `false`. Defaults to `false`
+# @param [Boolean] enable_chronograf
+#   Whether to install chronograf. Defaults to `false`
 #   No configuration of chronograf is included at this time.
 #
-# @param enable_kapacitor
-#   Whether to install kapacitor.
-#   Valid values are `true`, `false`. Defaults to `false`
+# @param [Boolean] enable_kapacitor
+#   Whether to install kapacitor. Defaults to `false`
 #   No configuration of kapacitor is included at this time.
 #
-# @param enable_telegraf
-#   Whether to install telegraf.
-#   Valid values are `true`, `false`. Defaults to `true`
+# @param [Boolean] enable_telegraf
+#   Whether to install telegraf. Defaults to `true`
 #   No configuration is done unless `configure_telegraf` is set to `true`.
 #
-# @param configure_telegraf
-#   Whether to configure the Telegraf service.
-#   Valid values are `true`, `false`. Defaults to `true`
+# @param [Boolean] configure_telegraf
+#   Whether to configure the Telegraf service. Defaults to `true`
 #   This parameter enables and configures Telegraf to query the `*_list` hosts for metrics.
 #   Metrics will be stored in the `telegraf` database in InfluxDb.
 #   Ensure that `influxdb_database_name` contains `telegraf` when using this parameter.
 #   Only used when `enable_telegraf` is `true`.
 #
-# @param consume_graphite
-#   Whether to enable the InfluxDB Graphite plugin.
-#   Valid values are `true`, `false`. Defaults to `false`
+# @param [Boolean] consume_graphite
+#   Whether to enable the InfluxDB Graphite plugin. Defaults to `false`
 #   This parameter enables the Graphite plugin for InfluxDB to allow for consuming Graphite metrics.
 #   Ensure `influxdb_database_name` contains `graphite` when using this parameter.
 #   _Note:_ To consume metrics sent from Puppet Server, this must to be set to `true`.
@@ -153,6 +146,36 @@
 # @param puppetdb_metrics
 #   An Array of Hashes containing name/url pairs for each PuppetDB metric.
 #   Refer to `functions/puppetdb_metrics.pp` for defaults.
+#
+# @example Configure Telegraf to collect metrics from a list of Masters, PuppetDB, and PostgreSQL servers
+#   class { 'puppet_metrics_dashboard':
+#     add_dashboard_examples => true,
+#     overwrite_dashboards   => false,
+#     configure_telegraf     => true,
+#     enable_telegraf        => true,
+#     master_list            => ['master.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
+#     puppetdb_list          => ['puppetdb01.example.com', 'puppetdb02.example.com'],
+#     postgres_host_list     => ['postgres01.example.com', 'postgres02.example.com'],
+#   }
+#
+# @example Configure Graphite to accept metrics from a list of Masters
+#   class { 'puppet_metrics_dashboard':
+#     add_dashboard_examples => true,
+#     overwrite_dashboards   => false,
+#     consume_graphite       => true,
+#     influxdb_database_name => ['graphite'],
+#     master_list            => ['master', 'master02'],
+#   }
+#
+# @example Configure Telegraf, Graphite, and Archive
+#  class { 'puppet_metrics_dashboard':
+#    add_dashboard_examples => true,
+#    overwrite_dashboards   => false,
+#    consume_graphite       => true,
+#    configure_telegraf     => true,
+#    enable_telegraf        => true,
+#    influxdb_database_name => ['telegraf', 'graphite', 'puppet_metrics'],
+#  }
 #
 class puppet_metrics_dashboard (
   Boolean $manage_repos,

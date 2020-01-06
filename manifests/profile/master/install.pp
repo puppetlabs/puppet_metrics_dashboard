@@ -1,12 +1,15 @@
-# @summary Install requirements for the voxpupuli/puppet-telegraf module.
+# @summary Install requirements for the voxpupuli/puppet-telegraf module
 #
-# @example Apply this class to the Master and any/all Compilers.
+# Install requirements for the voxpupuli/puppet-telegraf module.
+#
+# @example Apply this class to the Master and any/all Compilers
 #   include puppet_metrics_dashboard::profile::master::install
 #
 class puppet_metrics_dashboard::profile::master::install {
-  $puppetserver_service = $facts['pe_server_version'] ? {
-    /./     => 'pe-puppetserver',
-    default => 'puppetserver',
+  if $facts['pe_server_version'] {
+    $puppetserver_service = 'pe-puppetserver'
+  } else {
+    $puppetserver_service = 'puppetserver'
   }
 
   package { 'toml-rb':

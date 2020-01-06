@@ -1,28 +1,25 @@
-# Function: localhost_or_hosts_with_pe_profile
+# @summary function used to determine hosts with a Puppet Enterprise profile
 #
 # Queries PuppetDB for hosts with the specified Puppet Enterprise profile.
-# Used by this module to query Puppet Enterprise API endpoints.
-
-# Parameters:
+# Used by this module to identify hosts with Puppet Enterprise API endpoints.
 #
-# $profile: the short name of the Puppet Enterprise profile.
-
-# Results:
+# @param profile [String]
+#   The short name of the Puppet Enterprise profile to query.
 #
-# $hosts: an array of certnames.
-#
-# Returns [$trusted['certname']] when PuppetDB returns no hosts.
+# @return [Array[String]]
+#   An array of certnames from the query, or the local certname when the query returns no hosts.
 
-function puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile($profile) {
+function puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile(
+  String $profile,
+) >> Array {
   if $settings::storeconfigs {
     $_profile = capitalize($profile)
     $hosts = puppetdb_query("resources[certname] {
-               type = 'Class' and
-               title = 'Puppet_enterprise::Profile::${_profile}' and
-               nodes { deactivated is null and expired is null }
-              }").map |$nodes| { $nodes['certname'] }
-  }
-  else {
+      type = 'Class' and
+      title = 'Puppet_enterprise::Profile::${_profile}' and
+      nodes { deactivated is null and expired is null }
+    }").map |$nodes| { $nodes['certname'] }
+  } else {
     $hosts = []
   }
 

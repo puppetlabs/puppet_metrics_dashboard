@@ -17,7 +17,7 @@
 - [Reference](#Reference)
 - [Limitations](#Limitations)
   - [Repository failure for InfluxDB packages](#Repository-failure-for-InfluxDB-packages)
-  - [PostgreSQL metrics collection with older versions of Telegraf](#PostgreSQL-metrics-collection-with-older versions-of-Telegraf)
+  - [PostgreSQL metrics collection with older versions of Telegraf](#PostgreSQL-metrics-collection-with-older-versions-of-Telegraf)
 - [Development](#Development)
 
 ## Description
@@ -134,6 +134,8 @@ node 'dashboard.example.com' {
   class { 'puppet_metrics_dashboard':
     add_dashboard_examples => true,
     overwrite_dashboards   => false,
+    configure_telegraf     => true,
+    enable_telegraf        => true,
     master_list            => ['master.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
     puppetdb_list          => ['puppetdb01.example.com', 'puppetdb02.example.com'],
     postgres_host_list     => ['postgres01.example.com', 'postgres02.example.com'],
@@ -186,6 +188,8 @@ node 'dashboard.example.com' {
   class { 'puppet_metrics_dashboard':
     add_dashboard_examples => true,
     overwrite_dashboards   => false,
+    configure_telegraf     => true,
+    enable_telegraf        => true,
     consume_graphite       => true,
     influxdb_database_name => ['telegraf', 'graphite', 'puppet_metrics'],
   }

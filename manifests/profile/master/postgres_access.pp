@@ -4,18 +4,20 @@
 #   The FQDN of the host running Telegraf. Defaults to an empty string.
 #   You can define this parameter, otherwise this class will query PuppetDB for a dashboard host.
 #
-# @example Apply this class to PE PostgreSQL nodes.
+# @example Apply this class to PE PostgreSQL nodes
 #   class { 'puppet_metrics_dashboard::profile::master::postgres_access':
 #     telegraf_host => 'dashboard.example.com',
 #   }
 #
 class puppet_metrics_dashboard::profile::master::postgres_access (
-  String $telegraf_host = "" # lint:ignore:double_quoted_strings
+  Optional[String[1]] $telegraf_host = undef
 ){
 
-  # If $telegraf_host is not defined, query PuppetDB for a dashboard host.
+  # Unless $telegraf_host is defined, query PuppetDB for a dashboard host.
 
-  if $telegraf_host.empty {
+  if $telegraf_host {
+    $_telegraf_host = $telegraf_host
+  } else {
     $_query = puppetdb_query('resources[certname] {
       type = "Class" and
       title = "Puppet_metrics_dashboard" and
@@ -26,9 +28,9 @@ class puppet_metrics_dashboard::profile::master::postgres_access (
       order by certname asc
       limit 1
     }')
-    unless $_query.empty {$_telegraf_host = $_query[0]['certname']}
-  } else {
-    $_telegraf_host = $telegraf_host
+    unless $_query.empty {
+      $_telegraf_host = $_query[0]['certname']
+    }
   }
 
   # If $telegraf_host is not defined and the query fails to find a dashboard host, issue a warning.
