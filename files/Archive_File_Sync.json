@@ -86,7 +86,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "puppetserver.pe-jruby-metrics.average-lock-held-time",
+              "measurement": "puppetserver.jruby-metrics.average-lock-held-time",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -136,7 +136,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "puppetserver.pe-jruby-metrics.average-lock-wait-time",
+              "measurement": "puppetserver.jruby-metrics.average-lock-wait-time",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "B",
