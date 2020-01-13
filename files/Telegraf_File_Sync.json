@@ -89,7 +89,7 @@
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-lock-held-time"
+                      "jruby-metrics_status_experimental_metrics_average-lock-held-time"
                     ],
                     "type": "field"
                   },
@@ -133,7 +133,7 @@
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-lock-wait-time"
+                      "jruby-metrics_status_experimental_metrics_average-lock-wait-time"
                     ],
                     "type": "field"
                   },

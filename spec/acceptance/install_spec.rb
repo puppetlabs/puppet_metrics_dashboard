@@ -30,7 +30,7 @@ describe 'puppet_metrics_dashboard::install class' do
       it 'influxdb accepts data' do
         curlquery = <<-QUERY
           curl -i -X POST 'http://127.0.0.1:8086/write?db=puppet_metrics&precision=s&u=admin&p=puppetlabs' \
-          --data-binary 'puppetserver.pe-jruby-metrics.num-free-jrubies,server=127-0-0-1 num-free-jrubies=1 1523993402'
+          --data-binary 'puppetserver.jruby-metrics.num-free-jrubies,server=127-0-0-1 num-free-jrubies=1 1523993402'
           QUERY
         shell(curlquery.to_s) do |r|
           expect(r.exit_code).to eq(0)
@@ -41,11 +41,11 @@ describe 'puppet_metrics_dashboard::install class' do
       it 'influxdb answers data queries' do
         curlquery = <<-QUERY
           curl -i -X POST 'http://127.0.0.1:8086/query?db=puppet_metrics&u=admin&p=puppetlabs' \
-          --data-urlencode 'q=SELECT * FROM "puppetserver.pe-jruby-metrics.num-free-jrubies"'
+          --data-urlencode 'q=SELECT * FROM "puppetserver.jruby-metrics.num-free-jrubies"'
           QUERY
         shell(curlquery.to_s) do |r|
           expect(r.exit_code).to eq(0)
-          expect(r.stdout).to match(%r{puppetserver.pe-jruby-metrics.num-free-jrubies})
+          expect(r.stdout).to match(%r{puppetserver.jruby-metrics.num-free-jrubies})
         end
       end
 

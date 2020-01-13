@@ -87,10 +87,10 @@
                 }
               ],
               "hide": false,
-              "measurement": "puppetserver.pe-jruby-metrics.average-free-jrubies",
+              "measurement": "puppetserver.jruby-metrics.average-free-jrubies",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT distinct(\"average-free-jrubies\") FROM \"puppetserver.pe-jruby-metrics.average-free-jrubies\" WHERE $timeFilter GROUP BY time(10s) fill(null)",
+              "query": "SELECT distinct(\"average-free-jrubies\") FROM \"puppetserver.jruby-metrics.average-free-jrubies\" WHERE $timeFilter GROUP BY time(10s) fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -139,7 +139,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "puppetserver.pe-jruby-metrics.average-requested-jrubies",
+              "measurement": "puppetserver.jruby-metrics.average-requested-jrubies",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "B",
@@ -189,7 +189,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "puppetserver.pe-jruby-metrics.average-wait-time",
+              "measurement": "puppetserver.jruby-metrics.average-wait-time",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "C",
@@ -239,7 +239,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "puppetserver.pe-jruby-metrics.average-borrow-time",
+              "measurement": "puppetserver.jruby-metrics.average-borrow-time",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "D",
@@ -617,7 +617,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "puppetserver.pe-jruby-metrics.average-requested-jrubies",
+              "measurement": "puppetserver.jruby-metrics.average-requested-jrubies",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -735,7 +735,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "puppetserver.pe-jruby-metrics.average-borrow-time",
+              "measurement": "puppetserver.jruby-metrics.average-borrow-time",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -785,7 +785,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "puppetserver.pe-puppet-profiler.catalog-metrics",
+              "measurement": "puppetserver.puppet-profiler.catalog-metrics",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "B",
@@ -921,7 +921,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "puppetserver.pe-jruby-metrics.average-free-jrubies",
+              "measurement": "puppetserver.jruby-metrics.average-free-jrubies",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
@@ -1039,7 +1039,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "puppetserver.pe-jruby-metrics.average-wait-time",
+              "measurement": "puppetserver.jruby-metrics.average-wait-time",
               "orderByTime": "ASC",
               "policy": "default",
               "refId": "A",
