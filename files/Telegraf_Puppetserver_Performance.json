@@ -89,7 +89,7 @@
               "measurement": "httpjson_puppet_stats",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT distinct(\"pe-jruby-metrics_status_experimental_metrics_average-free-jrubies\") FROM \"httpjson_puppet_stats\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+              "query": "SELECT distinct(\"jruby-metrics_status_experimental_metrics_average-free-jrubies\") FROM \"httpjson_puppet_stats\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -97,7 +97,7 @@
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-free-jrubies"
+                      "jruby-metrics_status_experimental_metrics_average-free-jrubies"
                     ],
                     "type": "field"
                   },
@@ -141,7 +141,7 @@
               "measurement": "httpjson_puppet_stats",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT distinct(\"pe-jruby-metrics_status_experimental_metrics_average-requested-jrubies\") FROM \"httpjson_puppet_stats\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+              "query": "SELECT distinct(\"jruby-metrics_status_experimental_metrics_average-requested-jrubies\") FROM \"httpjson_puppet_stats\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
               "rawQuery": false,
               "refId": "B",
               "resultFormat": "time_series",
@@ -149,7 +149,7 @@
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-requested-jrubies"
+                      "jruby-metrics_status_experimental_metrics_average-requested-jrubies"
                     ],
                     "type": "field"
                   },
@@ -193,7 +193,7 @@
               "measurement": "httpjson_puppet_stats",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT distinct(\"pe-jruby-metrics_status_experimental_metrics_average-borrow-time\") FROM \"httpjson_puppet_stats\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+              "query": "SELECT distinct(\"jruby-metrics_status_experimental_metrics_average-borrow-time\") FROM \"httpjson_puppet_stats\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
               "rawQuery": false,
               "refId": "C",
               "resultFormat": "time_series",
@@ -201,7 +201,7 @@
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-borrow-time"
+                      "jruby-metrics_status_experimental_metrics_average-borrow-time"
                     ],
                     "type": "field"
                   },
@@ -245,7 +245,7 @@
               "measurement": "httpjson_puppet_stats",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT distinct(\"pe-jruby-metrics_status_experimental_metrics_average-wait-time\") FROM \"httpjson_puppet_stats\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+              "query": "SELECT distinct(\"jruby-metrics_status_experimental_metrics_average-wait-time\") FROM \"httpjson_puppet_stats\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
               "rawQuery": false,
               "refId": "D",
               "resultFormat": "time_series",
@@ -253,7 +253,7 @@
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-wait-time"
+                      "jruby-metrics_status_experimental_metrics_average-wait-time"
                     ],
                     "type": "field"
                   },
@@ -626,7 +626,7 @@
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-requested-jrubies"
+                      "jruby-metrics_status_experimental_metrics_average-requested-jrubies"
                     ],
                     "type": "field"
                   },
@@ -743,7 +743,7 @@
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-borrow-time"
+                      "jruby-metrics_status_experimental_metrics_average-borrow-time"
                     ],
                     "type": "field"
                   },
@@ -872,7 +872,7 @@
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-free-jrubies"
+                      "jruby-metrics_status_experimental_metrics_average-free-jrubies"
                     ],
                     "type": "field"
                   },
@@ -989,7 +989,7 @@
                 [
                   {
                     "params": [
-                      "pe-jruby-metrics_status_experimental_metrics_average-wait-time"
+                      "jruby-metrics_status_experimental_metrics_average-wait-time"
                     ],
                     "type": "field"
                   },
