@@ -18,6 +18,7 @@ define puppet_metrics_dashboard::profile::master::postgres (
   Variant[String,Tuple[String, Integer]] $postgres_host = $facts['networking']['fqdn'],
   String[2] $query_interval                             = lookup('puppet_metrics_dashboard::pg_query_interval'),
   Integer[1] $port                                      = 5432,
+  Array[String] $databases                              = ['pe-puppetdb','pe-rbac','pe-activity','pe-classifier'],
   ){
 
   if ! defined(Puppet_metrics_dashboard::Certs['telegraf']) {
@@ -34,7 +35,7 @@ define puppet_metrics_dashboard::profile::master::postgres (
       'interval'      => $query_interval,
       'address'       => "postgres://telegraf@${postgres_host}:${port}/pe-puppetdb?sslmode=require&sslkey=/etc/telegraf/${trusted['certname']}_key.pem&sslcert=/etc/telegraf/${trusted['certname']}_cert.pem&sslrootcert=/etc/telegraf/ca.pem",
       'outputaddress' => $facts['networking']['fqdn'],
-      'databases'     => ['pe-puppetdb','pe-rbac','pe-activity','pe-classifier'],
+      'databases'     => $databases,
       'query'         => [{
         'sqlquery'   => 'SELECT * FROM pg_stat_database',
         'version'    => 901,
