@@ -6,7 +6,7 @@
 #   include puppet_metrics_dashboard::profile::master::install
 #
 class puppet_metrics_dashboard::profile::master::install {
-  if $facts['pe_server_version'] =~ NotUndef {
+  if $facts['pe_server_version'] {
     $puppetserver_service = 'pe-puppetserver'
   } else {
     $puppetserver_service = 'puppetserver'

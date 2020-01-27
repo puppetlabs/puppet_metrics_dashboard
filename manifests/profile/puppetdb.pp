@@ -34,13 +34,12 @@ define puppet_metrics_dashboard::profile::puppetdb (
   Boolean $enable_client_cert                                 = true,
   ){
 
-  if ! defined(Puppet_metrics_dashboard::Certs['telegraf']) {
-    puppet_metrics_dashboard::certs{'telegraf':
+  ensure_resource( 'puppet_metrics_dashboard::certs', 'telegraf', {
       notify  => Service['telegraf'],
       require => Package['telegraf'],
       before  => Service['telegraf'],
-    }
-  }
+  })
+
   $cert_dir = '/etc/telegraf'
   $default_options = $enable_client_cert ? {
     true => {

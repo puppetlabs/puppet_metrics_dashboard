@@ -37,7 +37,7 @@ define puppet_metrics_dashboard::profile::compiler (
     require     => Package['telegraf'],
   }
 
-if $facts['pe_server_version'] =~ NotUndef {
+if $facts['pe_server_version'] {
     telegraf::input { "pe_last_file_sync_${compiler}":
       plugin_type => 'http',
       options     => [{
