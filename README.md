@@ -10,6 +10,7 @@
   - [Manual configuration of a complex Puppet Infrastructure](#Manual-configuration-of-a-complex-Puppet-Infrastructure)
   - [Configure Graphite](#Configure-Graphite)
   - [Configure Telegraf, Graphite, and Archive](#Configure-Telegraf,-Graphite,-and-Archive)
+  - [Import Archive Metrics](#Import-Archive-Metrics)
   - [Allow Telegraf to access PE-PostgreSQL](#Allow-Telegraf-to-access-PE-PostgreSQL)
   - [Enable SSL](#Enable-SSL)
   - [Profile defined types](#Profile-defined-types)
@@ -195,6 +196,24 @@ node 'dashboard.example.com' {
   }
 }
 ```
+
+### Import Archive Metrics
+
+The `json2timeseries` script from the [puppetlabs/puppet_metrics_collector](https://forge.puppet.com/puppetlabs/puppet_metrics_collector) module can be used to transform its data and import it into InfluxDB.
+
+Examples:
+
+```bash
+./json2timeseries /opt/puppetlabs/puppet-metrics-collector/puppetserver/*/*.json --convert-to influxdb --influx-db puppet_metrics --netcat dashboard.example.com
+```
+
+This simple example can be used for small number of files. For a large number of files, use `--pattern`.
+
+```bash
+./json2timeseries  --pattern '/opt/puppetlabs/puppet-metrics-collector/puppetserver/*/*.json' --convert-to influxdb --influx-db puppet_metrics --netcat dashboard.example.com
+```
+
+The `--pattern` flag accepts a Ruby glob argument, which the script will internally expand into a list of files.
 
 ### Allow Telegraf to access PE-PostgreSQL
 
