@@ -16,14 +16,14 @@
   "gnetId": null,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1581041216424,
+  "iteration": 1581041209982,
   "links": [
     {
       "icon": "external link",
       "includeVars": true,
       "keepTime": true,
       "tags": [
-        "PuppetDB"
+        "archive"
       ],
       "type": "dashboards"
     }
@@ -37,12 +37,12 @@
       "datasource": "influxdb_puppet_metrics",
       "fill": 1,
       "gridPos": {
-        "h": 7,
+        "h": 9,
         "w": 12,
         "x": 0,
         "y": 0
       },
-      "id": 1,
+      "id": 38,
       "legend": {
         "avg": false,
         "current": false,
@@ -62,16 +62,15 @@
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
-      "stack": false,
+      "stack": true,
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_server",
-          "dsType": "influxdb",
+          "alias": "$tag_server-$tag_service-rss",
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "5m"
               ],
               "type": "time"
             },
@@ -83,12 +82,18 @@
             },
             {
               "params": [
+                "service"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
                 "null"
               ],
               "type": "fill"
             }
           ],
-          "measurement": "global_processed.FiveMinuteRate",
+          "measurement": "processes.RSS",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -97,13 +102,13 @@
             [
               {
                 "params": [
-                  "FiveMinuteRate"
+                  "RSS"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "distinct"
+                "type": "mean"
               }
             ]
           ],
@@ -112,6 +117,12 @@
               "key": "server",
               "operator": "=~",
               "value": "/^$server$/"
+            },
+            {
+              "condition": "AND",
+              "key": "service",
+              "operator": "=~",
+              "value": "/^$service$/"
             }
           ]
         }
@@ -119,7 +130,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Commands per Second",
+      "title": "Process Memory",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -135,7 +146,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "deckbytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -164,12 +175,12 @@
       "datasource": "influxdb_puppet_metrics",
       "fill": 1,
       "gridPos": {
-        "h": 7,
+        "h": 9,
         "w": 12,
         "x": 12,
         "y": 0
       },
-      "id": 2,
+      "id": 36,
       "legend": {
         "avg": false,
         "current": false,
@@ -193,12 +204,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_server",
-          "dsType": "influxdb",
+          "alias": "$tag_server-$tag_service-cpu%",
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "5m"
               ],
               "type": "time"
             },
@@ -210,12 +220,18 @@
             },
             {
               "params": [
+                "service"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
                 "null"
               ],
               "type": "fill"
             }
           ],
-          "measurement": "global_processing-time.95thPercentile",
+          "measurement": "processes.CPU",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -224,13 +240,13 @@
             [
               {
                 "params": [
-                  "95thPercentile"
+                  "CPU"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "distinct"
+                "type": "mean"
               }
             ]
           ],
@@ -239,6 +255,12 @@
               "key": "server",
               "operator": "=~",
               "value": "/^$server$/"
+            },
+            {
+              "condition": "AND",
+              "key": "service",
+              "operator": "=~",
+              "value": "/^$service$/"
             }
           ]
         }
@@ -246,7 +268,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Command Processing Time",
+      "title": "Process CPU",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -262,7 +284,7 @@
       },
       "yaxes": [
         {
-          "format": "ms",
+          "format": "percent",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -291,12 +313,12 @@
       "datasource": "influxdb_puppet_metrics",
       "fill": 1,
       "gridPos": {
-        "h": 7,
-        "w": 24,
+        "h": 8,
+        "w": 12,
         "x": 0,
-        "y": 7
+        "y": 9
       },
-      "id": 3,
+      "id": 12,
       "legend": {
         "avg": false,
         "current": false,
@@ -320,12 +342,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_server",
-          "dsType": "influxdb",
+          "alias": "$tag_server-system-kbmemused",
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "5m"
               ],
               "type": "time"
             },
@@ -342,7 +363,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "puppetdb-status.queue_depth",
+          "measurement": "system_memory.kbmemused",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -351,13 +372,13 @@
             [
               {
                 "params": [
-                  "queue_depth"
+                  "kbmemused"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "distinct"
+                "type": "mean"
               }
             ]
           ],
@@ -373,7 +394,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Queue Depth",
+      "title": "System memory",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -389,7 +410,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "deckbytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -418,12 +439,12 @@
       "datasource": "influxdb_puppet_metrics",
       "fill": 1,
       "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 0,
-        "y": 14
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 9
       },
-      "id": 4,
+      "id": 10,
       "legend": {
         "avg": false,
         "current": false,
@@ -447,12 +468,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_server",
-          "dsType": "influxdb",
+          "alias": "$tag_server-system-cpu%",
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "5m"
               ],
               "type": "time"
             },
@@ -469,7 +489,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "storage_replace-catalog-time.95thPercentile",
+          "measurement": "system_cpu.system",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -478,13 +498,13 @@
             [
               {
                 "params": [
-                  "95thPercentile"
+                  "system"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "distinct"
+                "type": "mean"
               }
             ]
           ],
@@ -500,7 +520,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Replace Catalog Time",
+      "title": "System CPU",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -516,261 +536,7 @@
       },
       "yaxes": [
         {
-          "format": "ms",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
-      "fill": 1,
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 8,
-        "y": 14
-      },
-      "id": 5,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "$tag_server",
-          "dsType": "influxdb",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "server"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "storage_replace-facts-time.95thPercentile",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "95thPercentile"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "distinct"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "server",
-              "operator": "=~",
-              "value": "/^$server$/"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Replace Facts Time",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ms",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
-      "fill": 1,
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 16,
-        "y": 14
-      },
-      "id": 6,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "$tag_server",
-          "dsType": "influxdb",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "server"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "storage_store-report-time.95thPercentile",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "95thPercentile"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "distinct"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "server",
-              "operator": "=~",
-              "value": "/^$server$/"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Store Report Time",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ms",
+          "format": "percentunit",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -796,8 +562,7 @@
   "schemaVersion": 16,
   "style": "dark",
   "tags": [
-    "Top",
-    "PuppetDB"
+    "Top"
   ],
   "templating": {
     "list": [
@@ -812,6 +577,26 @@
         "name": "server",
         "options": [],
         "query": "SHOW TAG VALUES WITH KEY = \"server\"",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "influxdb_puppet_metrics",
+        "hide": 0,
+        "includeAll": true,
+        "label": "service",
+        "multi": true,
+        "name": "service",
+        "options": [],
+        "query": "SHOW TAG VALUES WITH KEY = \"service\"",
         "refresh": 1,
         "regex": "",
         "sort": 0,
@@ -853,7 +638,7 @@
     ]
   },
   "timezone": "",
-  "title": "Archive PuppetDB Performance",
-  "uid": "i-i8RdsWz",
-  "version": 6
+  "title": "Archive Process/System Stats",
+  "uid": "AjtFf3sWz",
+  "version": 17
 }
