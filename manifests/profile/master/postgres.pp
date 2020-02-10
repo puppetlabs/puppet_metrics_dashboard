@@ -9,6 +9,9 @@
 # @param port
 #   The port that the postgres service listens on.  Defaults to 5432
 #
+# @param databases
+#   An Array of databases to query on. Defaults to `['pe-puppetdb','pe-rbac','pe-activity','pe-classifier']`
+#
 # @example Add telegraf to a postgres server
 #   puppet_metrics_dashboard::profile::master::postgres{ $facts['networking']['fqdn']:
 #     query_interval => '10m',
@@ -18,15 +21,14 @@ define puppet_metrics_dashboard::profile::master::postgres (
   Variant[String,Tuple[String, Integer]] $postgres_host = $facts['networking']['fqdn'],
   String[2] $query_interval                             = lookup('puppet_metrics_dashboard::pg_query_interval'),
   Integer[1] $port                                      = 5432,
+  Array[String[1]] $databases                           = ['pe-puppetdb','pe-rbac','pe-activity','pe-classifier'],
   ){
 
-  if ! defined(Puppet_metrics_dashboard::Certs['telegraf']) {
-    puppet_metrics_dashboard::certs{'telegraf':
+  ensure_resource( 'puppet_metrics_dashboard::certs', 'telegraf', {
       notify  => Service['telegraf'],
       require => Package['telegraf'],
       before  => Service['telegraf'],
-    }
-  }
+  })
 
   telegraf::input { "pe_postgres_${postgres_host}":
     plugin_type => 'postgresql_extensible',
@@ -34,7 +36,7 @@ define puppet_metrics_dashboard::profile::master::postgres (
       'interval'      => $query_interval,
       'address'       => "postgres://telegraf@${postgres_host}:${port}/pe-puppetdb?sslmode=require&sslkey=/etc/telegraf/${trusted['certname']}_key.pem&sslcert=/etc/telegraf/${trusted['certname']}_cert.pem&sslrootcert=/etc/telegraf/ca.pem",
       'outputaddress' => $facts['networking']['fqdn'],
-      'databases'     => ['pe-puppetdb','pe-rbac','pe-activity','pe-classifier'],
+      'databases'     => $databases,
       'query'         => [{
         'sqlquery'   => 'SELECT * FROM pg_stat_database',
         'version'    => 901,

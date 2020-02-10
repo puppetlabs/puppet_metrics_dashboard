@@ -13,6 +13,9 @@ class puppet_metrics_dashboard::profile::master::postgres_access (
   Optional[String[1]] $telegraf_host = undef
 ){
 
+  unless $facts['pe_server_version'] {
+    fail('This class is PE only. Please remove this class and configure PostgreSQL access for your specific configuration.')
+  }
   # Unless $telegraf_host is defined, query PuppetDB for a dashboard host.
 
   if $telegraf_host {

@@ -37,16 +37,18 @@ define puppet_metrics_dashboard::profile::compiler (
     require     => Package['telegraf'],
   }
 
-  telegraf::input { "pe_last_file_sync_${compiler}":
-    plugin_type => 'http',
-    options     => [{
-      'urls'                 => [ "https://${compiler}:${port}/status/v1/services/file-sync-client-service?level=debug" ],
-      'insecure_skip_verify' => true,
-      'data_format'          => 'json',
-      'json_string_fields'   => ['status_repos_puppet-code_latest_commit_date'],
-      'timeout'              => $timeout,
-    }],
-    notify      => Service['telegraf'],
-    require     => Package['telegraf'],
+if $facts['pe_server_version'] {
+    telegraf::input { "pe_last_file_sync_${compiler}":
+      plugin_type => 'http',
+      options     => [{
+        'urls'                 => [ "https://${compiler}:${port}/status/v1/services/file-sync-client-service?level=debug" ],
+        'insecure_skip_verify' => true,
+        'data_format'          => 'json',
+        'json_string_fields'   => ['status_repos_puppet-code_latest_commit_date'],
+        'timeout'              => $timeout,
+      }],
+      notify      => Service['telegraf'],
+      require     => Package['telegraf'],
+    }
   }
 }

@@ -16,6 +16,9 @@
 # @param interval
 #   The frequency that telegraf will poll for metrics.  Defaults to '5s'
 #
+# @param enable_client_cert
+#   A boolean to enable using the client certificate for the PuppetDB queries. Defaults to true
+#
 # @example Add telegraf to a puppetdb node
 #   puppet_metrics_dashboard::profile::puppetdb{ $facts['networking']['fqdn']:
 #     timeout          => '5s',
@@ -28,18 +31,38 @@ define puppet_metrics_dashboard::profile::puppetdb (
   Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = puppet_metrics_dashboard::puppetdb_metrics(),
   Integer[1] $port                                            = 8081,
   String[2] $interval                                         = '5s',
+  Boolean $enable_client_cert                                 = true,
   ){
+
+  ensure_resource( 'puppet_metrics_dashboard::certs', 'telegraf', {
+      notify  => Service['telegraf'],
+      require => Package['telegraf'],
+      before  => Service['telegraf'],
+  })
+
+  $cert_dir = '/etc/telegraf'
+  $default_options = $enable_client_cert ? {
+    true => {
+      'tls_key'              => "${cert_dir}/${clientcert}_key.pem",
+      'tls_cert'             => "${cert_dir}/${clientcert}_cert.pem",
+      'tls_ca'               => "${cert_dir}/ca.pem",
+      'insecure_skip_verify' => false,
+    },
+    default => {
+      'insecure_skip_verify' => true,
+    }
+  }
 
   $puppetdb_metrics.each |$metric| {
     telegraf::input { "puppetdb_${metric['name']}_${puppetdb_host}":
       plugin_type => 'httpjson',
       options     => [{
-        'name'                 => "puppetdb_${metric['name']}",
-        'method'               => 'GET',
-        'servers'              => [ "https://${puppetdb_host}:${port}/metrics/v1/mbeans/${metric['url']}" ],
-        'insecure_skip_verify' => true,
-        'response_timeout'     => $timeout,
-      }],
+        'name'             => "puppetdb_${metric['name']}",
+        'method'           => 'GET',
+        'servers'          => [ "https://${puppetdb_host}:${port}/metrics/v1/mbeans/${metric['url']}" ],
+        'response_timeout' => $timeout,
+        } + $default_options
+      ],
       notify      => Service['telegraf'],
       require     => Package['telegraf'],
     }
@@ -48,11 +71,11 @@ define puppet_metrics_dashboard::profile::puppetdb (
   telegraf::input { "puppetdb_command_queue_${puppetdb_host}":
     plugin_type => 'httpjson',
     options     => [{
-      'name'                 => 'puppetdb_command_queue',
-      'servers'              => [ "https://${puppetdb_host}:${port}/status/v1/services?level=debug" ],
-      'insecure_skip_verify' => true,
-      'response_timeout'     => $timeout,
-    }],
+      'name'             => 'puppetdb_command_queue',
+      'servers'          => [ "https://${puppetdb_host}:${port}/status/v1/services?level=debug" ],
+      'response_timeout' => $timeout,
+      } + $default_options
+    ],
     notify      => Service['telegraf'],
     require     => Package['telegraf'],
   }
