@@ -43,6 +43,7 @@ class puppet_metrics_dashboard::dashboards::puppet_metrics {
     ;
     'Archive File Sync Metrics':
       content => file('puppet_metrics_dashboard/Archive_File_Sync.json'),
+      folder  => 'Deeper Dives',
     ;
     'Archive Ace Puma Performance':
       content => file('puppet_metrics_dashboard/Ace_Puma_Performance.json'),
