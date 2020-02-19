@@ -907,7 +907,12 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "/PS-MarkSweep-duration/",
+          "yaxis": 2
+        }
+      ],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
@@ -968,7 +973,7 @@
           ]
         },
         {
-          "alias": "$tag_server-PS-Scavange-count",
+          "alias": "$tag_server-PS-MarkSweep-duration",
           "groupBy": [
             {
               "params": [
@@ -989,7 +994,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "jvm-metrics.gc-stats.PS_Scavenge",
+          "measurement": "jvm-metrics.gc-stats.PS_MarkSweep.last-gc-info.duration-ms",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "B",
@@ -998,7 +1003,7 @@
             [
               {
                 "params": [
-                  "count"
+                  "duration-ms"
                 ],
                 "type": "field"
               },
@@ -1050,7 +1055,7 @@
           "show": true
         },
         {
-          "format": "short",
+          "format": "ms",
           "label": null,
           "logBase": 1,
           "max": null,
