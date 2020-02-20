@@ -199,18 +199,18 @@ node 'dashboard.example.com' {
 
 ### Import Archive Metrics
 
-The `json2timeseries` script from the [puppetlabs/puppet_metrics_collector](https://forge.puppet.com/puppetlabs/puppet_metrics_collector) module can be used to transform its data and import it into InfluxDB.
+The `json2timeseriesdb` script from the [puppetlabs/puppet_metrics_collector](https://forge.puppet.com/puppetlabs/puppet_metrics_collector) module can be used to transform its data and import it into InfluxDB.
 
 Examples:
 
 ```bash
-./json2timeseries /opt/puppetlabs/puppet-metrics-collector/puppetserver/*/*.json --convert-to influxdb --influx-db puppet_metrics --netcat dashboard.example.com
+./json2timeseriesdb /opt/puppetlabs/puppet-metrics-collector/puppetserver/*/*.json --convert-to influxdb --influx-db puppet_metrics --netcat dashboard.example.com
 ```
 
 This simple example can be used for small number of files. For a large number of files, use `--pattern`.
 
 ```bash
-./json2timeseries  --pattern '/opt/puppetlabs/puppet-metrics-collector/puppetserver/*/*.json' --convert-to influxdb --influx-db puppet_metrics --netcat dashboard.example.com
+./json2timeseriesdb  --pattern '/opt/puppetlabs/puppet-metrics-collector/puppetserver/*/*.json' --convert-to influxdb --influx-db puppet_metrics --netcat dashboard.example.com
 ```
 
 The `--pattern` flag accepts a Ruby glob argument, which the script will internally expand into a list of files.
