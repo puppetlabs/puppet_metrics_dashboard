@@ -23,7 +23,7 @@ describe 'puppet_metrics_dashboard::dashboards::puppet_metrics' do
           grafana_url: 'http://localhost:3000',
           grafana_user: 'admin',
           grafana_password: 'puppetlabs',
-          require: 'Grafana_datasource[influxdb_puppet_metrics]',
+          require: ['Grafana_datasource[influxdb_puppet_metrics]', 'Grafana_folder[Deeper Dives]'],
         )
       end
 
@@ -32,7 +32,7 @@ describe 'puppet_metrics_dashboard::dashboards::puppet_metrics' do
           grafana_url: 'http://localhost:3000',
           grafana_user: 'admin',
           grafana_password: 'puppetlabs',
-          require: 'Grafana_datasource[influxdb_puppet_metrics]',
+          require: ['Grafana_datasource[influxdb_puppet_metrics]', 'Grafana_folder[Deeper Dives]'],
         )
       end
 
@@ -41,7 +41,7 @@ describe 'puppet_metrics_dashboard::dashboards::puppet_metrics' do
           grafana_url: 'http://localhost:3000',
           grafana_user: 'admin',
           grafana_password: 'puppetlabs',
-          require: 'Grafana_datasource[influxdb_puppet_metrics]',
+          require: ['Grafana_datasource[influxdb_puppet_metrics]', 'Grafana_folder[Deeper Dives]'],
         )
       end
 
@@ -50,7 +50,61 @@ describe 'puppet_metrics_dashboard::dashboards::puppet_metrics' do
           grafana_url: 'http://localhost:3000',
           grafana_user: 'admin',
           grafana_password: 'puppetlabs',
-          require: 'Grafana_datasource[influxdb_puppet_metrics]',
+          require: ['Grafana_datasource[influxdb_puppet_metrics]', 'Grafana_folder[Deeper Dives]'],
+        )
+      end
+
+      it 'should contain Grafana_dashboard[Archive Orchestration Services]' do
+        is_expected.to contain_grafana_dashboard('Archive Orchestration Services').with(
+          grafana_url: 'http://localhost:3000',
+          grafana_user: 'admin',
+          grafana_password: 'puppetlabs',
+          require: ['Grafana_datasource[influxdb_puppet_metrics]', 'Grafana_folder[Deeper Dives]'],
+        )
+      end
+
+      it 'should contain Grafana_dashboard[Archive Process/System Stats]' do
+        is_expected.to contain_grafana_dashboard('Archive Process/System Stats').with(
+          grafana_url: 'http://localhost:3000',
+          grafana_user: 'admin',
+          grafana_password: 'puppetlabs',
+          require: ['Grafana_datasource[influxdb_puppet_metrics]', 'Grafana_folder[Deeper Dives]'],
+        )
+      end
+
+      it 'should contain Grafana_dashboard[Archive Bolt Puma Performance]' do
+        is_expected.to contain_grafana_dashboard('Archive Bolt Puma Performance').with(
+          grafana_url: 'http://localhost:3000',
+          grafana_user: 'admin',
+          grafana_password: 'puppetlabs',
+          require: ['Grafana_datasource[influxdb_puppet_metrics]', 'Grafana_folder[Deeper Dives]'],
+        )
+      end
+
+      it 'should contain Grafana_dashboard[Archive Orchestrator JVM Performance]' do
+        is_expected.to contain_grafana_dashboard('Archive Orchestrator JVM Performance').with(
+          grafana_url: 'http://localhost:3000',
+          grafana_user: 'admin',
+          grafana_password: 'puppetlabs',
+          require: ['Grafana_datasource[influxdb_puppet_metrics]', 'Grafana_folder[Deeper Dives]'],
+        )
+      end
+
+      it 'should contain Grafana_dashboard[Archive PuppetDB JVM Performance]' do
+        is_expected.to contain_grafana_dashboard('Archive PuppetDB JVM Performance').with(
+          grafana_url: 'http://localhost:3000',
+          grafana_user: 'admin',
+          grafana_password: 'puppetlabs',
+          require: ['Grafana_datasource[influxdb_puppet_metrics]', 'Grafana_folder[Deeper Dives]'],
+        )
+      end
+
+      it 'should contain Grafana_dashboard[Archive Puppetserver JVM Performance]' do
+        is_expected.to contain_grafana_dashboard('Archive Puppetserver JVM Performance').with(
+          grafana_url: 'http://localhost:3000',
+          grafana_user: 'admin',
+          grafana_password: 'puppetlabs',
+          require: ['Grafana_datasource[influxdb_puppet_metrics]', 'Grafana_folder[Deeper Dives]'],
         )
       end
       # rubocop:enable RSpec/ExampleWording
