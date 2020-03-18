@@ -1,8 +1,15 @@
 # Change log
 
 All notable changes to this project will be documented in this file.
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) 
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org).
+
+## TBD - Release - 2.3.0
+
+### Changes
+ - Account for [CVE-2020-7943](https://nvd.nist.gov/vuln/detail/CVE-2020-7943) by configuring telegraf to collect PuppetDB metrics from localhost only on the v2 metrics endpoint, updates dashboards to accomodate new values.
+
+### Bugfixes
 
 ## 2020-3-20 - Release - 2.2.0
 

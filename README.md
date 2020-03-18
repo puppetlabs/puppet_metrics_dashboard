@@ -1,25 +1,25 @@
 # puppet_metrics_dashboard
 
-- [Description](#Description)
-- [Setup](#Setup)
-  - [Upgrade notes](#Upgrade-notes)
-  - [Determining where Telegraf runs](#Determining-where-Telegraf-runs)
-  - [Requirements](#Requirements)
-- [Usage](#Usage)
-  - [Configure a Monolithic Master and a Dashboard node](#Configure-a-Monolithic-Master-and-a-Dashboard-node)
-  - [Manual configuration of a complex Puppet Infrastructure](#Manual-configuration-of-a-complex-Puppet-Infrastructure)
-  - [Configure Graphite](#Configure-Graphite)
-  - [Configure Telegraf, Graphite, and Archive](#Configure-Telegraf,-Graphite,-and-Archive)
-  - [Import Archive Metrics](#Import-Archive-Metrics)
-  - [Allow Telegraf to access PE-PostgreSQL](#Allow-Telegraf-to-access-PE-PostgreSQL)
-  - [Enable SSL](#Enable-SSL)
-  - [Profile defined types](#Profile-defined-types)
-  - [Other possibilities](#Other-possibilities)
-- [Reference](#Reference)
-- [Limitations](#Limitations)
-  - [Repository failure for InfluxDB packages](#Repository-failure-for-InfluxDB-packages)
-  - [PostgreSQL metrics collection with older versions of Telegraf](#PostgreSQL-metrics-collection-with-older-versions-of-Telegraf)
-- [Development](#Development)
+- [Description](#description)
+- [Setup](#setup)
+  - [Upgrade notes](#upgrade-notes)
+  - [Determining where Telegraf runs](#determining-where-telegraf-runs)
+  - [Requirements](#requirements)
+- [Usage](#usage)
+  - [Configure a Monolithic Master and a Dashboard node](#configure-a-monolithic-master-and-a-dashboard-node)
+  - [Manual configuration of a complex Puppet Infrastructure](#manual-configuration-of-a-complex-puppet-infrastructure)
+  - [Configure Graphite](#configure-graphite)
+  - [Configure Telegraf, Graphite, and Archive](#configure-telegraf-graphite-and-archive)
+  - [Import Archive Metrics](#import-archive-metrics)
+  - [Allow Telegraf to access PE-PostgreSQL](#allow-telegraf-to-access-pe-postgresql)
+  - [Enable SSL](#enable-ssl)
+  - [Profile defined types](#profile-defined-types)
+  - [Other possibilities](#other-possibilities)
+- [Reference](#reference)
+- [Limitations](#limitations)
+  - [Repository failure for InfluxDB packages](#repository-failure-for-influxdb-packages)
+  - [PostgreSQL metrics collection with older versions of Telegraf](#postgresql-metrics-collection-with-older-versions-of-telegraf)
+- [Development](#development)
 
 ## Description
 
@@ -40,6 +40,9 @@ You have the option of collecting metrics using any or all of the following meth
 - Via Archive files imported from the [puppetlabs/puppet_metrics_collector](https://forge.puppet.com/puppetlabs/puppet_metrics_collector) module
 
 ## Setup
+
+> In PuppetDB 6.9.1 & 5.2.13 and newer, the `/metrics/v1` endpoints are disabled by default and access to the `/metrics/v2` endpoints are restricted to localhost only in response to [CVE-2020-7943](https://nvd.nist.gov/vuln/detail/CVE-2020-7943). 
+Starting with version 2.3.0 of this module, PuppetDB metrics will not be setup by the main class if you are on the versions above or higher unless the main class is applied to the master. To collect PuppetDB metrics in other scenarios, you should use the `puppet_metrics_dashboard::profile::puppetdb` class applied to any PuppetDB nodes with the option `enable_client_cert => false` (the request will be to localhost and doen't require SSL)
 
 ### Upgrade notes
 

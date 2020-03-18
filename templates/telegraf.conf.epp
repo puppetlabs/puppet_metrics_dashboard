@@ -4,6 +4,13 @@
       Array[String] $puppetdb_list,
       Array[String] $postgres_host_list,
 | -%>
+
+  <% if puppet_metrics_dashboard::puppetdb_no_remote_metrics() {
+           $metrics_version = 'v2/read'
+         } else {
+           $metrics_version = 'v1/mbeans'
+         } -%>
+
 [[inputs.httpjson]]
   name = 'puppet_stats'
   servers = [
@@ -58,7 +65,7 @@
     <%# -%>
     <% unless $puppetdb_list.empty {-%>
     <% $puppetdb_list.each |$puppetdb| {-%>
-    "https://<%= $puppetdb %>/metrics/v1/mbeans/<%= $metric['url'] %>",
+    "https://<%= $puppetdb %>/metrics/<%= $puppetdb_metrics_url %>/<%= $metric['url'] %>",
     <% } -%>
     <% } -%>
     <%# -%>

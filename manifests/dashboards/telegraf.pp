@@ -9,6 +9,12 @@ class puppet_metrics_dashboard::dashboards::telegraf {
     default => 'http',
   }
 
+  if (( 'localhost' in $puppet_metrics_dashboard::puppetdb_list ) and puppet_metrics_dashboard::puppetdb_no_remote_metrics() ) {
+    $pdb_dash_version = '_v2'
+  } else {
+    $pdb_dash_version = undef
+  }
+
   ## This tests if the installation is PE or not.  We have a different dashboard for FOSS
   if is_function_available('pe_compiling_server_version') {
     $puppetserver_perf_template = 'Telegraf_Puppetserver_Performance.json'
@@ -25,10 +31,10 @@ class puppet_metrics_dashboard::dashboards::telegraf {
       require          => Grafana_datasource['influxdb_telegraf'],
     ;
     'Telegraf PuppetDB Performance':
-      content => file('puppet_metrics_dashboard/Telegraf_PuppetDB_Performance.json'),
+      content => file("puppet_metrics_dashboard/Telegraf_PuppetDB_Performance${pdb_dash_version}.json"),
     ;
     'Telegraf PuppetDB Workload':
-      content => file('puppet_metrics_dashboard/Telegraf_PuppetDB_Workload.json'),
+      content => file("puppet_metrics_dashboard/Telegraf_PuppetDB_Workload${pdb_dash_version}.json"),
     ;
     'Telegraf Puppetserver Performance':
       content => file("puppet_metrics_dashboard/${puppetserver_perf_template}"),

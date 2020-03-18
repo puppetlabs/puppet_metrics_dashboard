@@ -9,6 +9,7 @@ describe 'puppet_metrics_dashboard' do
       let(:facts) do
         facts.merge(
           pe_server_version: '2019.1',
+          puppet_server: 'master.example.com',
           puppet_sslpaths: {
             certdir: {
               path: '/etc/puppetlabs/puppet/ssl/certs',
@@ -20,7 +21,7 @@ describe 'puppet_metrics_dashboard' do
         )
       end
 
-      context 'with default values for all parameters' do
+      context 'with default values for all parameters, not applied to master' do
         it { is_expected.to contain_class('puppet_metrics_dashboard') }
         it { is_expected.to contain_class('puppet_metrics_dashboard::repos') }
         it { is_expected.to contain_class('puppet_metrics_dashboard::install') }
@@ -53,7 +54,7 @@ describe 'puppet_metrics_dashboard' do
             .with_configure_telegraf(true)
             .with_consume_graphite(false)
             .with_master_list(['testhost.example.com'])
-            .with_puppetdb_list(['testhost.example.com'])
+            .with_puppetdb_list([])
             .with_influxdb_urls(['http://localhost:8086'])
             .with_telegraf_db_name('telegraf')
             .with_telegraf_agent_interval('5s')
