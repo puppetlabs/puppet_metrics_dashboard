@@ -1,21 +1,26 @@
 # Change log
 
-All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
+All notable changes to this project will be documented in this file.
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) 
+and this project adheres to [Semantic Versioning](http://semver.org).
 
-## 2020-1-31 - Release - 2.1.0
-
-### Bug Fixes
- - Remove the file sync query from PuppetDB metrics when `pe_server_version` is not defined when using Telegraf
+## 2020-3-20 - Release - 2.2.0
 
 ### Changes
+ - New and updated dashboards
+ - Updated documentation
  - Use the client SSL certificate when querying PuppetDB metrics with Telegraf
  - Allow for specifying the PostgreSQL databases in the PostgreSQL profile
-
-## 2020-1-13 - Release - 2.0.2
+ - The certs defined type now uses a `file://` source since it's copying locally
+ - Added the ability to set the Grafana admin password on initial deployment
+ - Added the ability to pass arbitrary config options to Granfana
 
 ### Bugfixes
+ - Remove the file sync query from PuppetDB metrics when `pe_server_version` is not defined when using Telegraf
  - Update the included dashboards to not reference deprecated `pe-` metrics
-
+ - Compatibility fixes with OSP, including dashboards
+ - Update module dependencies
+ 
 ## 2019-7-11 - Release - 2.0.1
 
 ### Bugfixes
