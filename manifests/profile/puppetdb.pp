@@ -8,7 +8,7 @@
 #   See functions/puppetdb_metrics.pp for defaults.
 #
 # @param puppetdb_host
-#   The FQDN of the puppetdb host.  Defaults to the FQDN of the server where the profile is applied.
+#   Where to query the puppetdb host.  Defaults to localhost.
 #
 # @param port
 #   The port that the puppetdb service listens on on your compiler.  Defaults to 8081
@@ -27,7 +27,7 @@
 #
 define puppet_metrics_dashboard::profile::puppetdb (
   String[2] $timeout                                          = lookup('puppet_metrics_dashboard::http_response_timeout'),
-  Variant[String,Tuple[String, Integer]] $puppetdb_host       = $facts['networking']['fqdn'],
+  Variant[String,Tuple[String, Integer]] $puppetdb_host       = 'localhost',
   Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = puppet_metrics_dashboard::puppetdb_metrics(),
   Integer[1] $port                                            = 8081,
   String[2] $interval                                         = '5s',
@@ -53,13 +53,19 @@ define puppet_metrics_dashboard::profile::puppetdb (
     }
   }
 
+  if puppet_metrics_dashboard::puppetdb_no_remote_metrics() {
+        $metrics_version = 'v2/read'
+      } else {
+        $metrics_version = 'v1/mbeans'
+      }
+
   $puppetdb_metrics.each |$metric| {
     telegraf::input { "puppetdb_${metric['name']}_${puppetdb_host}":
       plugin_type => 'httpjson',
       options     => [{
         'name'             => "puppetdb_${metric['name']}",
         'method'           => 'GET',
-        'servers'          => [ "https://${puppetdb_host}:${port}/metrics/v1/mbeans/${metric['url']}" ],
+        'servers'          => [ "https://${puppetdb_host}:${port}/metrics/${metrics_version}/${metric['url']}" ],
         'response_timeout' => $timeout,
         } + $default_options
       ],

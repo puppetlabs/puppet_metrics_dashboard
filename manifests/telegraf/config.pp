@@ -62,11 +62,16 @@ class puppet_metrics_dashboard::telegraf::config {
     }
 
     $_puppetdb_list.each |$puppetdb| {
+      $enable_client_cert = $puppetdb['host'] ? {
+          'localhost' => false,
+          default     => true,
+        }
       puppet_metrics_dashboard::profile::puppetdb{ $puppetdb['host']:
-        puppetdb_host => $puppetdb['host'],
-        port          => $puppetdb['port'],
-        timeout       => $puppet_metrics_dashboard::http_response_timeout,
-        interval      => $puppet_metrics_dashboard::telegraf_agent_interval,
+        puppetdb_host      => $puppetdb['host'],
+        port               => $puppetdb['port'],
+        timeout            => $puppet_metrics_dashboard::http_response_timeout,
+        interval           => $puppet_metrics_dashboard::telegraf_agent_interval,
+        enable_client_cert => $enable_client_cert,
       }
     }
 
@@ -78,6 +83,10 @@ class puppet_metrics_dashboard::telegraf::config {
       }
     }
 
+    tidy { 'clean /etc/telegraf/telegraf.d':
+      path    => '/etc/telegraf/telegraf.d',
+      recurse => true,
+    }
   }
 
 }
