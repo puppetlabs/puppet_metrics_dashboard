@@ -74,6 +74,9 @@
 #   Whether to enable SSL in Grafana.
 #   Valid values are `true`, `false`. Defaults to `false`
 #
+# @param tidy_telegraf_configs
+#   Whether or not to remove unmanaged configuration files from `/etc/telegraf/telegraf.d`. Defaults to `false`
+#
 # @param dashboard_cert_file
 #   The location of the Grafana certficiate.
 #   Defaults to `/etc/grafana/${clientcert}_cert.pem`
@@ -201,6 +204,7 @@ class puppet_metrics_dashboard (
   String[2] $pg_query_interval,
 
   Boolean $use_dashboard_ssl,
+  Boolean $tidy_telegraf_configs,
   String $dashboard_cert_file,
   String $dashboard_cert_key,
 

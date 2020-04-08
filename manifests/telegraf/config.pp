@@ -83,9 +83,11 @@ class puppet_metrics_dashboard::telegraf::config {
       }
     }
 
-    tidy { 'clean /etc/telegraf/telegraf.d':
-      path    => '/etc/telegraf/telegraf.d',
-      recurse => true,
+    if $puppet_metrics_dashboard::tidy_telegraf_configs {
+      tidy { 'clean /etc/telegraf/telegraf.d':
+        path    => '/etc/telegraf/telegraf.d',
+        recurse => true,
+      }
     }
   }
 

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 
 ### Changes
  - Account for [CVE-2020-7943](https://nvd.nist.gov/vuln/detail/CVE-2020-7943) by configuring telegraf to collect PuppetDB metrics from localhost only on the v2 metrics endpoint, updates dashboards to accomodate new values.
+ - Added a tidy resource that cleans up unmanaged telegraf configuration in `/etc/telegraf/telegraf.d` if `tidy_telegraf_configs` is set to true in the main class (default is false)
 
 ### Bugfixes
 
