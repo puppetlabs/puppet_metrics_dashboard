@@ -23,6 +23,7 @@ puppet_metrics_dashboard::telegraf_agent_interval: "5s"
 puppet_metrics_dashboard::pg_query_interval: "10m"
 
 puppet_metrics_dashboard::use_dashboard_ssl: false
+puppet_metrics_dashboard::tidy_telegraf_configs: false
 puppet_metrics_dashboard::dashboard_cert_file: "/etc/grafana/%{clientcert}_cert.pem"
 puppet_metrics_dashboard::dashboard_cert_key: "/etc/grafana/%{clientcert}_key.pem"
 

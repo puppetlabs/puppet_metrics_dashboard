@@ -39,6 +39,7 @@ describe 'puppet_metrics_dashboard' do
             .with_add_dashboard_examples(false)
             .with_manage_repos(true)
             .with_use_dashboard_ssl(false)
+            .with_tidy_telegraf_configs(false)
             .with_dashboard_cert_file('/etc/grafana/testhost.example.com_cert.pem')
             .with_dashboard_cert_key('/etc/grafana/testhost.example.com_key.pem')
             .with_overwrite_dashboards(true)

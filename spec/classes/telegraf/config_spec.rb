@@ -70,6 +70,7 @@ describe 'puppet_metrics_dashboard::telegraf::config' do
         it { is_expected.to contain_file('/etc/telegraf/testhost.example.com_cert.pem') }
         it { is_expected.to contain_file('/etc/telegraf/testhost.example.com_key.pem') }
         it { is_expected.to contain_file('/etc/telegraf/telegraf.conf') }
+        it { is_expected.not_to contain_tidy('clean /etc/telegraf/telegraf.d') }
       end
 
       context 'with defaults, not run on master' do
@@ -90,6 +91,19 @@ describe 'puppet_metrics_dashboard::telegraf::config' do
         it { is_expected.to contain_file('/etc/telegraf/testhost.example.com_cert.pem') }
         it { is_expected.to contain_file('/etc/telegraf/testhost.example.com_key.pem') }
         it { is_expected.to contain_file('/etc/telegraf/telegraf.conf') }
+        it { is_expected.not_to contain_tidy('clean /etc/telegraf/telegraf.d') }
+      end
+
+      context 'with tidy_telegraf_configs set to true' do
+        let(:pre_condition) do
+          <<-PRE_COND
+            class { 'puppet_metrics_dashboard':
+              tidy_telegraf_configs => true
+            }
+          PRE_COND
+        end
+
+        it { is_expected.to contain_tidy('clean /etc/telegraf/telegraf.d') }
       end
 
       context 'when master_list includes entries with port numbers' do
