@@ -24,22 +24,11 @@ group :development do
   gem "json", '= 2.0.4',                                         require: false if Gem::Requirement.create('~> 2.4.2').satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))
   gem "json", '= 2.1.0',                                         require: false if Gem::Requirement.create(['>= 2.5.0', '< 2.7.0']).satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))
   gem "rb-readline", '= 0.5.5',                                  require: false, platforms: [:mswin, :mingw, :x64_mingw]
-  gem "puppet-module-posix-default-r#{minor_version}", '~> 0.3', require: false, platforms: [:ruby]
-  gem "puppet-module-posix-dev-r#{minor_version}", '~> 0.3',     require: false, platforms: [:ruby]
-  gem "puppet-module-win-default-r#{minor_version}", '~> 0.3',   require: false, platforms: [:mswin, :mingw, :x64_mingw]
-  gem "puppet-module-win-dev-r#{minor_version}", '~> 0.3',       require: false, platforms: [:mswin, :mingw, :x64_mingw]
-  gem "puppet-strings", '~> 2.0.0',                              require: false
+  gem "puppet-module-posix-default-r#{minor_version}", '~> 0.4', require: false, platforms: [:ruby]
+  gem "puppet-module-posix-dev-r#{minor_version}", '~> 0.4',     require: false, platforms: [:ruby]
+  gem "puppet-module-win-default-r#{minor_version}", '~> 0.4',   require: false, platforms: [:mswin, :mingw, :x64_mingw]
+  gem "puppet-module-win-dev-r#{minor_version}", '~> 0.4',       require: false, platforms: [:mswin, :mingw, :x64_mingw]
   gem "toml-rb",                                                 require: false
-end
-group :system_tests do
-  gem "puppet-module-posix-system-r#{minor_version}", require: false, platforms: [:ruby]
-  gem "beaker", '~> 4',                               require: false
-  gem "beaker-puppet", '~> 1.0',                      require: false
-  gem "beaker-abs", '~> 0.1',                         require: false
-  gem "beaker-pe",                                    require: false
-  gem "beaker-rspec",                                 require: false
-  gem "beaker-docker",                                require: false
-  gem "beaker-vagrant",                               require: false
 end
 
 puppet_version = ENV['PUPPET_GEM_VERSION']

@@ -4,12 +4,13 @@ describe 'puppet_metrics_dashboard class' do
   context 'init with default parameters' do
     it 'installs grafana and influxdb' do
       pp = <<-MANIFEST
-    		class {'puppet_metrics_dashboard': }
+        include puppet_metrics_dashboard
         MANIFEST
 
       # Run it twice and test for idempotency
       expect(apply_manifest(pp).exit_code).not_to eq(1)
-      expect(apply_manifest(pp).exit_code).to eq(0)
+      expect(apply_manifest(pp).exit_code).not_to eq(1)
+      idempotent_apply(pp)
     end
     describe port('3000') do
       it { is_expected.to be_listening }
