@@ -159,7 +159,7 @@ function puppet_metrics_dashboard::puppetdb_metrics() >> Array[Hash] {
     /^2016./ =>
       $activemq_metrics + $base_metrics + $base_metrics_through_4_2 + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
     /^201[789]\./ =>
-      $activemq_metrics + $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics + $ha_sync_metrics,
+      $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics + $ha_sync_metrics,
     default  =>
       $base_metrics + $storage_metrics + $connection_pool_metrics + $version_specific_metrics,
   }
