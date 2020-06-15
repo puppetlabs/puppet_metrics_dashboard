@@ -28,6 +28,7 @@ describe 'puppet_metrics_dashboard::repos' do
             is_expected.to contain_yumrepo('influxdb')
               .with(
                 'ensure' => 'present',
+                'descr' => 'influxdb-repository',
                 'enabled' => '1',
                 'gpgcheck' => '1',
                 'baseurl' => 'https://repos.influxdata.com/rhel/$releasever/$basearch/stable',
