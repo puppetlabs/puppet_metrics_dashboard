@@ -1,3 +1,9 @@
+# frozen_string_literal: true
+
+require 'puppetlabs_spec_helper/module_spec_helper'
+require 'serverspec'
+include PuppetLitmus
+
 RSpec.configure do |c|
   c.mock_with :rspec
   c.before :suite do
