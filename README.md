@@ -165,6 +165,27 @@ puppet_metrics_dashboard::postgres_host_list:
   - "postgres02.example.com"
 ```
 
+### Configure Master, Compiler running PuppetDB and a Dashboard node
+
+```puppet
+node 'master.example.com' {
+  include puppet_metrics_dashboard::profile::master::install
+}
+node 'dbcompiler.example.com' {
+  class { 'puppet_metrics_dashboard::profile::dbcompiler::install':
+    influxdb_urls => ["http://dashboard.example.com:8086"]
+  }
+}
+node 'dashboard.example.com' {
+  class { 'puppet_metrics_dashboard':
+    add_dashboard_examples => true,
+    overwrite_dashboards   => false,
+  }
+}
+```
+
+This will configure Telegraf, InfluxDB, and Grafana on the Dashboard node, and allow Telegraf on that host to access PuppetDB on the Compiler running PuppetDB.
+
 ### Configure Graphite
 
 ```puppet
