@@ -93,7 +93,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "processes.RSS",
+          "measurement": "system_processes.RSS",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -231,7 +231,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "processes.CPU",
+          "measurement": "system_processes.CPU",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
