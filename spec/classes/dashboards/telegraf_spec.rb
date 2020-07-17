@@ -45,15 +45,6 @@ describe 'puppet_metrics_dashboard::dashboards::telegraf' do
         )
       end
 
-      it 'should contain Grafana_dashboard[Telegraf Puppetserver Workload]' do
-        is_expected.to contain_grafana_dashboard('Telegraf Puppetserver Workload').with(
-          grafana_url: 'http://localhost:3000',
-          grafana_user: 'admin',
-          grafana_password: 'puppetlabs',
-          require: 'Grafana_datasource[influxdb_telegraf]',
-        )
-      end
-
       it 'should contain Grafana_dashboard[Telegraf File Sync Metrics]' do
         is_expected.to contain_grafana_dashboard('Telegraf File Sync Metrics').with(
           grafana_url: 'http://localhost:3000',

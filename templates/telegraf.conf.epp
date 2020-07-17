@@ -11,7 +11,8 @@
            $metrics_version = 'v1/mbeans'
          } -%>
 
-[[inputs.httpjson]]
+[[inputs.http]]
+  data_format = json
   name = 'puppet_stats'
   servers = [
     <%# -%>
@@ -41,7 +42,8 @@
   json_string_fields = ["status_repos_puppet-code_latest_commit_date"]
   timeout = '<%= $http_response_timeout %>s'
 
-[[inputs.httpjson]]
+[[inputs.http]]
+  data_format = json
   name = 'puppetdb_command_queue'
   servers = [
     <%# -%>
@@ -59,7 +61,8 @@
 <%# -%>
 <% unless $puppetdb_metrics.empty {-%>
 <% $puppetdb_metrics.each | $metric| {-%>
-[[inputs.httpjson]]
+[[inputs.http]]
+  data_format = json
   name = "puppetdb_<%= $metric['name'] %>"
   servers = [
     <%# -%>

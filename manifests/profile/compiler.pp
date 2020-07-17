@@ -25,13 +25,17 @@ define puppet_metrics_dashboard::profile::compiler (
   ){
 
   telegraf::input { "puppetserver_metrics_${compiler}":
-    plugin_type => 'httpjson',
+    plugin_type => 'http',
     options     => [{
-      'name'                 => 'puppet_stats',
-      'servers'              => [ "https://${compiler}:${port}/status/v1/services?level=debug" ],
+      'data_format'          => 'json',
+      'name_override'        => 'httpjson_puppet_stats',
+      'urls'                 => [ "https://${compiler}:${port}/status/v1/services?level=debug" ],
       'method'               => 'GET',
       'insecure_skip_verify' => true,
-      'response_timeout'     => $timeout,
+      'timeout'              => $timeout,
+      'tags'                 => {
+        'server' => $compiler,
+      },
     }],
     notify      => Service['telegraf'],
     require     => Package['telegraf'],

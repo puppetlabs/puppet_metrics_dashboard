@@ -178,7 +178,7 @@ describe 'puppet_metrics_dashboard::telegraf::config' do
           is_expected.to contain_file('/etc/telegraf/telegraf.d/pe_last_file_sync_testhost.example.com.conf')\
             .with_content(%r{\s*timeout\s*=\s*\"123s\"})
           is_expected.to contain_file('/etc/telegraf/telegraf.d/puppetserver_metrics_testhost.example.com.conf')\
-            .with_content(%r{\s*response_timeout\s*=\s*\"123s\"})
+            .with_content(%r{\s*timeout\s*=\s*\"123s\"})
         end
       end
     end

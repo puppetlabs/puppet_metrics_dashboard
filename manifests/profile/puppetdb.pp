@@ -61,12 +61,16 @@ define puppet_metrics_dashboard::profile::puppetdb (
 
   $puppetdb_metrics.each |$metric| {
     telegraf::input { "puppetdb_${metric['name']}_${puppetdb_host}":
-      plugin_type => 'httpjson',
+      plugin_type => 'http',
       options     => [{
-        'name'             => "puppetdb_${metric['name']}",
-        'method'           => 'GET',
-        'servers'          => [ "https://${puppetdb_host}:${port}/metrics/${metrics_version}/${metric['url']}" ],
-        'response_timeout' => $timeout,
+        'data_format'   => 'json',
+        'name_override' => "httpjson_puppetdb_${metric['name']}",
+        'method'        => 'GET',
+        'urls'          => [ "https://${puppetdb_host}:${port}/metrics/${metrics_version}/${metric['url']}" ],
+        'timeout'       => $timeout,
+        'tags'          => {
+          'server' => $clientcert,
+        }
         } + $default_options
       ],
       notify      => Service['telegraf'],
@@ -75,11 +79,15 @@ define puppet_metrics_dashboard::profile::puppetdb (
   }
 
   telegraf::input { "puppetdb_command_queue_${puppetdb_host}":
-    plugin_type => 'httpjson',
+    plugin_type => 'http',
     options     => [{
-      'name'             => 'puppetdb_command_queue',
-      'servers'          => [ "https://${puppetdb_host}:${port}/status/v1/services?level=debug" ],
-      'response_timeout' => $timeout,
+      'data_format'   => 'json',
+      'name_override' => 'httpjson_puppetdb_command_queue',
+      'urls'          => [ "https://${puppetdb_host}:${port}/status/v1/services?level=debug" ],
+      'timeout'       => $timeout,
+      'tags'          => {
+        'server' => $clientcert,
+      }
       } + $default_options
     ],
     notify      => Service['telegraf'],
