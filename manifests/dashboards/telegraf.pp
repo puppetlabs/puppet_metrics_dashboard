@@ -39,6 +39,9 @@ class puppet_metrics_dashboard::dashboards::telegraf {
     'Telegraf Puppetserver Performance':
       content => file("puppet_metrics_dashboard/${puppetserver_perf_template}"),
     ;
+    'Telegraf Puppetserver Workload':
+      content => file('puppet_metrics_dashboard/Telegraf_Puppetserver_Workload.json'),
+    ;
     'Telegraf File Sync Metrics':
       content => file('puppet_metrics_dashboard/Telegraf_File_Sync.json'),
     ;
