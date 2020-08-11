@@ -4,10 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
-## Date TBD - Release - 2.3.x
+## 2020-7-24 - Release - 2.3.1
 
 ### Changes
  - Added the `puppet_metrics_dashboard::profile::dbcompiler::install` class to mitigate CVE-2020-7943.
+ - Added a description to the influxdb yumrepo
+ - Updated Puppet VS Code Extension ID
+ - Datasource is now configurable on te system metrics graphs
+ - Replaced deprecated httpjson telegraf input with http
+ - Added a dashboard for Telegraf Puppetserver workload
+
+### Bugfixes
+ - Fixed measurement names for process dashboards
+ - CI fixes
 
 ## 2020-4-15 - Release - 2.3.0
 
