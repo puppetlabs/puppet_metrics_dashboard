@@ -12,6 +12,12 @@ class puppet_metrics_dashboard::profile::master::install {
     $puppetserver_service = 'puppetserver'
   }
 
+  package { 'toml':
+    ensure   => present,
+    provider => 'puppetserver_gem',
+    notify   => Service[$puppetserver_service],
+  }
+
   package { 'toml-rb':
     ensure   => present,
     provider => 'puppetserver_gem',
