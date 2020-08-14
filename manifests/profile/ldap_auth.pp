@@ -62,27 +62,24 @@
 #
 class puppet_metrics_dashboard::profile::ldap_auth (
   String $ldap_host,
+  String $ldap_bind_dn,
+  String $ldap_search_filter,
+  String $ldap_search_base,
+  String $ldap_group_dn,
   Integer $ldap_port = 389,
   Boolean $ldap_ssl = false,
   Boolean $ldap_tls = false,
   Boolean $ldap_ssl_skip = true,
-  String $ldap_bind_dn,
-  String $ldap_search_filter,
-  String $ldap_search_base,
-
+  String $ldap_grafana_role = 'Admin',
   Optional[String] $ldap_bind_password = null,
   Optional[String] $ldap_groupsearch_filter = null,
   Optional[String] $ldap_groupsearch_base = null,
-  Optional[String] $ldap_groupsearch_user_attr = null,  
-  
+  Optional[String] $ldap_groupsearch_user_attr = null,
   Optional[String] $ldap_name = name,
   Optional[String] $ldap_surname = surname,
   Optional[String] $ldap_username = username,
   Optional[String] $ldap_member_of = memberOf,
   Optional[String] $ldap_email = email,
-
-  String $ldap_group_dn,
-  String $ldap_grafana_role = 'Admin',
 ){
 
   class { 'puppet_metrics_dashboard':
@@ -95,8 +92,8 @@ class puppet_metrics_dashboard::profile::ldap_auth (
     },
   }
   file { '/etc/grafana/ldap.toml':
-    ensure => present,
+    ensure  => present,
     content => epp('puppet_metrics_dashboard/ldap.toml.epp'),
     notify  => Service['grafana-server'],
-  }  
+  }
 }
