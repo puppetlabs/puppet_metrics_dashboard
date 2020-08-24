@@ -26,7 +26,7 @@ define puppet_metrics_dashboard::profile::master::postgres (
 
   ensure_resource( 'puppet_metrics_dashboard::certs', 'telegraf', {
       notify  => Service['telegraf'],
-      require => Package['telegraf'],
+      require => Class['telegraf::install'],
       before  => Service['telegraf'],
   })
 
@@ -59,6 +59,6 @@ define puppet_metrics_dashboard::profile::master::postgres (
         }]
     }],
     notify      => Service['telegraf'],
-    require     => Package['telegraf'],
+    require     => Class['telegraf::install'],
   }
 }

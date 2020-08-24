@@ -18,45 +18,51 @@ describe 'puppet_metrics_dashboard::install' do
           PRE_COND
         end
 
-        it do
-          is_expected.to contain_package('influxdb')
-            .with_ensure('present')
-        end
+        case facts[:os]['family']
+        when 'RedHat', 'Debian'
+          it do
+            is_expected.to contain_package('influxdb')
+              .with_ensure('present')
+          end
 
-        it do
-          is_expected.to contain_package('kapacitor')
-            .with_ensure('absent')
-        end
+          it do
+            is_expected.to contain_package('kapacitor')
+              .with_ensure('absent')
+          end
 
-        it do
-          is_expected.to contain_package('chronograf')
-            .with_ensure('absent')
+          it do
+            is_expected.to contain_package('chronograf')
+              .with_ensure('absent')
+          end
         end
       end
 
-      context 'with Kapacitor and Chronograf enabled' do
-        let(:pre_condition) do
-          <<-PRE_COND
-            class {'puppet_metrics_dashboard':
-              enable_kapacitor  => true,
-              enable_chronograf => true,
-            }
-          PRE_COND
-        end
+      case facts[:os]['family']
+      when 'RedHat', 'Debian'
+        context 'with Kapacitor and Chronograf enabled' do
+          let(:pre_condition) do
+            <<-PRE_COND
+              class {'puppet_metrics_dashboard':
+                enable_kapacitor  => true,
+                enable_chronograf => true,
+              }
+            PRE_COND
+          end
 
-        it do
-          is_expected.to contain_package('influxdb')
-            .with_ensure('present')
-        end
+          it do
+            is_expected.to contain_package('influxdb')
+              .with_ensure('present')
+          end
 
-        it do
-          is_expected.to contain_package('kapacitor')
-            .with_ensure('present')
-        end
+          it do
+            is_expected.to contain_package('kapacitor')
+              .with_ensure('present')
+          end
 
-        it do
-          is_expected.to contain_package('chronograf')
-            .with_ensure('present')
+          it do
+            is_expected.to contain_package('chronograf')
+              .with_ensure('present')
+          end
         end
       end
     end

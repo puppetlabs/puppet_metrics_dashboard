@@ -5,17 +5,21 @@
 #
 # @api private
 class puppet_metrics_dashboard::post_start_configs {
+  $influx_command = $facts['os']['family'] ? {
+    'Suse' => '/opt/influxdb/usr/bin/influx',
+    default => '/usr/bin/influx'
+  }
   # Fix a timing issue where influxdb does not start fully before creating users
   exec { 'wait for influxdb':
     command => '/bin/sleep 10',
-    unless  => '/usr/bin/influx -execute "SHOW DATABASES"',
+    unless  => "${influx_command} -execute \"SHOW DATABASES\"",
     require => Service[$puppet_metrics_dashboard::influx_db_service_name],
   }
 
   # lint:ignore:140chars
   exec { 'create influxdb admin user':
-    command => "/usr/bin/influx -execute \"CREATE USER admin WITH PASSWORD '${puppet_metrics_dashboard::influx_db_password}' WITH ALL PRIVILEGES\"",
-    unless  => "/usr/bin/influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \'show users\' | grep \'admin true\'",
+    command => "${influx_command} -execute \"CREATE USER admin WITH PASSWORD '${puppet_metrics_dashboard::influx_db_password}' WITH ALL PRIVILEGES\"",
+    unless  => "${influx_command} -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \'show users\' | grep \'admin true\'",
     require => Exec['wait for influxdb'],
   }
   # lint:endignore
@@ -23,8 +27,8 @@ class puppet_metrics_dashboard::post_start_configs {
   $puppet_metrics_dashboard::influxdb_database_name.each |$db_name| {
     # lint:ignore:140chars
     exec { "create influxdb puppet_metrics database ${db_name}":
-      command => "/usr/bin/influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"create database ${db_name}\"",
-      unless  => "/usr/bin/influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \'show databases\' | grep ${db_name}",
+      command => "${influx_command} -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"create database ${db_name}\"",
+      unless  => "${influx_command} -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \'show databases\' | grep ${db_name}",
       require => Exec['create influxdb admin user'],
     }
     # lint:endignore
