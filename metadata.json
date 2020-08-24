@@ -9,12 +9,20 @@
   "issues_url": "https://github.com/puppetlabs/puppet_metrics_dashboard/issues",
   "dependencies": [
     {
+      "name": "camptocamp-systemd",
+      "version_requirement": ">= 2.0.0 < 8.0.0"
+    },
+    {
+      "name": "puppet-archive",
+      "version_requirement": ">= 4.0.0 < 8.0.0"
+    },
+    {
       "name": "puppet-grafana",
-      "version_requirement": ">= 3.0.0 < 7.0.0"
+      "version_requirement": ">= 7.0.0 < 8.0.0"
     },
     {
       "name": "puppet-telegraf",
-      "version_requirement": ">= 2.0.0 < 4.0.0"
+      "version_requirement": ">= 3.1.0 < 4.0.0"
     },
     {
       "name": "puppetlabs-apt",
@@ -53,6 +61,12 @@
       "operatingsystemrelease": [
         "18.04",
         "16.04"
+      ]
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "12"
       ]
     }
   ],

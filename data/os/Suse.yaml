@@ -1,0 +1,8 @@
+---
+puppet_metrics_dashboard::manage_repos: false
+puppet_metrics_dashboard::influx_db_service_name: 'influxdb'
+puppet_metrics_dashboard::grafana_version: '7.1.4'
+puppet_metrics_dashboard::influx_archive_source: 'https://dl.influxdata.com/influxdb/releases/influxdb-1.8.1_linux_amd64.tar.gz'
+puppet_metrics_dashboard::grafana_install_method: ~
+puppet_metrics_dashboard::grafana_manage_repo: ~
+
