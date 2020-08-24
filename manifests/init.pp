@@ -58,6 +58,9 @@
 #   The password for the InfluxDB `admin` user.
 #   Defaults to `puppet`
 #
+# @param influx_archive_source
+#   URL if you want to install influx from tar.gz file
+#
 # @param telegraf_db_name
 #   The InfluxDB database where Telegraf metrics are stored.
 #
@@ -115,6 +118,20 @@
 # @param grafana_config
 #   Hash of arbitrary configuration settings to pass to Grafana.
 #   These are added to `grafana.ini` with top-level keys becoming sections and their key-value children becoming settings.
+#
+# @param grafana_manage_repo
+#   Whether to configure apt / yum repositories for grafana packages.
+#
+# @param grafana_archive_source
+#   URL if you want to install grafana from tar.gz file
+#
+# @param grafana_install_method
+#   grafana module allows to specify the installation method.
+#   Set to 'archive' to install Grafana using the tar archive.
+#   Set to 'docker' to install Grafana using the official Docker container.
+#   Set to 'package' to install Grafana using .deb or .rpm packages.
+#   Set to 'repo' to install Grafana using an apt or yum repository.
+#   Defaults to 'package'.
 #
 # @example Grafana with no login
 #   class { 'puppet_metrics_dashboard':
@@ -228,6 +245,11 @@ class puppet_metrics_dashboard (
 
   Hash $grafana_config,
 
+  Boolean             $grafana_manage_repo = $manage_repos,
+  Optional[Stdlib::Httpsurl] $influx_archive_source = undef,
+  Optional[Stdlib::Httpsurl] $grafana_archive_source = undef,
+  Enum['docker', 'archive', 'package', 'repo'] $grafana_install_method = 'repo',
+
   Puppet_metrics_dashboard::HostList $master_list        = puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile('master'),
   Puppet_metrics_dashboard::HostList $puppetdb_list      = puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile('puppetdb'),
   Puppet_metrics_dashboard::HostList $postgres_host_list = puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile('database'),
@@ -235,7 +257,7 @@ class puppet_metrics_dashboard (
   Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = puppet_metrics_dashboard::puppetdb_metrics(),
   ) {
 
-  unless $facts['os']['family'] =~ /^(RedHat|Debian)$/ {
+  unless $facts['os']['family'] =~ /^(RedHat|Debian|Suse)$/ {
     fail("Installation on ${facts['os']['family']} is not supported")
   }
 

@@ -36,7 +36,7 @@ define puppet_metrics_dashboard::profile::puppetdb (
 
   ensure_resource( 'puppet_metrics_dashboard::certs', 'telegraf', {
       notify  => Service['telegraf'],
-      require => Package['telegraf'],
+      require => Class['telegraf::install'],
       before  => Service['telegraf'],
   })
 
@@ -79,7 +79,7 @@ define puppet_metrics_dashboard::profile::puppetdb (
         } + $default_options
       ],
       notify      => Service['telegraf'],
-      require     => Package['telegraf'],
+      require     => Class['telegraf::install'],
     }
   }
 
@@ -96,6 +96,6 @@ define puppet_metrics_dashboard::profile::puppetdb (
       } + $default_options
     ],
     notify      => Service['telegraf'],
-    require     => Package['telegraf'],
+    require     => Class['telegraf::install'],
   }
 }

@@ -38,7 +38,7 @@ define puppet_metrics_dashboard::profile::compiler (
       },
     }],
     notify      => Service['telegraf'],
-    require     => Package['telegraf'],
+    require     => Class['telegraf::install'],
   }
 
 if $facts['pe_server_version'] {
@@ -52,7 +52,7 @@ if $facts['pe_server_version'] {
         'timeout'              => $timeout,
       }],
       notify      => Service['telegraf'],
-      require     => Package['telegraf'],
+      require     => Class['telegraf::install'],
     }
   }
 }
