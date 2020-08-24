@@ -5,17 +5,20 @@
 #
 # @api private
 class puppet_metrics_dashboard::post_start_configs {
+  Exec {
+    path => ['/usr/bin', '/opt/influxdb/usr/bin', '/usr/local/bin', '/bin']
+  }
   # Fix a timing issue where influxdb does not start fully before creating users
   exec { 'wait for influxdb':
     command => '/bin/sleep 10',
-    unless  => '/usr/bin/influx -execute "SHOW DATABASES"',
+    unless  => "influx -execute \"SHOW DATABASES\"",
     require => Service[$puppet_metrics_dashboard::influx_db_service_name],
   }
 
   # lint:ignore:140chars
   exec { 'create influxdb admin user':
-    command => "/usr/bin/influx -execute \"CREATE USER admin WITH PASSWORD '${puppet_metrics_dashboard::influx_db_password}' WITH ALL PRIVILEGES\"",
-    unless  => "/usr/bin/influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \'show users\' | grep \'admin true\'",
+    command => "influx -execute \"CREATE USER admin WITH PASSWORD '${puppet_metrics_dashboard::influx_db_password}' WITH ALL PRIVILEGES\"",
+    unless  => "influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \'show users\' | grep \'admin true\'",
     require => Exec['wait for influxdb'],
   }
   # lint:endignore
@@ -23,8 +26,8 @@ class puppet_metrics_dashboard::post_start_configs {
   $puppet_metrics_dashboard::influxdb_database_name.each |$db_name| {
     # lint:ignore:140chars
     exec { "create influxdb puppet_metrics database ${db_name}":
-      command => "/usr/bin/influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"create database ${db_name}\"",
-      unless  => "/usr/bin/influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \'show databases\' | grep ${db_name}",
+      command => "influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"create database ${db_name}\"",
+      unless  => "influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \'show databases\' | grep ${db_name}",
       require => Exec['create influxdb admin user'],
     }
     # lint:endignore
@@ -32,14 +35,14 @@ class puppet_metrics_dashboard::post_start_configs {
 
   if $puppet_metrics_dashboard::telegraf_db_retention_duration =~ NotUndef {
     exec { "create default telegraf database retention policy":
-      command => "/usr/bin/influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"CREATE RETENTION POLICY telegraf_default ON ${puppet_metrics_dashboard::telegraf_db_name} DURATION ${puppet_metrics_dashboard::telegraf_db_retention_duration} REPLICATION 1 DEFAULT\"",
-      unless => "/usr/bin/influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"SHOW RETENTION POLICIES ON ${puppet_metrics_dashboard::telegraf_db_name}\" | grep -w telegraf_default",
+      command => "influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"CREATE RETENTION POLICY telegraf_default ON ${puppet_metrics_dashboard::telegraf_db_name} DURATION ${puppet_metrics_dashboard::telegraf_db_retention_duration} REPLICATION 1 DEFAULT\"",
+      unless => "influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"SHOW RETENTION POLICIES ON ${puppet_metrics_dashboard::telegraf_db_name}\" | grep -w telegraf_default",
       require => Exec["create influxdb puppet_metrics database ${puppet_metrics_dashboard::telegraf_db_name}"],
     }
   } else {
     exec { "drop existing retention policy if ever created":
-      command => "/usr/bin/influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"DROP RETENTION POLICY telegraf_default ON ${puppet_metrics_dashboard::telegraf_db_name}\"",
-      onlyif => "/usr/bin/influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"SHOW RETENTION POLICIES ON ${puppet_metrics_dashboard::telegraf_db_name}\" | grep -w telegraf_default",
+      command => "influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"DROP RETENTION POLICY telegraf_default ON ${puppet_metrics_dashboard::telegraf_db_name}\"",
+      onlyif => "influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"SHOW RETENTION POLICIES ON ${puppet_metrics_dashboard::telegraf_db_name}\" | grep -w telegraf_default",
     }
   }
 

@@ -51,8 +51,9 @@ class puppet_metrics_dashboard::grafana {
   }).merge($ldap_cfg).merge($puppet_metrics_dashboard::grafana_config) # Merge any custom config over the top finally
 
   class { 'grafana':
-    install_method      => 'repo',
-    manage_package_repo => false,
+    install_method      => $puppet_metrics_dashboard::grafana_install_method,
+    manage_package_repo => $puppet_metrics_dashboard::grafana_manage_repo,
+    archive_source      => $puppet_metrics_dashboard::grafana_archive_source,
     version             => $puppet_metrics_dashboard::grafana_version,
     cfg                 => $_grafana_cfg,
     require             => Service[$puppet_metrics_dashboard::influx_db_service_name],

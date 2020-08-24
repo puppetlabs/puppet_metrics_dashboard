@@ -23,7 +23,7 @@ describe 'puppet_metrics_dashboard' do
 
       context 'with default values for all parameters, not applied to master' do
         it { is_expected.to contain_class('puppet_metrics_dashboard') }
-        it { is_expected.to contain_class('puppet_metrics_dashboard::repos') }
+        it { is_expected.to contain_class('puppet_metrics_dashboard::repos') } unless facts[:os]['family'] == 'Suse'
         it { is_expected.to contain_class('puppet_metrics_dashboard::install') }
         it { is_expected.to contain_class('puppet_metrics_dashboard::config') }
         it { is_expected.to contain_class('puppet_metrics_dashboard::service') }
@@ -35,9 +35,15 @@ describe 'puppet_metrics_dashboard' do
         # verify the defualts have not changed
         # rubocop:disable RSpec/ExampleWording
         it 'should have all the expected default vaulues for parameters' do
+          case facts[:os]['family']
+          when 'Suse'
+            manage_repos = false
+          else
+            manage_repos = true
+          end
           is_expected.to contain_class('puppet_metrics_dashboard')
             .with_add_dashboard_examples(false)
-            .with_manage_repos(true)
+            .with_manage_repos(manage_repos)
             .with_use_dashboard_ssl(false)
             .with_tidy_telegraf_configs(false)
             .with_dashboard_cert_file('/etc/grafana/testhost.example.com_cert.pem')

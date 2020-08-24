@@ -49,25 +49,28 @@ describe 'puppet_metrics_dashboard::service' do
       end
 
       context 'with kapacitor and chronograf enabled' do
-        let(:pre_condition) do
-          <<-PRE_COND
-            class {'puppet_metrics_dashboard':
-              enable_kapacitor  => true,
-              enable_chronograf => true,
-            }
-          PRE_COND
-        end
+        case facts[:os]['family']
+        when 'RedHat', 'Debian'
+          let(:pre_condition) do
+            <<-PRE_COND
+              class {'puppet_metrics_dashboard':
+                enable_kapacitor  => true,
+                enable_chronograf => true,
+              }
+            PRE_COND
+          end
 
-        it do
-          is_expected.to contain_service('chronograf')
-            .with_ensure('running')
-            .with_enable(true)
-        end
+          it do
+            is_expected.to contain_service('chronograf')
+              .with_ensure('running')
+              .with_enable(true)
+          end
 
-        it do
-          is_expected.to contain_service('kapacitor')
-            .with_ensure('running')
-            .with_enable(true)
+          it do
+            is_expected.to contain_service('kapacitor')
+              .with_ensure('running')
+              .with_enable(true)
+          end
         end
       end
     end
