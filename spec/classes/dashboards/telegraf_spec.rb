@@ -9,10 +9,12 @@ describe 'puppet_metrics_dashboard::dashboards::telegraf' do
 
       let(:pre_condition) do
         <<-PRE_COND
+          function puppet_metrics_dashboard::puppetdb_no_remote_metrics() { false }
           class {'puppet_metrics_dashboard':
             add_dashboard_examples => false,
             influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
             grafana_password       => 'puppetlabs',
+            puppetdb_list          => [],
           }
         PRE_COND
       end
@@ -24,6 +26,7 @@ describe 'puppet_metrics_dashboard::dashboards::telegraf' do
           grafana_user: 'admin',
           grafana_password: 'puppetlabs',
           require: 'Grafana_datasource[influxdb_telegraf]',
+          content: %r{"FiveMinuteRate"},
         )
       end
 
@@ -33,6 +36,7 @@ describe 'puppet_metrics_dashboard::dashboards::telegraf' do
           grafana_user: 'admin',
           grafana_password: 'puppetlabs',
           require: 'Grafana_datasource[influxdb_telegraf]',
+          content: %r{"999thPercentile"},
         )
       end
 
@@ -61,6 +65,74 @@ describe 'puppet_metrics_dashboard::dashboards::telegraf' do
           grafana_password: 'puppetlabs',
           require: 'Grafana_datasource[influxdb_telegraf]',
         )
+      end
+
+      context 'when PuppetDB is localhost on a newer version of Puppet' do
+        let(:pre_condition) do
+          <<-PRE_COND
+            function puppet_metrics_dashboard::puppetdb_no_remote_metrics() { true }
+            class {'puppet_metrics_dashboard':
+              add_dashboard_examples => false,
+              influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
+              grafana_password       => 'puppetlabs',
+              puppetdb_list          => ['localhost'],
+            }
+          PRE_COND
+        end
+
+        it 'should contain Grafana_dashboard[Telegraf PuppetDB Performance] with v2' do
+          is_expected.to contain_grafana_dashboard('Telegraf PuppetDB Performance').with(
+            grafana_url: 'http://localhost:3000',
+            grafana_user: 'admin',
+            grafana_password: 'puppetlabs',
+            require: 'Grafana_datasource[influxdb_telegraf]',
+            content: %r{"value_FiveMinuteRate"},
+          )
+        end
+
+        it 'should contain Grafana_dashboard[Telegraf PuppetDB Workload] with v2' do
+          is_expected.to contain_grafana_dashboard('Telegraf PuppetDB Workload').with(
+            grafana_url: 'http://localhost:3000',
+            grafana_user: 'admin',
+            grafana_password: 'puppetlabs',
+            require: 'Grafana_datasource[influxdb_telegraf]',
+            content: %r{"value_999thPercentile"},
+          )
+        end
+      end
+
+      context 'when PuppetDB is remote on a newer version of Puppet' do
+        let(:pre_condition) do
+          <<-PRE_COND
+            function puppet_metrics_dashboard::puppetdb_no_remote_metrics() { true }
+            class {'puppet_metrics_dashboard':
+              add_dashboard_examples => false,
+              influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
+              grafana_password       => 'puppetlabs',
+              puppetdb_list          => ['remotesys'],
+            }
+          PRE_COND
+        end
+
+        it 'should contain Grafana_dashboard[Telegraf PuppetDB Performance] with v2' do
+          is_expected.to contain_grafana_dashboard('Telegraf PuppetDB Performance').with(
+            grafana_url: 'http://localhost:3000',
+            grafana_user: 'admin',
+            grafana_password: 'puppetlabs',
+            require: 'Grafana_datasource[influxdb_telegraf]',
+            content: %r{"value_FiveMinuteRate"},
+          )
+        end
+
+        it 'should contain Grafana_dashboard[Telegraf PuppetDB Workload] with v2' do
+          is_expected.to contain_grafana_dashboard('Telegraf PuppetDB Workload').with(
+            grafana_url: 'http://localhost:3000',
+            grafana_user: 'admin',
+            grafana_password: 'puppetlabs',
+            require: 'Grafana_datasource[influxdb_telegraf]',
+            content: %r{"value_999thPercentile"},
+          )
+        end
       end
       # rubocop:enable RSpec/ExampleWording
     end
