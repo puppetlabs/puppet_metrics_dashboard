@@ -35,7 +35,7 @@ define puppet_metrics_dashboard::profile::master::postgres (
     options     => [{
       'interval'      => $query_interval,
       'address'       => "postgres://telegraf@${postgres_host}:${port}/pe-puppetdb?sslmode=require&sslkey=/etc/telegraf/${trusted['certname']}_key.pem&sslcert=/etc/telegraf/${trusted['certname']}_cert.pem&sslrootcert=/etc/telegraf/ca.pem",
-      'outputaddress' => $facts['networking']['fqdn'],
+      'outputaddress' => $postgres_host,
       'databases'     => $databases,
       'query'         => [{
         'sqlquery'   => 'SELECT * FROM pg_stat_database',
