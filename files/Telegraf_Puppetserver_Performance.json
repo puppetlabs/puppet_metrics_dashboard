@@ -1076,7 +1076,7 @@
         "options": [],
         "query": "SHOW TAG VALUES WITH KEY = \"server\"",
         "refresh": 1,
-        "regex": "/^https://([^:]+):/",
+        "regex": "",
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
