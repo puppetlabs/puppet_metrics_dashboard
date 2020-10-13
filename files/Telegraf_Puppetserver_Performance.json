@@ -50,11 +50,11 @@
           "renderer": "flot",
           "seriesOverrides": [
             {
-              "alias": "ave-wait-time",
+              "alias": "/ave-wait-time/",
               "yaxis": 2
             },
             {
-              "alias": "ave-borrow-time",
+              "alias": "/ave-borrow-time/",
               "yaxis": 2
             }
           ],
@@ -64,7 +64,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "ave-free-jrubies",
+              "alias": "$tag_server-ave-free-jrubies",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -116,7 +116,7 @@
               ]
             },
             {
-              "alias": "ave-requested-jrubies",
+              "alias": "$tag_server-ave-requested-jrubies",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -168,7 +168,7 @@
               ]
             },
             {
-              "alias": "ave-borrow-time",
+              "alias": "$tag_server-ave-borrow-time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -220,7 +220,7 @@
               ]
             },
             {
-              "alias": "ave-wait-time",
+              "alias": "$tag_server-ave-wait-time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -347,15 +347,15 @@
           "renderer": "flot",
           "seriesOverrides": [
             {
-              "alias": "uptime",
+              "alias": "/uptime/",
               "yaxis": 2
             },
             {
-              "alias": "uptime",
+              "alias": "/uptime/",
               "fill": 0
             },
             {
-              "alias": "heap used",
+              "alias": "/heap used/",
               "fill": 4
             }
           ],
@@ -365,7 +365,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "heap committed",
+              "alias": "$tag_server-heap committed",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -416,7 +416,7 @@
               ]
             },
             {
-              "alias": "heap used",
+              "alias": "$tag_server-heap used",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -466,7 +466,7 @@
               ]
             },
             {
-              "alias": "uptime",
+              "alias": "$tag_server-uptime",
               "dsType": "influxdb",
               "groupBy": [
                 {
