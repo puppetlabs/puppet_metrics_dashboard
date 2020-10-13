@@ -21,6 +21,9 @@
 # @param interval
 #   The frequency that telegraf will poll puppetserver metrics.  Defaults to '5s'
 #
+# @param tidy_telegraf_configs
+#   Whether or not to remove unmanaged configuration files from `/etc/telegraf/telegraf.d`. Defaults to `false`.
+#
 class puppet_metrics_dashboard::profile::dbcompiler::install (
 
   Array[String] $influxdb_urls,
@@ -31,6 +34,7 @@ class puppet_metrics_dashboard::profile::dbcompiler::install (
   Integer[1] $db_port                                         = 8081,
   String[2] $interval                                         = '5s',
   Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = puppet_metrics_dashboard::puppetdb_metrics(),
+  Boolean $tidy_telegraf_configs                              = lookup('puppet_metrics_dashboard::tidy_telegraf_configs'),
   ){
 
   class { 'telegraf':
@@ -61,5 +65,13 @@ class puppet_metrics_dashboard::profile::dbcompiler::install (
     port               => $db_port,
     interval           => $interval,
     enable_client_cert => false,
+  }
+
+  if $tidy_telegraf_configs {
+    tidy { 'clean /etc/telegraf/telegraf.d':
+      path    => '/etc/telegraf/telegraf.d',
+      recurse => true,
+      notify  => Service['telegraf'],
+    }
   }
 }
