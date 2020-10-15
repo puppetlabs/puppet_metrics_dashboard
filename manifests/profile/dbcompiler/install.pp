@@ -50,7 +50,7 @@ class puppet_metrics_dashboard::profile::dbcompiler::install (
 
   puppet_metrics_dashboard::profile::compiler{$trusted['certname']:
     timeout  => lookup('puppet_metrics_dashboard::http_response_timeout'),
-    compiler => $facts['networking']['fqdn'],
+    compiler => $compiler,
     port     => $cm_port,
     interval => $interval,
   }
