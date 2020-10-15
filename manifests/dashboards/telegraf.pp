@@ -9,7 +9,7 @@ class puppet_metrics_dashboard::dashboards::telegraf {
     default => 'http',
   }
 
-  if (( 'localhost' in $puppet_metrics_dashboard::puppetdb_list ) and puppet_metrics_dashboard::puppetdb_no_remote_metrics() ) {
+  if puppet_metrics_dashboard::puppetdb_no_remote_metrics() {
     $pdb_dash_version = '_v2'
   } else {
     $pdb_dash_version = undef
