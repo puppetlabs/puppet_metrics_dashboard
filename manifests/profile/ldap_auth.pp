@@ -1,4 +1,4 @@
-# @summary Apply this class to your dashboard node to enable LDAP authentication
+# @summary Apply this class to your dashboard node after enabling LDAP authentication
 #
 ## Server Parameters
 #
@@ -82,15 +82,6 @@ class puppet_metrics_dashboard::profile::ldap_auth (
   Optional[String] $ldap_email = email,
 ){
 
-  class { 'puppet_metrics_dashboard':
-    grafana_config      => {
-      'auth.ldap'       => {
-        'enabled'       => true,
-        'config_file'   => '/etc/grafana/ldap.toml',
-        'allow_sign_up' => true,
-      },
-    },
-  }
   file { '/etc/grafana/ldap.toml':
     ensure  => present,
     content => epp('puppet_metrics_dashboard/ldap.toml.epp'),

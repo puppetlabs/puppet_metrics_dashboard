@@ -21,6 +21,16 @@ class puppet_metrics_dashboard::grafana {
       require => Package['grafana'],
       before  => Service['grafana-server'],
     }
+  }
+
+  if $puppet_metrics_dashboard::enable_ldap_auth {
+    $grafana_cfg = {
+      'auth.ldap'       => {
+        'enabled'       => true,
+        'config_file'   => '/etc/grafana/ldap.toml',
+        'allow_sign_up' => true,
+      },
+    }
 
   } else {
     $grafana_cfg = {
