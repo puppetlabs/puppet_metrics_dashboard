@@ -57,7 +57,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "TempFiles-$tag_db",
+          "alias": "$tag_server-TempFiles-$tag_db",
           "groupBy": [
             {
               "params": [
@@ -68,6 +68,12 @@
             {
               "params": [
                 "db"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -116,11 +122,17 @@
               "key": "db",
               "operator": "!=",
               "value": "template1"
+            },
+            {
+              "condition": "AND",
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
             }
           ]
         },
         {
-          "alias": "TempBytes-$tag_db",
+          "alias": "$tag_server-TempBytes-$tag_db",
           "groupBy": [
             {
               "params": [
@@ -131,6 +143,12 @@
             {
               "params": [
                 "db"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -179,6 +197,12 @@
               "key": "db",
               "operator": "!=",
               "value": "template1"
+            },
+            {
+              "condition": "AND",
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
             }
           ]
         }
@@ -260,7 +284,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_s_table",
+          "alias": "$tag_server-$tag_s_table",
           "groupBy": [
             {
               "params": [
@@ -271,6 +295,12 @@
             {
               "params": [
                 "s_table"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -301,7 +331,13 @@
             ]
           ],
           "slimit": "",
-          "tags": []
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -386,7 +422,7 @@
       "steppedLine": true,
       "targets": [
         {
-          "alias": "$tag_v_table",
+          "alias": "$tag_server-$tag_v_table",
           "groupBy": [
             {
               "params": [
@@ -397,6 +433,12 @@
             {
               "params": [
                 "v_table"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -432,7 +474,13 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -517,7 +565,7 @@
       "steppedLine": true,
       "targets": [
         {
-          "alias": "$tag_v_table",
+          "alias": "$tag_server-$tag_v_table",
           "groupBy": [
             {
               "params": [
@@ -528,6 +576,12 @@
             {
               "params": [
                 "v_table"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -563,7 +617,13 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -643,7 +703,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "Heap-read-$tag_io_table",
+          "alias": "$tag_server-Heap-read-$tag_io_table",
           "groupBy": [
             {
               "params": [
@@ -654,6 +714,12 @@
             {
               "params": [
                 "io_table"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -683,10 +749,16 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
+            }
+          ]
         },
         {
-          "alias": "Heap-hits-$tag_io_table",
+          "alias": "$tag_server-Heap-hits-$tag_io_table",
           "groupBy": [
             {
               "params": [
@@ -697,6 +769,12 @@
             {
               "params": [
                 "io_table"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -726,10 +804,16 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
+            }
+          ]
         },
         {
-          "alias": "Index-reads-$tag_io_table",
+          "alias": "$tag_server-Index-reads-$tag_io_table",
           "groupBy": [
             {
               "params": [
@@ -740,6 +824,12 @@
             {
               "params": [
                 "io_table"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -769,10 +859,16 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
+            }
+          ]
         },
         {
-          "alias": "Index-hit-$tag_io_table",
+          "alias": "$tag_server-Index-hit-$tag_io_table",
           "groupBy": [
             {
               "params": [
@@ -783,6 +879,12 @@
             {
               "params": [
                 "io_table"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -812,10 +914,16 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
+            }
+          ]
         },
         {
-          "alias": "Toast-blks-hit-$tag_io_table",
+          "alias": "$tag_server-Toast-blks-hit-$tag_io_table",
           "groupBy": [
             {
               "params": [
@@ -826,6 +934,12 @@
             {
               "params": [
                 "io_table"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -855,10 +969,16 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
+            }
+          ]
         },
         {
-          "alias": "Toast-blks-read-$tag_io_table",
+          "alias": "$tag_server-Toast-blks-read-$tag_io_table",
           "groupBy": [
             {
               "params": [
@@ -869,6 +989,12 @@
             {
               "params": [
                 "io_table"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -898,10 +1024,16 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
+            }
+          ]
         },
         {
-          "alias": "Toast-index-hit-$tag_io_table",
+          "alias": "$tag_server-Toast-index-hit-$tag_io_table",
           "groupBy": [
             {
               "params": [
@@ -912,6 +1044,12 @@
             {
               "params": [
                 "io_table"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -941,10 +1079,16 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
+            }
+          ]
         },
         {
-          "alias": "Toast-index-read-$tag_io_table",
+          "alias": "$tag_server-Toast-index-read-$tag_io_table",
           "groupBy": [
             {
               "params": [
@@ -955,6 +1099,12 @@
             {
               "params": [
                 "io_table"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -984,7 +1134,13 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -1064,7 +1220,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "Live Tuples - $tag_v_table",
+          "alias": "$tag_server-Live Tuples - $tag_v_table",
           "groupBy": [
             {
               "params": [
@@ -1075,6 +1231,12 @@
             {
               "params": [
                 "v_table"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -1108,10 +1270,16 @@
             ]
           ],
           "slimit": "",
-          "tags": []
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
+            }
+          ]
         },
         {
-          "alias": "Dead Tuples - $tag_v_table",
+          "alias": "$tag_server-Dead Tuples - $tag_v_table",
           "groupBy": [
             {
               "params": [
@@ -1122,6 +1290,12 @@
             {
               "params": [
                 "v_table"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -1155,7 +1329,13 @@
             ]
           ],
           "slimit": "",
-          "tags": []
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -1236,7 +1416,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_db",
+          "alias": "$tag_server-$tag_db",
           "groupBy": [
             {
               "params": [
@@ -1247,6 +1427,12 @@
             {
               "params": [
                 "db"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "server"
               ],
               "type": "tag"
             },
@@ -1299,6 +1485,12 @@
               "key": "db",
               "operator": "!=",
               "value": "pe-postgres"
+            },
+            {
+              "condition": "AND",
+              "key": "server",
+              "operator": "=~",
+              "value": "/$server/"
             }
           ]
         }
@@ -1352,7 +1544,31 @@
     "postgres"
   ],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "influxdb_telegraf",
+        "hide": 0,
+        "includeAll": true,
+        "label": "server",
+        "multi": true,
+        "name": "server",
+        "options": [],
+        "query": "SHOW TAG VALUES FROM postgresql WITH KEY = \"server\"",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
   },
   "time": {
     "from": "now-1h",
