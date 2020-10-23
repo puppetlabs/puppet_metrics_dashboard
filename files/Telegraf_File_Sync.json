@@ -50,11 +50,11 @@
           "renderer": "flot",
           "seriesOverrides": [
             {
-              "alias": "Number of Commits",
+              "alias": "/Number of Commits/",
               "yaxis": 2
             },
             {
-              "alias": "Number of Fetches",
+              "alias": "/Number of Fetches/",
               "yaxis": 2
             }
           ],
@@ -64,7 +64,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "JRuby - Ave Lock Held Time",
+              "alias": "$tag_server-JRuby - Ave Lock Held Time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -72,6 +72,12 @@
                     "$__interval"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -108,7 +114,7 @@
               ]
             },
             {
-              "alias": "JRuby - Ave Lock Wait Time",
+              "alias": "$tag_server-JRuby - Ave Lock Wait Time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -116,6 +122,12 @@
                     "$__interval"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -152,7 +164,7 @@
               ]
             },
             {
-              "alias": "Number of Commits",
+              "alias": "$tag_server-Number of Commits",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -160,6 +172,12 @@
                     "$__interval"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -202,7 +220,7 @@
               ]
             },
             {
-              "alias": "Number of Fetches",
+              "alias": "$tag_server-Number of Fetches",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -210,6 +228,12 @@
                     "$__interval"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -332,7 +356,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "Ave Clone Time",
+              "alias": "$tag_server-Ave Clone Time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -340,6 +364,12 @@
                     "$__interval"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -376,7 +406,7 @@
               ]
             },
             {
-              "alias": "Ave Fetch Time",
+              "alias": "$tag_server-Ave Fetch Time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -384,6 +414,12 @@
                     "$__interval"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -420,7 +456,7 @@
               ]
             },
             {
-              "alias": "Ave Sync Clean Time",
+              "alias": "$tag_server-Ave Sync Clean Time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -428,6 +464,12 @@
                     "$__interval"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -464,7 +506,7 @@
               ]
             },
             {
-              "alias": "Ave Sync Time",
+              "alias": "$tag_server-Ave Sync Time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -472,6 +514,12 @@
                     "$__interval"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -588,7 +636,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "Ave Commit add / rm Time",
+              "alias": "$tag_server-Ave Commit add / rm Time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -596,6 +644,12 @@
                     "$__interval"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -632,7 +686,7 @@
               ]
             },
             {
-              "alias": "Ave Commit Time",
+              "alias": "$tag_server-Ave Commit Time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -640,6 +694,12 @@
                     "$__interval"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -676,7 +736,7 @@
               ]
             },
             {
-              "alias": "Ave Clean Check Time",
+              "alias": "$tag_server-Ave Clean Check Time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -684,6 +744,12 @@
                     "$__interval"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -720,7 +786,7 @@
               ]
             },
             {
-              "alias": "Ave Pre-commit Hook Time",
+              "alias": "$tag_server-Ave Pre-commit Hook Time",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -728,6 +794,12 @@
                     "$__interval"
                   ],
                   "type": "time"
+                },
+                {
+                  "params": [
+                    "server"
+                  ],
+                  "type": "tag"
                 },
                 {
                   "params": [
@@ -836,7 +908,7 @@
         "options": [],
         "query": "SHOW TAG VALUES WITH KEY = \"server\"",
         "refresh": 1,
-        "regex": "/^https://([^:]+):/",
+        "regex": "",
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],

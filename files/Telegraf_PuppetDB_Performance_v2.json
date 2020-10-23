@@ -315,7 +315,7 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "uptime",
+          "alias": "/uptime/",
           "yaxis": 2
         }
       ],
@@ -324,13 +324,19 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "Heap Used",
+          "alias": "$tag_server-Heap Used",
           "groupBy": [
             {
               "params": [
                 "$__interval"
               ],
               "type": "time"
+            },
+            {
+              "params": [
+                "server"
+              ],
+              "type": "tag"
             },
             {
               "params": [
@@ -367,13 +373,19 @@
           ]
         },
         {
-          "alias": "Heap Committed",
+          "alias": "$tag_server-Heap Committed",
           "groupBy": [
             {
               "params": [
                 "$__interval"
               ],
               "type": "time"
+            },
+            {
+              "params": [
+                "server"
+              ],
+              "type": "tag"
             },
             {
               "params": [
@@ -410,13 +422,19 @@
           ]
         },
         {
-          "alias": "uptime",
+          "alias": "$tag_server-uptime",
           "groupBy": [
             {
               "params": [
                 "$__interval"
               ],
               "type": "time"
+            },
+            {
+              "params": [
+                "server"
+              ],
+              "type": "tag"
             },
             {
               "params": [
