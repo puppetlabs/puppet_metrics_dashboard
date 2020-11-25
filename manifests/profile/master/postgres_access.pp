@@ -60,13 +60,23 @@ class puppet_metrics_dashboard::profile::master::postgres_access (
       $postgres_version = '9.4'
     }
 
-    puppet_enterprise::pg::cert_whitelist_entry { 'allow-telegraf-access':
-      user                          => 'telegraf',
-      database                      => 'pe-puppetdb',
-      allowed_client_certname       => $_telegraf_host,
-      pg_ident_conf_path            => "/opt/puppetlabs/server/data/postgresql/${postgres_version}/data/pg_ident.conf",
-      ip_mask_allow_all_users_ssl   => '0.0.0.0/0',
-      ipv6_mask_allow_all_users_ssl => '::/0',
+    $telegraf_allow_settings = {
+      'user'                          => 'telegraf',
+      'database'                      => 'pe-puppetdb',
+      'allowed_client_certname'       => $_telegraf_host,
+      'pg_ident_conf_path'            => "/opt/puppetlabs/server/data/postgresql/${postgres_version}/data/pg_ident.conf",
+      'ip_mask_allow_all_users_ssl'   => '0.0.0.0/0',
+      'ipv6_mask_allow_all_users_ssl' => '::/0',
+    }
+
+    if defined(puppet_enterprise::pg::cert_allowlist_entry) {
+      puppet_enterprise::pg::cert_allowlist_entry { 'allow-telegraf-access':
+        * => $telegraf_allow_settings,
+      }
+    } else {
+      puppet_enterprise::pg::cert_whitelist_entry { 'allow-telegraf-access':
+        * => $telegraf_allow_settings,
+      }
     }
 
   }
