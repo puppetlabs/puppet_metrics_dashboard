@@ -14,3 +14,11 @@ travis_el:
 release_checks:
   provisioner: vmpooler
   images: ['redhat-6-x86_64', 'redhat-7-x86_64', 'redhat-8-x86_64', 'centos-6-x86_64', 'centos-7-x86_64',  'centos-8-x86_64', 'oracle-6-x86_64', 'oracle-7-x86_64', 'scientific-6-x86_64', 'scientific-7-x86_64', 'debian-8-x86_64', 'debian-9-x86_64',  'debian-10-x86_64', 'ubuntu-1604-x86_64', 'ubuntu-1804-x86_64']
+viewer:
+  provisioner: docker
+  images: ['litmusimage/centos:7']
+    #vars: '{docker_run_opts: ["-p 8086:8086", "-p 3000:3000"]}'
+  vars:
+    docker_run_opts:
+      - "-p 8086:8086"
+      - "-p 3000:3000"

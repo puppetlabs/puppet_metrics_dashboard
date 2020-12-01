@@ -14,4 +14,8 @@ fixtures:
       ref: v3.1.0
     facts: https://github.com/puppetlabs/puppetlabs-facts.git
     puppet_agent: https://github.com/puppetlabs/puppetlabs-puppet_agent.git
-    provision: https://github.com/puppetlabs/provision.git
+      #    provision: https://github.com/puppetlabs/provision.git
+    provision:
+      repo: https://github.com/jarretlavallee/provision.git
+      branch: gh_142
+    puppet_metrics_collector: https://github.com/puppetlabs/puppetlabs-puppet_metrics_collector.git
