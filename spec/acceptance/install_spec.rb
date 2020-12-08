@@ -46,7 +46,7 @@ describe 'puppet_metrics_dashboard::install class' do
 
       it 'grafana has a data source' do
         curlquery = <<-QUERY
-          curl -G http://admin:admin@127.0.0.1:3000/api/datasources/name/influxdb_puppet_metrics
+          curl -G http://admin:puppet@127.0.0.1:3000/api/datasources/name/influxdb_puppet_metrics
           QUERY
         expect(run_shell(curlquery.to_s).stdout).to match(%r{influxdb_puppet_metrics})
       end

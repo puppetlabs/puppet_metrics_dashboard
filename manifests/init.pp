@@ -93,7 +93,7 @@
 #   This should be a nonprivileged port (above 1024).
 #
 # @param grafana_password
-#   The password for the Grafana `admin` user.
+#   The password for the Grafana `puppet` user.
 #   Defaults to `admin`
 #
 # @param grafana_version

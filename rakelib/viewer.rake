@@ -32,7 +32,7 @@ namespace :viewer do
     raise "Failed to install the dashboard : #{result}" unless result.first['status'] == 'success'
 
     puts 'The dashboard is available on http://localhost:3000 and data can be imported in http://localhost:8086'
-    puts 'The default login is admin:admin'
+    puts 'The default login is admin:puppet'
   end
 
   # Import metrics into the provisioned dashboard
@@ -63,7 +63,7 @@ namespace :viewer do
     puts 'Metrics will populate the in the dashboard during this time.'
     _stdout, stderr, _status = Open3.capture3("ruby #{script_path} #{script_args}")
     puts stderr
-    puts 'All metrics have been imported. They should be accessible at http://localhost:3000  with the admin:admin credentials'
+    puts 'All metrics have been imported. They should be accessible at http://localhost:3000  with the admin:puppet credentials'
   end
 
   desc 'Destroys metrics dashboard instance'

@@ -271,7 +271,7 @@ This should be a nonprivileged port (above 1024).
 
 Data type: `String`
 
-The password for the Grafana `admin` user.
+The password for the Grafana `puppet` user.
 Defaults to `admin`
 
 ##### `grafana_version`
@@ -406,6 +406,14 @@ Data type: `String[2]`
 The frequency that telegraf will poll puppetserver metrics.  Defaults to '5s'
 
 Default value: `'5s'`
+
+##### `tidy_telegraf_configs`
+
+Data type: `Boolean`
+
+Whether or not to remove unmanaged configuration files from `/etc/telegraf/telegraf.d`. Defaults to `false`.
+
+Default value: `lookup('puppet_metrics_dashboard::tidy_telegraf_configs')`
 
 ##### `puppetdb_metrics`
 

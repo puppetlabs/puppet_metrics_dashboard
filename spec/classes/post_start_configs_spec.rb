@@ -60,7 +60,7 @@ describe 'puppet_metrics_dashboard::post_start_configs' do
               'user' => 'admin',
               'password' => 'puppet',
               'grafana_user' => 'admin',
-              'grafana_password' => 'admin',
+              'grafana_password' => 'puppet',
               'require' => ['Service[grafana-server]', 'Exec[create influxdb puppet_metrics database telegraf]'],
             )
         end
