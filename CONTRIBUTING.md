@@ -168,29 +168,61 @@ rspec tests define them in [.fixtures.yml](./fixtures.yml).
 
 ### Acceptance Tests
 
-This module comes with acceptance tests, which use [beaker][]. These tests spin up a virtual machine under
+This module comes with acceptance tests, which use [litmus](https://github.com/puppetlabs/puppet_litmus). These tests spin up containers under
 [Docker](https://www.docker.com/) to simulate scripted test scenarios. In order to run these, you need Docker installed on your system.
 
-Run the tests by issuing the following command
+Run the tests on EL nodes by issuing the following commands
 
 ```shell
-% PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=docker/centos-7 pdk bundle exec rake beaker
+% bundle install
+% bundle exec rake 'litmus:provision_install[travis_el,puppet6]'
+% bundle exec rake litmus:acceptance:parallel
+% bundle exec rake litmus:tear_down
 ```
 
-This will now download a Centos 7 container image configured in the [default node-set](./spec/acceptance/nodesets/docker/default.yml),
-install Puppet, copy this module, and install its dependencies per [spec/spec_helper_acceptance.rb](./spec/spec_helper_acceptance.rb)
-and then run all the tests under [spec/acceptance](./spec/acceptance). Below will use an Ubuntu 16.04 docker image to run the same tests.
+This will now download a CentOS 7 and a CentOS 6 containers configured in the [travis_el node-set](./provision.yaml),
+install Puppet 6.x, copy this module, and install its dependencies per [spec/spec_helper_acceptance.rb](./spec/spec_helper_acceptance.rb)
+and then run all the tests under [spec/acceptance](./spec/acceptance). Below will use Debian docker images to run the same tests.
 
 ```shell
-% PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=docker/ubuntu-16.04 pdk bundle exec rake beaker
+% bundle install
+% bundle exec rake 'litmus:provision_install[travis_deb,puppet6]'
+% bundle exec rake litmus:acceptance:parallel
+% bundle exec rake litmus:tear_down
+```
+
+### Manual Local Testing
+
+This module comes with a the ability to do manual testing, which uses [litmus](https://github.com/puppetlabs/puppet_litmus). This capability spins up containers under
+[Docker](https://www.docker.com/) to allow for some manual testing. In order to run this, you need Docker installed on your system.
+
+The following command will provision a local docker instance of the applied module and import some metrics collected by the 'puppetlabs-puppet_metrics_collector'.
+
+```shell
+% bundle install
+% bundle exec rake 'viewer[/path/to/offline/metrics]'
+```
+
+This will now download a CentOS 7 container configured in the [viewer node-set](./provision.yaml), install Puppet 6.x, copy this module, and apply the module, and import metrics from the specified directory. The UI will be available on <http://localhost:3000>. This only uses the `pe_metrics` database and associated dashboards. To limit the number of days to import metrics, an optional day parameter can be passed into the `bundle exec rake 'litmus:viewer[/path/to/offline/metrics,20]'` command.
+
+The following command can be used to import additional metrics into the existing instance.
+
+```shell
+% bundle exec rake 'viewer:import[/path/to/offline/metrics]'
+```
+
+The following command can be run to destroy the local instance.
+
+```shell
+% bundle exec rake viewer:destroy
 ```
 
 ## Writing Tests
 
 ### Unit Tests
 
-When writing unit tests for Puppet, [rspec-puppet][] is your best friend. It provides tons of helper methods for testing your manifests against a
-catalog (e.g. contain_file, contain_package, with_params, etc). It would be ridiculous to try and top rspec-puppet's [documentation][rspec-puppet_docs]
+When writing unit tests for Puppet, [rspec-puppet][https://rspec-puppet.com/) is your best friend. It provides tons of helper methods for testing your manifests against a
+catalog (e.g. contain_file, contain_package, with_params, etc). It would be ridiculous to try and top rspec-puppet's [documentation](https://github.com/rodjek/rspec-puppet)
 but here's a tiny sample:
 
 Sample manifest:
@@ -212,7 +244,7 @@ end
 
 ### Acceptance Tests
 
-Writing acceptance tests for Puppet involves [beaker][] and its cousin [beaker-rspec][]. A common pattern for acceptance tests is to create a test manifest, apply it
+Writing acceptance tests for Puppet involves [litmus](https://github.com/puppetlabs/puppet_litmus) and [serverspec](https://serverspec.org/). A common pattern for acceptance tests is to create a test manifest, apply it
 twice to check for idempotency or errors, then run expectations.
 
 ```ruby
@@ -257,7 +289,3 @@ The record of someone performing the merge is the record that they performed the
 [rspec-puppet]: http://rspec-puppet.com/
 
 [rspec-puppet_docs]: http://rspec-puppet.com/documentation/
-
-[beaker]: https://github.com/puppetlabs/beaker
-
-[beaker-rspec]: https://github.com/puppetlabs/beaker-rspec
