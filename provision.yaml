@@ -5,9 +5,12 @@ default:
 vagrant:
   provisioner: vagrant
   images: ['centos/7', 'generic/ubuntu1804']
-travis_deb:
+travis_deb_legacy:
   provisioner: docker
   images: ['litmusimage/ubuntu:16.04', 'litmusimage/ubuntu:18.04', 'litmusimage/debian:8', 'litmusimage/debian:9']
+travis_deb:
+  provisioner: docker
+  images: ['litmusimage/ubuntu:16.04', 'litmusimage/ubuntu:18.04', 'litmusimage/ubuntu:20.04', 'litmusimage/debian:9', 'litmusimage/debian:10']
 travis_el:
   provisioner: docker
   images: ['litmusimage/centos:6', 'litmusimage/centos:7' ]

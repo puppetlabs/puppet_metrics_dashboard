@@ -10,6 +10,22 @@ appveyor.yml:
   branches:
     - /.*/
   use_litmus: true
+  litmus:
+    puppet_collection:
+      - ---puppet5
+      - puppet6
+      - puppet7
+    complex:
+      - collection:
+          puppet_collection:
+            - puppet5
+          provision_list:
+            - travis_deb_legacy
+            - travis_el
+  includes:
+    - env: PUPPET_GEM_VERSION="~> 7.0" CHECK=parallel_spec
+      rvm: 2.7.2
+      stage: spec
 
 Gemfile:
   required:
