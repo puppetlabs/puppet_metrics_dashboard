@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
+## 2020-12-30 - Release - 2.4.0
+
+### Changes
+
+ - Adds puppet7 testing / support
+ - Support for multiple Postgres instances
+ - Use supplied compiler name in dbcompiler profile
+ - Add tidy_telegraf_configs option on dbcompiler profile
+ - Introduces new cert_allowlist_entry class
+ - Add local import and viewing of metrics
+ - Updates the contrib docs for litmus
+ - Re-adds dashboard for JRuby per-borrow metrics
+
+### Bugfixes
+ - Fix logic to select the v2 PuppetDB dashboards
+ - Improve multiserver telegraf dashboard support
+ - Fix raw queries in Postgres dashboard
+
 ## 2020-7-24 - Release - 2.3.1
 
 ### Changes
