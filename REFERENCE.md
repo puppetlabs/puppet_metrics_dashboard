@@ -407,6 +407,14 @@ The frequency that telegraf will poll puppetserver metrics.  Defaults to '5s'
 
 Default value: `'5s'`
 
+##### `tidy_telegraf_configs`
+
+Data type: `Boolean`
+
+Whether or not to remove unmanaged configuration files from `/etc/telegraf/telegraf.d`. Defaults to `false`.
+
+Default value: `lookup('puppet_metrics_dashboard::tidy_telegraf_configs')`
+
 ##### `puppetdb_metrics`
 
 Data type: `Puppet_metrics_dashboard::Puppetdb_metric`
