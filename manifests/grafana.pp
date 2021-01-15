@@ -6,6 +6,19 @@
 #
 # @api private
 class puppet_metrics_dashboard::grafana {
+
+  if $puppet_metrics_dashboard::enable_ldap_auth {
+    $ldap_cfg = {
+      'auth.ldap'       => {
+        'enabled'       => true,
+        'config_file'   => '/etc/grafana/ldap.toml',
+        'allow_sign_up' => true,
+      },
+    }
+  } else {
+    $ldap_cfg = undef
+  }
+
   if $puppet_metrics_dashboard::use_dashboard_ssl {
     $grafana_cfg = {
       server => {
@@ -35,7 +48,7 @@ class puppet_metrics_dashboard::grafana {
       'admin_user'     => 'admin',
       'admin_password' => $puppet_metrics_dashboard::grafana_password,
     }
-  }).merge($puppet_metrics_dashboard::grafana_config) # Merge any custom config over the top finally
+  }).merge($ldap_cfg).merge($puppet_metrics_dashboard::grafana_config) # Merge any custom config over the top finally
 
   class { 'grafana':
     install_method      => 'repo',

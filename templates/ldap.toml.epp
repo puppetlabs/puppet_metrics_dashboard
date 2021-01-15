@@ -1,0 +1,27 @@
+# This file is managed by Puppet. Manual changes will be overwritten during the next puppet run.
+# To make changes, update the parameters for the puppet_metrics_dashboard::profile::ldap_auth class.
+
+[[servers]]
+host = "<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_host %>"
+port = <%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_port %>
+use_ssl = <%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_ssl %>
+start_tls = <%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_tls %>
+ssl_skip_verify = <%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_ssl_skip %>
+bind_dn = "<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_bind_dn %>"
+bind_password = '<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_bind_password %>'
+search_filter = "<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_search_filter %>"
+search_base_dns = ["<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_search_base %>"]
+group_search_filter = "<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_groupsearch_filter %>"
+group_search_base_dns = ["<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_groupsearch_base %>"]
+group_search_filter_user_attribute = "<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_groupsearch_user_attr %>"
+
+[servers.attributes]
+name = "<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_name %>"
+surname = "<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_surname %>"
+username = "<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_username %>"
+member_of = "<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_member_of %>"
+email =  "<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_email %>"
+
+[[servers.group_mappings]]
+group_dn = "<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_group_dn %>"
+org_role = "<%= $puppet_metrics_dashboard::profile::ldap_auth::ldap_grafana_role %>"

@@ -87,6 +87,10 @@
 #   Defaults to `/etc/grafana/${clientcert}_key.pem`
 #   Only used when `use_dashboard_ssl` is `true`.
 #
+# @param enable_ldap_auth
+#   Whether to enable LDAP authentication in Grafana
+#   Valid values are `true`, `false`. Defaults to `false`
+#
 # @param grafana_http_port
 #   The port for the Grafana web interface.
 #   Valid values are Integers from `1024` to `65536`. Defaults to `3000`
@@ -207,6 +211,8 @@ class puppet_metrics_dashboard (
   Boolean $tidy_telegraf_configs,
   String $dashboard_cert_file,
   String $dashboard_cert_key,
+
+  Boolean $enable_ldap_auth,
 
   Integer $grafana_http_port,
   String $grafana_password,

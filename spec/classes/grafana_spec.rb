@@ -88,6 +88,34 @@ describe 'puppet_metrics_dashboard::grafana' do
         end
         # rubocop:enable RSpec/ExampleWording
       end
+
+      context 'with ldap enabled' do
+        let(:pre_condition) do
+          <<-PRE_COND
+            class {'puppet_metrics_dashboard':
+              enable_ldap_auth => true,
+            }
+          PRE_COND
+        end
+
+        it 'contains Class[grafana] with an ldap config' do
+          is_expected.to contain_class('grafana')
+            .with_cfg(
+              'auth.ldap' => {
+                'enabled' => true,
+                'config_file' => '/etc/grafana/ldap.toml',
+                'allow_sign_up'  => 'true',
+              },
+              'security' => {
+                'admin_user'     => 'admin',
+                'admin_password' => 'admin',
+              },
+              'server' => {
+                'http_port' => 3000,
+              },
+            )
+        end
+      end
     end
   end
 end
