@@ -38,6 +38,9 @@ class puppet_metrics_dashboard::dashboards::puppet_metrics {
     'Archive Orchestration Services':
       content => file('puppet_metrics_dashboard/Orchestration_Services.json'),
     ;
+    'Archive Postgres Performance':
+      content => file('puppet_metrics_dashboard/Archive_Postgres.json'),
+    ;
     'Archive Process/System Stats':
       content => file('puppet_metrics_dashboard/Process_System_Stats.json'),
     ;
