@@ -24,6 +24,8 @@
 # @param tidy_telegraf_configs
 #   Whether or not to remove unmanaged configuration files from `/etc/telegraf/telegraf.d`. Defaults to `false`.
 #
+# @param manage_repo
+#   Boolean.  Whether or not to manage Telegraf's repo. Defaults to `true`
 class puppet_metrics_dashboard::profile::dbcompiler::install (
 
   Array[String] $influxdb_urls,
@@ -35,22 +37,24 @@ class puppet_metrics_dashboard::profile::dbcompiler::install (
   String[2] $interval                                         = '5s',
   Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = puppet_metrics_dashboard::puppetdb_metrics(),
   Boolean $tidy_telegraf_configs                              = lookup('puppet_metrics_dashboard::tidy_telegraf_configs'),
+  Optional[Boolean] $manage_repo                              = true
   ){
 
   class { 'telegraf':
-        interval => $interval,
-        logfile  => '/var/log/telegraf/telegraf.log',
-        outputs  => {
-          'influxdb' => [
-            {
-              'urls'              => $influxdb_urls,
-              'database'          => lookup(puppet_metrics_dashboard::telegraf_db_name),
-              'write_consistency' => 'any',
-              'timeout'           => '5s',
-            },
-          ],
+    interval    => $interval,
+    logfile     => '/var/log/telegraf/telegraf.log',
+    manage_repo => $manage_repo,
+    outputs     => {
+      'influxdb' => [
+        {
+          'urls'              => $influxdb_urls,
+          'database'          => lookup(puppet_metrics_dashboard::telegraf_db_name),
+          'write_consistency' => 'any',
+          'timeout'           => '5s',
         },
-      }
+      ],
+    },
+  }
 
   puppet_metrics_dashboard::profile::compiler{$trusted['certname']:
     timeout  => lookup('puppet_metrics_dashboard::http_response_timeout'),
