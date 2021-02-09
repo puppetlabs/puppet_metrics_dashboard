@@ -53,6 +53,11 @@ define puppet_metrics_dashboard::profile::puppetdb (
     }
   }
 
+  $protocol = $enable_client_cert ? {
+    true    => 'https',
+    default => 'http'
+  }
+
   if puppet_metrics_dashboard::puppetdb_no_remote_metrics() {
         $metrics_version = 'v2/read'
       } else {
@@ -66,7 +71,7 @@ define puppet_metrics_dashboard::profile::puppetdb (
         'data_format'   => 'json',
         'name_override' => "httpjson_puppetdb_${metric['name']}",
         'method'        => 'GET',
-        'urls'          => [ "https://${puppetdb_host}:${port}/metrics/${metrics_version}/${metric['url']}" ],
+        'urls'          => [ "${protocol}://${puppetdb_host}:${port}/metrics/${metrics_version}/${metric['url']}" ],
         'timeout'       => $timeout,
         'tags'          => {
           'server' => $clientcert,
@@ -83,7 +88,7 @@ define puppet_metrics_dashboard::profile::puppetdb (
     options     => [{
       'data_format'   => 'json',
       'name_override' => 'httpjson_puppetdb_command_queue',
-      'urls'          => [ "https://${puppetdb_host}:${port}/status/v1/services?level=debug" ],
+      'urls'          => [ "${protocol}://${puppetdb_host}:${port}/status/v1/services?level=debug" ],
       'timeout'       => $timeout,
       'tags'          => {
         'server' => $clientcert,
