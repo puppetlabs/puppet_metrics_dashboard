@@ -41,7 +41,7 @@ class puppet_metrics_dashboard::dashboards::puppet_metrics {
     'Archive Postgres Performance':
       content => file('puppet_metrics_dashboard/Archive_Postgres.json'),
     ;
-    'Archive Process/System Stats':
+    'Archive Process-System Stats':
       content => file('puppet_metrics_dashboard/Process_System_Stats.json'),
     ;
     'Archive File Sync Metrics':
