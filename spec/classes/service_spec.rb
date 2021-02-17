@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+# rubocop:disable RSpec/EmptyExampleGroup
 describe 'puppet_metrics_dashboard::service' do
   on_supported_os.each do |os, facts|
     context "with facter #{RSpec.configuration.default_facter_version} on #{os}" do
