@@ -18,6 +18,8 @@ describe 'puppet_metrics_dashboard::service' do
           PRE_COND
         end
 
+        it { is_expected.to compile }
+
         case facts[:os]['family']
         when 'RedHat'
           it do

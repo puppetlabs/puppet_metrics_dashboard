@@ -14,6 +14,9 @@ describe 'puppet_metrics_dashboard::telegraf::config' do
       let(:trusted_facts) { { 'certname' => 'testhost.example.com' } }
 
       context 'with defaults, run on master' do
+        let(:facts) do
+          super().merge('puppet_metrics_dashboard' => { 'versions' => { 'puppetdb' => '1.2.3' } })
+        end
         let(:pre_condition) do
           <<-PRE_COND
             include puppet_metrics_dashboard
