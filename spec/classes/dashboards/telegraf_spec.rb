@@ -3,9 +3,15 @@ require 'spec_helper'
 describe 'puppet_metrics_dashboard::dashboards::telegraf' do
   on_supported_os.each do |os, facts|
     context "with facter #{RSpec.configuration.default_facter_version} on #{os}" do
-      let(:facts) do
-        facts.merge(pe_server_version: '2017.2')
+      let(:node) do
+        'testhost.example.com'
       end
+
+      let(:facts) do
+        facts.merge(pe_server_version: '2019.5', puppet_server: 'testhost.example.com')
+      end
+
+      let(:trusted_facts) { { 'certname' => 'testhost.example.com' } }
 
       let(:pre_condition) do
         <<-PRE_COND

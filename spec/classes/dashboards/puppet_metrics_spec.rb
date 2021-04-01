@@ -11,8 +11,10 @@ describe 'puppet_metrics_dashboard::dashboards::puppet_metrics' do
         <<-PRE_COND
           class {'puppet_metrics_dashboard':
             add_dashboard_examples => false,
-            influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
+            influxdb_database_name => ['puppet_metrics'],
             grafana_password       => 'puppetlabs',
+            enable_telegraf        => false,
+            configure_telegraf     => false,
           }
         PRE_COND
       end
