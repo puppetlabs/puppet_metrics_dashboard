@@ -15,7 +15,7 @@ class puppet_metrics_dashboard::dashboards {
       mode   => '0644',
     }
 
-    $_overwrite = $facts['overwrite_dashboards_disabled'] ? {
+    $_overwrite = $facts.dig('puppet_metrics_dashboard', 'overwrite_dashboards_disabled') ? {
       true    => false,
       default => true,
     }
