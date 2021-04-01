@@ -9,7 +9,7 @@ describe 'puppet_metrics_dashboard::dashboards::telegraf' do
 
       let(:pre_condition) do
         <<-PRE_COND
-          function puppet_metrics_dashboard::puppetdb_no_remote_metrics() { false }
+          function puppet_metrics_dashboard::puppetdb_v2_metrics() { false }
           class {'puppet_metrics_dashboard':
             add_dashboard_examples => false,
             influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
@@ -79,7 +79,7 @@ describe 'puppet_metrics_dashboard::dashboards::telegraf' do
       context 'when PuppetDB is localhost on a newer version of Puppet' do
         let(:pre_condition) do
           <<-PRE_COND
-            function puppet_metrics_dashboard::puppetdb_no_remote_metrics() { true }
+            function puppet_metrics_dashboard::puppetdb_v2_metrics() { true }
             class {'puppet_metrics_dashboard':
               add_dashboard_examples => false,
               influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
@@ -113,7 +113,7 @@ describe 'puppet_metrics_dashboard::dashboards::telegraf' do
       context 'when PuppetDB is remote on a newer version of Puppet' do
         let(:pre_condition) do
           <<-PRE_COND
-            function puppet_metrics_dashboard::puppetdb_no_remote_metrics() { true }
+            function puppet_metrics_dashboard::puppetdb_v2_metrics() { true }
             class {'puppet_metrics_dashboard':
               add_dashboard_examples => false,
               influxdb_database_name => ['puppet_metrics','telegraf','graphite'],
