@@ -18,7 +18,7 @@ function puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile(
       # PE 2018.1.13 - PE 2019.0.0
       # PE 2019.5 - PE 2019.8.4
       $hosts = puppetdb_query('inventory[certname]{ 
-        facts.puppet_metrics_dashboard.versions.puppetdb > "6.15.0" or
+        facts.puppet_metrics_dashboard.versions.puppetdb >= "6.15.0" or
         facts.puppet_metrics_dashboard.versions.puppetdb < "5.2.13"
         }').map |$nodes| { $nodes['certname'] }
     } else {
