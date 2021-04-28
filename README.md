@@ -19,7 +19,7 @@
 - [Limitations](#limitations)
   - [Repository failure for InfluxDB packages](#repository-failure-for-influxdb-packages)
   - [PostgreSQL metrics collection with older versions of Telegraf](#postgresql-metrics-collection-with-older-versions-of-telegraf)
-- [Development](#development)
+- [Contributing](#How-to-Report-an-issue-or-contribute-to-the-module)
 
 ## Description
 
@@ -330,6 +330,9 @@ yum install curl nss --disablerepo influxdb
 
 PostgreSQL metrics collection requires Telegraf version 1.9.1 or later.
 
-## Development
+## How to Report an issue or contribute to the module
 
-Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
+If you are a PE user and need support using this module or are encountering issues, our Support team would be happy to help you resolve your issue and help reproduce any bugs. Just raise a ticket on the [support portal](https://support.puppet.com/hc/en-us/requests/new).
+ If you have a reproducible bug or are a community user you can raise it directly on the Github [issues](https://github.com/puppetlabs/puppetlabs-puppet_metrics_collector/issues) page of the module. We also welcome PR contributions to improve the module. Please see further details about contributing [here](https://puppet.com/docs/puppet/7.5/contributing.html#contributing_changes_to_module_repositories)
+
+
