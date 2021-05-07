@@ -1,48 +1,35 @@
 ---
+common:
+
+".gitlab-ci.yml":
+  delete: true
 appveyor.yml:
   delete: true
-.gitlab-ci.yml:
-  delete: true
-.project:
-  delete: true
-
-.travis.yml:
-  branches:
-    - /.*/
-  use_litmus: true
-  litmus:
-    puppet_collection:
-      - ---puppet5
-      - puppet6
-      - puppet7
-    complex:
-      - collection:
-          puppet_collection:
-            - puppet5
-          provision_list:
-            - travis_deb_legacy
-            - travis_el
-  includes:
-    - env: PUPPET_GEM_VERSION="~> 7.0" CHECK=parallel_spec
-      rvm: 2.7.2
-      stage: spec
-
 Gemfile:
-  required:
-    ':development':
-      - gem: 'toml-rb'
-
+  optional:
+    ":development":
+    - gem: github_changelog_generator
+    - gem: puppet_litmus
+      git: https://github.com/puppetlabs/puppet_litmus
+      ref: main
+      condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.5.0')
 spec/spec_helper.rb:
-  mock_with: ':rspec'
-  spec_overrides:
-    - 'RSpec.configure do |c|'
-    - "  c.default_facter_version = '3.14.0'"
-    - "  c.after(:suite) do"
-    - "    RSpec::Puppet::Coverage.report!"
-    - "  end"
-    - "end"
-
+  mock_with: ":rspec"
+  coverage_report: true
+.gitpod.Dockerfile:
+  unmanaged: false
+.gitpod.yml:
+  unmanaged: false
+.github/workflows/nightly.yml:
+  unmanaged: false
+.github/workflows/auto_release.yml:
+  unmanaged: false
+.github/workflows/spec.yml:
+  checks: 'syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop'
+  unmanaged: false
+.github/workflows/release.yml:
+  unmanaged: false
+.travis.yml:
+  delete: true
 Rakefile:
-  requires:
-    - require: 'puppet-strings/tasks'
-      conditional: "Bundler.rubygems.find_name('puppet-strings').any?"
+  changelog_user: "puppetlabs"
