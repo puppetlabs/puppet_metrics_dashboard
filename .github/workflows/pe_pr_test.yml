@@ -135,13 +135,9 @@ jobs:
         echo ::endgroup::
         echo INVENTORY_PATH=$FILE >> $GITHUB_ENV
 
-    - name: Set PE Locale
-      run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'rake command run' -- bundle exec bolt  --modulepath spec/fixtures/modules  -i ./$INVENTORY_PATH command run "yum install glibc-common -y; localectl set-locale LANG=en_US.UTF-8"  --targets all
-
     - name: Install PE
       run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'rake deploy_pe::provision_master' -- bundle exec bolt  --modulepath spec/fixtures/modules  -i ./$INVENTORY_PATH plan run deploy_pe::provision_master --params '{"version":"${{ matrix.collection }}","pe_settings":{"password":"puppetlabs"}}'  --targets all
+        buildevents cmd $TRACE_ID $STEP_ID 'rake deploy_pe::provision_master' -- bundle exec bolt  --modulepath spec/fixtures/modules  -i ./$INVENTORY_PATH plan run deploy_pe::provision_master --params '{"version":"${{ matrix.collection }}","pe_settings":{"password":"puppetlabs", "configure_tuning": false}}'  --targets all
   
     - name: Install module
       run: |
