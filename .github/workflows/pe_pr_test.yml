@@ -137,7 +137,7 @@ jobs:
 
     - name: Set PE Locale
       run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'rake command run' -- bundle exec bolt  --modulepath spec/fixtures/modules  -i ./$INVENTORY_PATH command run "localectl set-locale LANG=en_US.UTF-8"  --targets all
+        buildevents cmd $TRACE_ID $STEP_ID 'rake command run' -- bundle exec bolt  --modulepath spec/fixtures/modules  -i ./$INVENTORY_PATH command run "yum install glibc-common -y; localectl set-locale LANG=en_US.UTF-8"  --targets all
 
     - name: Install PE
       run: |
