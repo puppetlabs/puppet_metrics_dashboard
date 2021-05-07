@@ -16,3 +16,7 @@ fixtures:
     puppet_agent: https://github.com/puppetlabs/puppetlabs-puppet_agent.git
     provision: https://github.com/puppetlabs/provision.git
     puppet_metrics_collector: https://github.com/puppetlabs/puppetlabs-puppet_metrics_collector.git
+    deploy_pe: 'git://github.com/jarretlavallee/puppet-deploy_pe.git'
+    ruby_task_helper: "https://git@github.com/puppetlabs/puppetlabs-ruby_task_helper"
+    bootstrap: "https://github.com/puppetlabs/puppetlabs-bootstrap"
+    puppet_conf: "https://github.com/puppetlabs/puppetlabs-puppet_conf"
