@@ -137,7 +137,7 @@ jobs:
 
     - name: Install PE
       run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'rake deploy_pe::provision_master' -- bundle exec bolt --tmpdir /root  --modulepath spec/fixtures/modules  -i ./$INVENTORY_PATH plan run deploy_pe::provision_master --params '{"version":"${{ matrix.collection }}","pe_settings":{"password":"puppetlabs", "configure_tuning": false}}'  --targets all
+        buildevents cmd $TRACE_ID $STEP_ID 'rake deploy_pe::provision_master' -- bundle exec bolt --tmpdir /tmp --log-level debug  --modulepath spec/fixtures/modules  -i ./$INVENTORY_PATH plan run deploy_pe::provision_master --params '{"version":"${{ matrix.collection }}","pe_settings":{"password":"puppetlabs", "configure_tuning": false}}'  --targets all
   
     - name: Install module
       run: |
