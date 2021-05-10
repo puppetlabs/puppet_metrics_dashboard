@@ -13,6 +13,9 @@ Gemfile:
       git: https://github.com/puppetlabs/puppet_litmus
       ref: main
       condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.5.0')
+  required:
+    ':development':
+      - gem: 'toml-rb'
 spec/spec_helper.rb:
   mock_with: ":rspec"
   coverage_report: true
