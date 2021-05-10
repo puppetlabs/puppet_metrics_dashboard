@@ -33,3 +33,7 @@ spec/spec_helper.rb:
   delete: true
 Rakefile:
   changelog_user: "puppetlabs"
+.rubocop.yml:
+  default_configs: 
+    "RSpec/EmptyExampleGroup": 
+       Enabled: False
