@@ -34,6 +34,14 @@
     }
   ],
   "operatingsystem_support": [
+   {
+      "operatingsystem": "CentOS",     
+      "operatingsystemrelease": [
+        "8",
+        "7",
+        "6"
+      ]
+    },
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
@@ -45,8 +53,9 @@
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "7.0",
-        "6.0"
+        "8",
+	"7",
+        "6"
       ]
     },
     {
@@ -64,7 +73,7 @@
       "version_requirement": ">= 4.7.0 < 8.0.0"
     }
   ],
-  "pdk-version": "1.18.1",
-  "template-url": "pdk-default#1.18.1",
-  "template-ref": "tags/1.18.1-0-g3d2e75c"
+  "pdk-version": "2.1.0",
+  "template-url": "pdk-default#2.1.0",
+  "template-ref": "tags/2.1.0-0-ga675ea5"
 }
