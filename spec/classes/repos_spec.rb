@@ -25,7 +25,7 @@ describe 'puppet_metrics_dashboard::repos' do
         # rubocop:disable RSpec/RepeatedDescription
         # rubocop:disable RSpec/RepeatedExample
         case facts[:os]['name']
-        when 'RedHat'
+        when 'RedHat', 'CentOS'
           it 'should contain the yum repo for InfluxDB' do
             is_expected.to contain_yumrepo('influxdb')
               .with(
