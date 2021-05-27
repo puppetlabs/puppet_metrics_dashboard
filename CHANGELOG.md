@@ -1,131 +1,170 @@
 # Change log
 
-All notable changes to this project will be documented in this file.
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org).
+All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## 2020-12-30 - Release - 2.4.0
+## [v2.5.0](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v2.5.0) (2021-05-27)
 
-### Changes
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.4.0...v2.5.0)
 
- - Adds puppet7 testing / support
- - Support for multiple Postgres instances
- - Use supplied compiler name in dbcompiler profile
- - Add tidy_telegraf_configs option on dbcompiler profile
- - Introduces new cert_allowlist_entry class
- - Add local import and viewing of metrics
- - Updates the contrib docs for litmus
- - Re-adds dashboard for JRuby per-borrow metrics
+### Added
 
-### Bugfixes
- - Fix logic to select the v2 PuppetDB dashboards
- - Improve multiserver telegraf dashboard support
- - Fix raw queries in Postgres dashboard
+- Enable remote PuppetDB collection in 2019.8.5+ [\#139](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/139) ([jarretlavallee](https://github.com/jarretlavallee))
+- \(SUP-2195\) Add Archive Postgres Performance dashboard [\#128](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/128) ([Sharpie](https://github.com/Sharpie))
+- Enable LDAP authentication for Grafana [\#108](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/108) ([coreymbe](https://github.com/coreymbe))
 
-## 2020-7-24 - Release - 2.3.1
+### Fixed
 
-### Changes
- - Added the `puppet_metrics_dashboard::profile::dbcompiler::install` class to mitigate CVE-2020-7943.
- - Added a description to the influxdb yumrepo
- - Updated Puppet VS Code Extension ID
- - Datasource is now configurable on te system metrics graphs
- - Replaced deprecated httpjson telegraf input with http
- - Added a dashboard for Telegraf Puppetserver workload
+- Remove slash from dashboard name [\#132](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/132) ([timidri](https://github.com/timidri))
+- change to http when client cert is false [\#131](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/131) ([WBasson](https://github.com/WBasson))
+- Expose manage\_repo in dbcompiler::install class [\#129](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/129) ([suckatrash](https://github.com/suckatrash))
 
-### Bugfixes
- - Fixed measurement names for process dashboards
- - CI fixes
+## [v2.4.0](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v2.4.0) (2020-12-30)
 
-## 2020-4-15 - Release - 2.3.0
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.3.1...v2.4.0)
 
-### Changes
- - Account for [CVE-2020-7943](https://nvd.nist.gov/vuln/detail/CVE-2020-7943) by configuring telegraf to collect PuppetDB metrics from localhost only on the v2 metrics endpoint, updates dashboards to accomodate new values.
- - Added a tidy resource that cleans up unmanaged telegraf configuration in `/etc/telegraf/telegraf.d` if `tidy_telegraf_configs` is set to true in the main class (default is false)
- - Converted the acceptance tests from beaker to [litmus](https://github.com/puppetlabs/puppet_litmus)
+### Added
 
-### Bugfixes
+- \(SUP-2007\) Add local import and viewing of metrics [\#120](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/120) ([jarretlavallee](https://github.com/jarretlavallee))
+- Improve multiserver telegraf dashboard support [\#114](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/114) ([seanmil](https://github.com/seanmil))
+- Add tidy\_telegraf\_configs option on dbcompiler profile [\#112](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/112) ([seanmil](https://github.com/seanmil))
+- Use supplied compiler name in dbcompiler [\#111](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/111) ([seanmil](https://github.com/seanmil))
+- Support multiple Postgres instances [\#110](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/110) ([seanmil](https://github.com/seanmil))
 
-## 2020-3-20 - Release - 2.2.0
+### Fixed
 
-### Changes
- - New and updated dashboards
- - Updated documentation
- - Use the client SSL certificate when querying PuppetDB metrics with Telegraf
- - Allow for specifying the PostgreSQL databases in the PostgreSQL profile
- - The certs defined type now uses a `file://` source since it's copying locally
- - Added the ability to set the Grafana admin password on initial deployment
- - Added the ability to pass arbitrary config options to Granfana
+- re-Add dashboard for JRuby per-borrow metrics [\#124](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/124) ([suckatrash](https://github.com/suckatrash))
+- Detect new cert\_allowlist\_entry class [\#119](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/119) ([kreeuwijk](https://github.com/kreeuwijk))
+- Fix raw queries in Postgres dashboard [\#117](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/117) ([seanmil](https://github.com/seanmil))
+- Fix logic to select the v2 PuppetDB dashboards [\#113](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/113) ([seanmil](https://github.com/seanmil))
 
-### Bugfixes
- - Remove the file sync query from PuppetDB metrics when `pe_server_version` is not defined when using Telegraf
- - Update the included dashboards to not reference deprecated `pe-` metrics
- - Compatibility fixes with OSP, including dashboards
- - Update module dependencies
- 
-## 2019-7-11 - Release - 2.0.1
+## [v2.3.1](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v2.3.1) (2020-08-11)
 
-### Bugfixes
- - Document a requirement on the toml-rb rem
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.3.0...v2.3.1)
 
-## 2019-7-11 - Release - 2.0.0
+### Added
 
-### Changes
- - The module now supports configuring Telegraf on each Puppet infrastructure node in addition to configuring it on the same server that runs Grafana. This is to better support end-users that already have a Grafana instance and just want to collect Puppet metrics.  A set of profile classes has been added to allow for this.
- - Improvements to dashboard templates for Telegraf and archive.
- - Cleanup PuppetDB metrics in some versions.
- - `$telegraf_agent_interval` and `$http_response_timeout` in the main class are now Strings (previously integers) they should looks like: '5s', '2m' or '1h'.
- - `$influxdb_urls` has changed from a String to an Array. This is to support multiple Influxdb backends.
- - Instead of defining all of Telegraf's metrics in a single file `/etc/telegraf/telegraf.d/puppet_metrics_dashboard.conf`, there will now be multiple files for each metric.  An additional resource ensures that the old file is absent.
- - Replaced `params.pp` with module level hiera data.
- - Created a function for determining the needed PuppetDB metrics based
-on PE version.
- - Removed the variable 'storage_metrics_db_queries' since it was not
-referenced anywhere. 
+- Add dashboard for JRuby per-borrow metrics [\#106](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/106) ([suckatrash](https://github.com/suckatrash))
+- Replace httpjson with http input [\#105](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/105) ([suckatrash](https://github.com/suckatrash))
+- Make datasource for system metrics configurable [\#104](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/104) ([m0dular](https://github.com/m0dular))
+- add description to InfluxDB yumrepo [\#98](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/98) ([vchepkov](https://github.com/vchepkov))
+- PuppetDB on Compilers [\#97](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/97) ([coreymbe](https://github.com/coreymbe))
+- Update PE PuppetDB metrics [\#95](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/95) ([Sharpie](https://github.com/Sharpie))
 
-### Bugfixes
- - Fix for Telegraf http timeouts not being set
- - Fix for cases where certname != FQDN
+### Fixed
 
-## 2019-4-25 - Release - 1.1.5
+- Fix measurement names for Process dashboards [\#102](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/102) ([m0dular](https://github.com/m0dular))
 
-### Changes
- - Added a metric for last successful file-sync commit
- - Added puppetdb heap / status metrics
- - Improve FOSS puppet support
- - Allow port numbers of services to be specified
+### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
 
-### Bugfixes
- - Stop creating /run/grafana on CentOS 7
- - Cleanup /run/grafana spec tests for ubuntu
- - Fixed grafana version req
+- \(maint\) v2.3.1 release prep [\#103](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/103) ([suckatrash](https://github.com/suckatrash))
 
-## 2019-2-13 - Release - 1.1.0
+## [v2.3.0](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v2.3.0) (2020-04-15)
 
-### Changes
- - Code refactor to more standard layout
- - Various CI and testing updates
- - Updated apt-get / yum repo resources
- - New feature: postgres metrics
- - Moved telegraf config file from `/etc/telegraf/telegraf.conf` to `/etc/telegraf/telegraf.d/puppet_metrics_dashboard.conf`
- - The SSL dashboard option no longer relies on puppetlabs/puppet_agent
- - Tested and working on PE 2019.0.x
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.2.0...v2.3.0)
 
-## 2018-11-30 - Release - 1.0.3
+### Added
 
-### Changes:
- - Minor fix for dependency versions
+- Make the tidy resource optional [\#93](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/93) ([suckatrash](https://github.com/suckatrash))
 
-## 2018-08-03 - Release - 1.0.2
+### Fixed
 
-### Changes:
- - Added the missing license file.
+- \(DIO-563\) addresses CVE-2020-7943 [\#92](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/92) ([suckatrash](https://github.com/suckatrash))
 
-## 2018-07-06 - Release - 1.0.1
+## [v2.2.0](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v2.2.0) (2020-03-20)
 
-### Bugfixes
-- Fixed an issue with RHEL7 where the grafana service wouldn't start after rebooting
-- Fixed an issue with metadata.json where some of the URLs were incorrect
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.0.1...v2.2.0)
 
-## 2018-07-02 - Release - 1.0.0
+### Added
 
-Initial forge release
+- \(SLV-788\) New and updated dashboards [\#89](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/89) ([RandellP](https://github.com/RandellP))
+- OSP Compatibility Updates [\#87](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/87) ([jarretlavallee](https://github.com/jarretlavallee))
+- Use the `puppetserver.jruby` metrics in the dashboard examples [\#79](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/79) ([jarretlavallee](https://github.com/jarretlavallee))
+- Added arbitrary grafana config [\#76](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/76) ([dylanratcliffe](https://github.com/dylanratcliffe))
+- Added ability to set default password [\#75](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/75) ([dylanratcliffe](https://github.com/dylanratcliffe))
+
+### Fixed
+
+- \(maint\) correct script name [\#90](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/90) ([tkishel](https://github.com/tkishel))
+- Update certs.pp [\#73](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/73) ([uberjew666](https://github.com/uberjew666))
+
+## [v2.0.1](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v2.0.1) (2019-07-11)
+
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.0.0...v2.0.1)
+
+## [v2.0.0](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v2.0.0) (2019-07-11)
+
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v1.1.5...v2.0.0)
+
+### Added
+
+- Switching to in module hiera data & updating docs [\#65](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/65) ([genebean](https://github.com/genebean))
+- Improve PuppetDB metric dashboards [\#63](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/63) ([Sharpie](https://github.com/Sharpie))
+- Add profiles, move puppetdb metric defaults \(part 2\) [\#62](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/62) ([suckatrash](https://github.com/suckatrash))
+- Select PuppetDB metrics based on version [\#56](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/56) ([seanmil](https://github.com/seanmil))
+- Update dashboard templates [\#52](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/52) ([Sharpie](https://github.com/Sharpie))
+
+### Fixed
+
+- Fix archive dashboard query for compile time [\#64](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/64) ([Sharpie](https://github.com/Sharpie))
+- Use certname consistently for key files [\#55](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/55) ([seanmil](https://github.com/seanmil))
+- Ensure http timeout is set in all inputs.http\* for telegraf [\#54](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/54) ([jarretlavallee](https://github.com/jarretlavallee))
+
+## [v1.1.5](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v1.1.5) (2019-04-25)
+
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/1.1.0...v1.1.5)
+
+### Added
+
+- Allow port numbers of services to be specified [\#50](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/50) ([Sharpie](https://github.com/Sharpie))
+- Improve support for FOSS puppet dashboards [\#49](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/49) ([suckatrash](https://github.com/suckatrash))
+- add puppetdb heap / status [\#39](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/39) ([suckatrash](https://github.com/suckatrash))
+- add a metric for last successful file-sync commit [\#36](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/36) ([suckatrash](https://github.com/suckatrash))
+
+### Fixed
+
+- Stop creating /run/grafana on CentOS 7 [\#38](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/38) ([Sharpie](https://github.com/Sharpie))
+
+## [1.1.0](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/1.1.0) (2019-02-13)
+
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/1.0.3...1.1.0)
+
+### Added
+
+- Add postgresql metrics collection [\#30](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/30) ([suckatrash](https://github.com/suckatrash))
+- Add params, separate configs [\#20](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/20) ([genebean](https://github.com/genebean))
+
+## [1.0.3](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/1.0.3) (2018-12-01)
+
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/1.0.2...1.0.3)
+
+### Fixed
+
+- Removed unless block from template [\#11](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/11) ([genebean](https://github.com/genebean))
+
+## [1.0.2](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/1.0.2) (2018-08-06)
+
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/1.0.1...1.0.2)
+
+### Fixed
+
+- \(maint\) add license file [\#8](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/8) ([suckatrash](https://github.com/suckatrash))
+
+## [1.0.1](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/1.0.1) (2018-07-06)
+
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/1.0.0...1.0.1)
+
+### Added
+
+- Merging up everything currently in development [\#4](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/4) ([suckatrash](https://github.com/suckatrash))
+
+### Fixed
+
+- \(GH12\) Update systemd tmpfiles [\#3](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/3) ([jarretlavallee](https://github.com/jarretlavallee))
+
+## [1.0.0](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/1.0.0) (2018-07-02)
+
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/f3f1e9fcc37b55ac53619e2c47baa2cf0eeab838...1.0.0)
+
+
+
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
