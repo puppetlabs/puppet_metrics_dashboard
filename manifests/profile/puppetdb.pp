@@ -58,7 +58,7 @@ define puppet_metrics_dashboard::profile::puppetdb (
     default => 'http'
   }
 
-  if puppet_metrics_dashboard::puppetdb_no_remote_metrics() {
+  if puppet_metrics_dashboard::puppetdb_v2_metrics() {
         $metrics_version = 'v2/read'
       } else {
         $metrics_version = 'v1/mbeans'

@@ -19,11 +19,13 @@ describe 'puppet_metrics_dashboard::repos' do
           PRE_COND
         end
 
+        it { is_expected.to compile }
+
         # rubocop:disable RSpec/ExampleWording
         # rubocop:disable RSpec/RepeatedDescription
         # rubocop:disable RSpec/RepeatedExample
         case facts[:os]['name']
-        when 'RedHat'
+        when 'RedHat', 'CentOS'
           it 'should contain the yum repo for InfluxDB' do
             is_expected.to contain_yumrepo('influxdb')
               .with(
@@ -86,6 +88,8 @@ describe 'puppet_metrics_dashboard::repos' do
                 'repos' => 'main',
               )
           end
+        else
+          it { is_expected.to compile.and_raise_error(%r{installation not supported}) }
         end
         # rubocop:enable RSpec/ExampleWording
         # rubocop:enable RSpec/RepeatedDescription
@@ -100,6 +104,8 @@ describe 'puppet_metrics_dashboard::repos' do
             }
           PRE_COND
         end
+
+        it { is_expected.to compile }
 
         case facts[:os]['family']
         when 'RedHat'
