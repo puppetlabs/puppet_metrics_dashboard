@@ -26,6 +26,23 @@ describe 'puppet_metrics_dashboard::profile::master::install' do
             .with_ensure('present')
         end
       end
+
+      context 'manage_ldap_auth false' do
+        let(:pre_condition) do
+          <<-PRE_COND
+            service { 'pe-puppetserver': ensure => running }
+          PRE_COND
+        end
+        let(:params) { { 'manage_ldap_auth' => false } }
+
+        it do
+          is_expected.not_to contain_package('toml')
+        end
+        it do
+          is_expected.to contain_package('toml-rb')
+            .with_ensure('present')
+        end
+      end
     end
   end
 end
