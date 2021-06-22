@@ -15,8 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "id": null,
-  "iteration": 1581041230328,
+  "iteration": 1624376769318,
   "links": [
     {
       "icon": "external link",
@@ -35,14 +34,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 24,
         "x": 0,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 1,
       "legend": {
         "avg": false,
@@ -57,7 +58,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "connected",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -119,6 +124,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Command Persistance Time",
       "tooltip": {
@@ -162,14 +168,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 0,
         "y": 7
       },
+      "hiddenSeries": false,
       "id": 2,
       "legend": {
         "avg": false,
@@ -184,7 +192,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -246,6 +258,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Read Pool Usage",
       "tooltip": {
@@ -289,14 +302,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 8,
         "y": 7
       },
+      "hiddenSeries": false,
       "id": 3,
       "legend": {
         "avg": false,
@@ -311,7 +326,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -373,6 +392,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Read Pool Wait",
       "tooltip": {
@@ -416,14 +436,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 16,
         "y": 7
       },
+      "hiddenSeries": false,
       "id": 4,
       "legend": {
         "avg": false,
@@ -438,7 +460,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -500,6 +526,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Read Pool Pending Connections",
       "tooltip": {
@@ -543,14 +570,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 0,
         "y": 14
       },
+      "hiddenSeries": false,
       "id": 5,
       "legend": {
         "avg": false,
@@ -565,7 +594,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -627,6 +660,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Write Pool Usage",
       "tooltip": {
@@ -670,14 +704,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 8,
         "y": 14
       },
+      "hiddenSeries": false,
       "id": 6,
       "legend": {
         "avg": false,
@@ -692,7 +728,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -754,6 +794,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Write Pool Wait",
       "tooltip": {
@@ -797,14 +838,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 16,
         "y": 14
       },
+      "hiddenSeries": false,
       "id": 7,
       "legend": {
         "avg": false,
@@ -819,7 +862,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -881,6 +928,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Write Pool Pending Connections",
       "tooltip": {
@@ -924,14 +972,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 21
       },
+      "hiddenSeries": false,
       "id": 8,
       "legend": {
         "avg": false,
@@ -946,7 +996,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1008,6 +1062,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Global Discards",
       "tooltip": {
@@ -1051,14 +1106,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 21
       },
+      "hiddenSeries": false,
       "id": 9,
       "legend": {
         "avg": false,
@@ -1073,7 +1130,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1135,6 +1196,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Global Fatals",
       "tooltip": {
@@ -1175,7 +1237,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 16,
+  "schemaVersion": 30,
   "style": "dark",
   "tags": [
     "Top",
@@ -1185,8 +1247,19 @@
     "list": [
       {
         "allValue": null,
-        "current": {},
-        "datasource": "influxdb_puppet_metrics",
+        "current": {
+          "selected": false,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": $Datasource,
+        "definition": "",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": "server",
@@ -1196,12 +1269,32 @@
         "query": "SHOW TAG VALUES WITH KEY = \"server\"",
         "refresh": 1,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
-        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": $Datasource,
+          "value": $Datasource
+        },
+        "description": "Select a datasource",
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "Datasource",
+        "options": [],
+        "query": "influxdb",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
       }
     ]
   },
@@ -1237,5 +1330,5 @@
   "timezone": "",
   "title": "Archive PuppetDB Workload",
   "uid": "xUiUgdsZz",
-  "version": 7
+  "version": 1
 }

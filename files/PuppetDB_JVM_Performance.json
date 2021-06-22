@@ -15,8 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "id": null,
-  "iteration": 1581041268912,
+  "iteration": 1624376685762,
   "links": [
     {
       "icon": "external link",
@@ -37,14 +36,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 5,
         "w": 24,
         "x": 0,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 2,
       "legend": {
         "avg": false,
@@ -59,7 +60,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "connected",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -254,6 +259,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Heap Memory",
       "tooltip": {
@@ -297,14 +303,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 5,
         "w": 24,
         "x": 0,
         "y": 5
       },
+      "hiddenSeries": false,
       "id": 6,
       "legend": {
         "avg": false,
@@ -319,7 +327,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -441,6 +453,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Non-Heap Memory",
       "tooltip": {
@@ -484,14 +497,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 5,
         "w": 12,
         "x": 0,
         "y": 10
       },
+      "hiddenSeries": false,
       "id": 10,
       "legend": {
         "avg": false,
@@ -506,7 +521,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -537,7 +556,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "processes.RSS",
+          "measurement": "system_processes.RSS",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -573,6 +592,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Process RSS memory",
       "tooltip": {
@@ -590,6 +610,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:329",
           "format": "deckbytes",
           "label": null,
           "logBase": 1,
@@ -598,6 +619,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:330",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -616,14 +638,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 5,
         "w": 12,
         "x": 12,
         "y": 10
       },
+      "hiddenSeries": false,
       "id": 12,
       "legend": {
         "avg": false,
@@ -638,7 +662,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -669,7 +697,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "processes.CPU",
+          "measurement": "system_processes.CPU",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -705,6 +733,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Process CPU usage",
       "tooltip": {
@@ -722,6 +751,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:382",
           "format": "percent",
           "label": null,
           "logBase": 1,
@@ -730,6 +760,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:383",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -748,14 +779,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 5,
         "w": 12,
         "x": 0,
         "y": 15
       },
+      "hiddenSeries": false,
       "id": 8,
       "legend": {
         "avg": false,
@@ -770,7 +803,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -837,6 +874,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "GC CPU Usage",
       "tooltip": {
@@ -880,14 +918,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 5,
         "w": 12,
         "x": 12,
         "y": 15
       },
+      "hiddenSeries": false,
       "id": 14,
       "legend": {
         "avg": false,
@@ -902,7 +942,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1029,6 +1073,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "GC-stats",
       "tooltip": {
@@ -1069,7 +1114,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 16,
+  "schemaVersion": 30,
   "style": "dark",
   "tags": [
     "PuppetDB"
@@ -1078,8 +1123,19 @@
     "list": [
       {
         "allValue": null,
-        "current": {},
-        "datasource": "influxdb_puppet_metrics",
+        "current": {
+          "selected": false,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": $Datasource,
+        "definition": "",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": "server",
@@ -1089,12 +1145,32 @@
         "query": "SHOW TAG VALUES WITH KEY = \"server\"",
         "refresh": 1,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
-        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": $Datasource,
+          "value": $Datasource
+        },
+        "description": "Select a datasource",
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "Datasource",
+        "options": [],
+        "query": "influxdb",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
       }
     ]
   },
@@ -1130,5 +1206,5 @@
   "timezone": "",
   "title": "Archive PuppetDB JVM Performance",
   "uid": "qAXTjHUWk",
-  "version": 11
+  "version": 1
 }

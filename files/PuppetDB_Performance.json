@@ -15,8 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "id": null,
-  "iteration": 1581041216424,
+  "iteration": 1624376353062,
   "links": [
     {
       "icon": "external link",
@@ -34,14 +33,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 1,
       "legend": {
         "avg": false,
@@ -56,7 +57,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -118,6 +123,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Commands per Second",
       "tooltip": {
@@ -161,14 +167,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 2,
       "legend": {
         "avg": false,
@@ -183,7 +191,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -245,6 +257,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Command Processing Time",
       "tooltip": {
@@ -288,14 +301,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 24,
+        "w": 12,
         "x": 0,
         "y": 7
       },
+      "hiddenSeries": false,
       "id": 3,
       "legend": {
         "avg": false,
@@ -310,7 +325,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -372,6 +391,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Queue Depth",
       "tooltip": {
@@ -389,6 +409,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:93",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -397,6 +418,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:94",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -415,14 +437,363 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 7
+      },
+      "hiddenSeries": false,
+      "id": 7,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": true,
+        "min": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.0.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$tag_server-thread_count",
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "server"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "jetty-queuedthreadpool.org_eclipse_jetty_util_thread_id_7_type_queuedthreadpool.threads",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT distinct(\"threads\") FROM /^jetty-queuedthreadpool.org_eclipse_jetty_util_thread_id_._type_queuedthreadpool.threads/ WHERE (\"server\" =~ /^$server$/) AND $timeFilter GROUP BY time($__interval), \"server\" fill(null)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "threads"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "distinct"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/^$server$/"
+            }
+          ]
+        },
+        {
+          "alias": "$tag_server-concurrent_depth",
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "server"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "global_concurrent-depth.Count",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT distinct(\"Count\") FROM \"global_concurrent-depth.Count\" WHERE (\"server\" =~ /^$server$/) AND $timeFilter GROUP BY time($__interval), \"server\" fill(null)",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "Count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "distinct"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/^$server$/"
+            }
+          ]
+        },
+        {
+          "alias": "$tag_server-busy_threads",
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "server"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "jetty-queuedthreadpool.org_eclipse_jetty_util_thread_id_7_type_queuedthreadpool.busyThreads",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT distinct(\"busyThreads\") FROM /^jetty-queuedthreadpool.org_eclipse_jetty_util_thread_id_._type_queuedthreadpool.busyThreads/ WHERE (\"server\" =~ /^$server$/) AND $timeFilter GROUP BY time($__interval), \"server\" fill(null)",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "busyThreads"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "distinct"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/^$server$/"
+            }
+          ]
+        },
+        {
+          "alias": "$tag_server-idle_threads",
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "server"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "jetty-queuedthreadpool.org_eclipse_jetty_util_thread_id_7_type_queuedthreadpool.idleThreads",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT distinct(\"idleThreads\") FROM /^jetty-queuedthreadpool.org_eclipse_jetty_util_thread_id_._type_queuedthreadpool.idleThreads/ WHERE (\"server\" =~ /^$server$/) AND $timeFilter GROUP BY time($__interval), \"server\" fill(null)",
+          "rawQuery": true,
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "idleThreads"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "distinct"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/^$server$/"
+            }
+          ]
+        },
+        {
+          "alias": "$tag_server-queue_size",
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "server"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "jetty-queuedthreadpool.org_eclipse_jetty_util_thread_id_7_type_queuedthreadpool.queueSize",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT distinct(\"queueSize\") FROM /^jetty-queuedthreadpool.org_eclipse_jetty_util_thread_id_._type_queuedthreadpool.queueSize/ WHERE (\"server\" =~ /^$server$/) AND $timeFilter GROUP BY time($__interval), \"server\" fill(null)",
+          "rawQuery": true,
+          "refId": "E",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "queueSize"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "distinct"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/^$server$/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Threads and Concurrent Depth",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:252",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:253",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": $Datasource,
+      "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 0,
         "y": 14
       },
+      "hiddenSeries": false,
       "id": 4,
       "legend": {
         "avg": false,
@@ -437,7 +808,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -499,6 +874,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Replace Catalog Time",
       "tooltip": {
@@ -542,14 +918,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 8,
         "y": 14
       },
+      "hiddenSeries": false,
       "id": 5,
       "legend": {
         "avg": false,
@@ -564,7 +942,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -626,6 +1008,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Replace Facts Time",
       "tooltip": {
@@ -669,14 +1052,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": $Datasource,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 16,
         "y": 14
       },
+      "hiddenSeries": false,
       "id": 6,
       "legend": {
         "avg": false,
@@ -691,7 +1076,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -753,6 +1142,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Store Report Time",
       "tooltip": {
@@ -793,7 +1183,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 16,
+  "schemaVersion": 30,
   "style": "dark",
   "tags": [
     "Top",
@@ -803,8 +1193,15 @@
     "list": [
       {
         "allValue": null,
-        "current": {},
-        "datasource": "influxdb_puppet_metrics",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": $Datasource,
+        "definition": "",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": "server",
@@ -814,12 +1211,32 @@
         "query": "SHOW TAG VALUES WITH KEY = \"server\"",
         "refresh": 1,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
-        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": $Datasource,
+          "value": $Datasource
+        },
+        "description": "Select a Datasource",
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "Datasource",
+        "options": [],
+        "query": "influxdb",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
       }
     ]
   },
@@ -855,5 +1272,5 @@
   "timezone": "",
   "title": "Archive PuppetDB Performance",
   "uid": "i-i8RdsWz",
-  "version": 6
+  "version": 1
 }
