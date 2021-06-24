@@ -140,7 +140,7 @@ jobs:
 
     - name: Turn Off SELINUX
       run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'disable SE linux' -- bundle exec bolt command run 'sudo setenforce 0;localedef -c -f UTF-8 -i en_US en_US.UTF-8;export LC_ALL=en_US.UTF-8' --targets all
+        buildevents cmd $TRACE_ID $STEP_ID 'disable SE linux' -- bundle exec bolt -i ./$INVENTORY_PATH command run 'sudo setenforce 0;localedef -c -f UTF-8 -i en_US en_US.UTF-8;export LC_ALL=en_US.UTF-8' --log-level debug --targets all
 
 
     - name: Install PE
