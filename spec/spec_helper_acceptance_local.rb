@@ -7,6 +7,7 @@ include PuppetLitmus
 RSpec.configure do |c|
   c.mock_with :rspec
   c.before :suite do
+    run_shell('sudo setenforce 0')
     # Fake the SSL certificates
     run_shell('mkdir -p /etc/puppetlabs/puppet/ssl/{certs,private_keys}')
     run_shell('touch $(/opt/puppetlabs/bin/puppet config print localcacert) \
