@@ -669,6 +669,20 @@ Install requirements for the voxpupuli/puppet-telegraf module.
 include puppet_metrics_dashboard::profile::master::install
 ```
 
+#### Parameters
+
+The following parameters are available in the `puppet_metrics_dashboard::profile::master::install` class:
+
+* [`manage_ldap_auth`](#manage_ldap_auth)
+
+##### <a name="manage_ldap_auth"></a>`manage_ldap_auth`
+
+Data type: `Boolean`
+
+
+
+Default value: ``true``
+
 ### <a name="puppet_metrics_dashboardprofilemasterpostgres_access"></a>`puppet_metrics_dashboard::profile::master::postgres_access`
 
 Apply this class to a PE PostgreSQL node to allow access by Telegraf.
