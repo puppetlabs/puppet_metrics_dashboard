@@ -34,7 +34,7 @@
 ### Defined types
 
 * [`puppet_metrics_dashboard::certs`](#puppet_metrics_dashboardcerts): This class creates a certificates for Grafana and for connecting to PE Postgres.
-* [`puppet_metrics_dashboard::profile::compiler`](#puppet_metrics_dashboardprofilecompiler): Apply this class to a master or compiler to collect puppetserver metrics
+* [`puppet_metrics_dashboard::profile::compiler`](#puppet_metrics_dashboardprofilecompiler): Apply this class to a primary server or compiler to collect puppetserver metrics
 * [`puppet_metrics_dashboard::profile::master::postgres`](#puppet_metrics_dashboardprofilemasterpostgres): Apply this class to an agent running pe-postgresql to collect postgres metrics
 * [`puppet_metrics_dashboard::profile::puppetdb`](#puppet_metrics_dashboardprofilepuppetdb): Apply this class to a node running puppetdb to collect puppetdb metrics
 
@@ -73,7 +73,7 @@ class { 'puppet_metrics_dashboard':
 }
 ```
 
-##### Configure Telegraf to collect metrics from a list of Masters, PuppetDB, and PostgreSQL servers
+##### Configure Telegraf to collect metrics from a list of Primary Server and Compilers, PuppetDB, and PostgreSQL servers
 
 ```puppet
 class { 'puppet_metrics_dashboard':
@@ -87,7 +87,7 @@ class { 'puppet_metrics_dashboard':
 }
 ```
 
-##### Configure Graphite to accept metrics from a list of Masters
+##### Configure Graphite to accept metrics from a list of Primary Server and Compilers
 
 ```puppet
 class { 'puppet_metrics_dashboard':
@@ -421,7 +421,7 @@ Default value: `lookup('puppet_metrics_dashboard::http_response_timeout')`
 
 Data type: `Variant[String,Tuple[String, Integer]]`
 
-The FQDN of the compiler / master.  Defaults to the FQDN of the server where the profile is applied
+The FQDN of the compiler / primary server.  Defaults to the FQDN of the server where the profile is applied
 
 Default value: `$facts['networking']['fqdn']`
 
@@ -663,7 +663,7 @@ Install requirements for the voxpupuli/puppet-telegraf module.
 
 #### Examples
 
-##### Apply this class to the Master and any/all Compilers
+##### Apply this class to the Primary Server and any/all Compilers
 
 ```puppet
 include puppet_metrics_dashboard::profile::master::install
@@ -741,11 +741,11 @@ Default value: `$name`
 
 ### <a name="puppet_metrics_dashboardprofilecompiler"></a>`puppet_metrics_dashboard::profile::compiler`
 
-Apply this class to a master or compiler to collect puppetserver metrics
+Apply this class to a primary server or compiler to collect puppetserver metrics
 
 #### Examples
 
-##### Add telegraf to a master / compiler
+##### Add telegraf to a primary server / compiler
 
 ```puppet
 puppet_metrics_dashboard::profile::compiler{ $facts['networking']['fqdn']:
@@ -774,7 +774,7 @@ Default value: `lookup('puppet_metrics_dashboard::http_response_timeout')`
 
 Data type: `Variant[String,Tuple[String, Integer]]`
 
-The FQDN of the compiler / master.  Defaults to the FQDN of the server where the profile is applied
+The FQDN of the compiler / primary server.  Defaults to the FQDN of the server where the profile is applied
 
 Default value: `$facts['networking']['fqdn']`
 
