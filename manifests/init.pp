@@ -154,24 +154,24 @@
 #   An Array of Hashes containing name/url pairs for each PuppetDB metric.
 #   Refer to `functions/puppetdb_metrics.pp` for defaults.
 #
-# @example Configure Telegraf to collect metrics from a list of Masters, PuppetDB, and PostgreSQL servers
+# @example Configure Telegraf to collect metrics from a list of Primary Server, Compilers, PuppetDB, and PostgreSQL servers
 #   class { 'puppet_metrics_dashboard':
 #     add_dashboard_examples => true,
 #     overwrite_dashboards   => false,
 #     configure_telegraf     => true,
 #     enable_telegraf        => true,
-#     master_list            => ['master.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
+#     master_list            => ['primary.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
 #     puppetdb_list          => ['puppetdb01.example.com', 'puppetdb02.example.com'],
 #     postgres_host_list     => ['postgres01.example.com', 'postgres02.example.com'],
 #   }
 #
-# @example Configure Graphite to accept metrics from a list of Masters
+# @example Configure Graphite to accept metrics from a list of Primary Server and Compilers
 #   class { 'puppet_metrics_dashboard':
 #     add_dashboard_examples => true,
 #     overwrite_dashboards   => false,
 #     consume_graphite       => true,
 #     influxdb_database_name => ['graphite'],
-#     master_list            => ['master', 'master02'],
+#     master_list            => ['primary', 'compiler01'],
 #   }
 #
 # @example Configure Telegraf, Graphite, and Archive
