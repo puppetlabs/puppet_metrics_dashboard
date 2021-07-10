@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v2.6.0](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v2.6.0) (2021-07-10)
+
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.5.0...v2.6.0)
+
+### Added
+
+- \(\#151\) Install toml gem by default. [\#154](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/154) ([coreymbe](https://github.com/coreymbe))
+
 ## [v2.5.0](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v2.5.0) (2021-05-27)
 
 [Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.4.0...v2.5.0)
