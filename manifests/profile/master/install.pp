@@ -2,7 +2,7 @@
 #
 # Install requirements for the voxpupuli/puppet-telegraf module.
 #
-# @example Apply this class to the Master and any/all Compilers
+# @example Apply this class to the Primary Server and any/all Compilers
 #   include puppet_metrics_dashboard::profile::master::install
 #
 class puppet_metrics_dashboard::profile::master::install (

@@ -1,10 +1,10 @@
-# @summary Apply this class to a master or compiler to collect puppetserver metrics
+# @summary Apply this class to a Primary Server or Compiler to collect puppetserver metrics
 #
 # @param timeout
 #   Default timeout of http calls.  Defaults to 5 seconds
 #
 # @param compiler
-#   The FQDN of the compiler / master.  Defaults to the FQDN of the server where the profile is applied
+#   The FQDN of the Compiler / Primary Server.  Defaults to the FQDN of the server where the profile is applied
 #
 # @param port
 #   The port that the puppetserver service listens on on your compiler.  Defaults to 8140
@@ -12,7 +12,7 @@
 # @param interval
 #   The frequency that telegraf will poll for metrics.  Defaults to '5s'
 #
-# @example Add telegraf to a master / compiler
+# @example Add telegraf to a Primary Server / Compiler
 #   puppet_metrics_dashboard::profile::compiler{ $facts['networking']['fqdn']:
 #     timeout => '5s',
 #   }

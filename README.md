@@ -6,7 +6,7 @@
   - [Determining where Telegraf runs](#determining-where-telegraf-runs)
   - [Requirements](#requirements)
 - [Usage](#usage)
-  - [Configure a Monolithic Master and a Dashboard node](#configure-a-monolithic-master-and-a-dashboard-node)
+  - [Configure a Standard Primary Server and a Dashboard node](#configure-a-standard-primary-server-and-a-dashboard-node)
   - [Manual configuration of a complex Puppet Infrastructure](#manual-configuration-of-a-complex-puppet-infrastructure)
   - [Configure Graphite](#configure-graphite)
   - [Configure Telegraf, Graphite, and Archive](#configure-telegraf-graphite-and-archive)
@@ -25,7 +25,7 @@
 
 This module is used to configure Telegraf, InfluxDB, and Grafana, and collect, store, and display metrics collected from Puppet services.
 By default, those components are installed on a separate Dashboard node by applying the base class of this module to that node.
-That class will automatically query PuppetDB for Puppet Infrastructure nodes (Masters, PuppetDB hosts, PostgreSQL hosts) or you can specify them via associated class parameters.
+That class will automatically query PuppetDB for Puppet Infrastructure nodes (Primary server, Compilers, PuppetDB hosts, PostgreSQL hosts) or you can specify them via associated class parameters.
 It is not recommended to apply the base class of this module to one of your Puppet Infrastructure nodes.
 
 You have the option to use the [included defined types](#profile-defined-types) to configure Telegraf to run on each Puppet Infrastructure node,
@@ -42,11 +42,11 @@ You have the option of collecting metrics using any or all of the following meth
 ## Setup
 
 > In PuppetDB 6.9.1 & 5.2.13 and newer, the `/metrics/v1` endpoints are disabled by default and access to the `/metrics/v2` endpoints are restricted to localhost only in response to [CVE-2020-7943](https://nvd.nist.gov/vuln/detail/CVE-2020-7943). 
-Starting with version 2.3.0 of this module, PuppetDB metrics will not be setup by the main class if you are on the versions above or higher unless the main class is applied to the master. To collect PuppetDB metrics in other scenarios, you should use the `puppet_metrics_dashboard::profile::puppetdb` class applied to any PuppetDB nodes with the option `enable_client_cert => false` (the request will be to localhost and doen't require SSL)
+Starting with version 2.3.0 of this module, PuppetDB metrics will not be setup by the main class if you are on the versions above or higher unless the main class is applied to the Primary Server. To collect PuppetDB metrics in other scenarios, you should use the `puppet_metrics_dashboard::profile::puppetdb` class applied to any PuppetDB nodes with the option `enable_client_cert => false` (the request will be to localhost and doen't require SSL)
 
 ### Upgrade notes
 
-* Version 2 and up now requires the `toml-rb` gem installed on the Master and any/all Compilers.
+* Version 2 and up now requires the `toml-rb` gem installed on the Primary Server and any/all Compilers.
 * The `puppet_metrics_dashboard::profile::postgres` class is deprecated in favor of the `puppet_metrics_dashboard::profile::master::postgres_access` class.
 * Parameters `telegraf_agent_interval` and `http_response_timeout` were previously Integers but are now Strings. The value should match a time interval, such as `5s`, `10m`, or `1h`.
 * `influxdb_urls` was previously a String, but is now an Array.
@@ -67,12 +67,12 @@ Apply the `puppet_metrics_dashboard` class to the Dashboard node to configure In
 
 ### Requirements
 
-The [toml-rb](https://github.com/emancu/toml-rb) gem is a requirement of the `puppet-telegraf` module, and needs to be installed in Puppet Server on the Master and any/all Compilers.
+The [toml-rb](https://github.com/emancu/toml-rb) gem is a requirement of the `puppet-telegraf` module, and needs to be installed in Puppet Server on the Primary Server and any/all Compilers.
 
-Apply the following class to the Master and any/all Compilers to install the gem.
+Apply the following class to the Primary Server and any/all Compilers to install the gem.
 
 ```puppet
-node 'master.example.com' {
+node 'primary.example.com' {
   include puppet_metrics_dashboard::profile::master::install
 }
 node 'compiler.example.com' {
@@ -94,10 +94,10 @@ If you are configuring the Dashboard node via a `puppet apply` workflow, you wil
 
 ## Usage
 
-### Configure a Monolithic Master and a Dashboard node
+### Configure a Standard Primary Server and a Dashboard node
 
 ```puppet
-node 'master.example.com' {
+node 'primary.example.com' {
   include puppet_metrics_dashboard::profile::master::install
   include puppet_metrics_dashboard::profile::master::postgres_access
 }
@@ -110,7 +110,7 @@ node 'dashboard.example.com' {
 }
 ```
 
-This will configure Telegraf, InfluxDB, and Grafana on the Dashboard node, and allow Telegraf on that host to access PostgreSQL on the Monolithic Master.
+This will configure Telegraf, InfluxDB, and Grafana on the Dashboard node, and allow Telegraf on that host to access PostgreSQL on the Standard Primary Server.
 
 Note that the `add_dashboard_examples` parameter enforces state on the example dashboards.
 Setting the `overwrite_dashboards` parameter to `true` disables overwriting your modifications (if any) to the example dashboards.
@@ -118,7 +118,7 @@ Setting the `overwrite_dashboards` parameter to `true` disables overwriting your
 ### Manual configuration of a complex Puppet Infrastructure
 
 ```puppet
-node 'master.example.com' {
+node 'primary.example.com' {
   include puppet_metrics_dashboard::profile::master::install
 }
 node 'compiler01.example.com' {
@@ -140,7 +140,7 @@ node 'dashboard.example.com' {
     overwrite_dashboards   => false,
     configure_telegraf     => true,
     enable_telegraf        => true,
-    master_list            => ['master.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
+    master_list            => ['primary.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
     puppetdb_list          => ['puppetdb01.example.com', 'puppetdb02.example.com'],
     postgres_host_list     => ['postgres01.example.com', 'postgres02.example.com'],
   }
@@ -154,7 +154,7 @@ The `*_list` parameters can be defined in the class declaration, or elsewhere in
 
 ```
 puppet_metrics_dashboard::master_list:
-  - "master.example.com"
+  - "primary.example.com"
   - ["compiler01.example.com", 9140]
   - ["compiler02.example.com", 9140]
 puppet_metrics_dashboard::puppetdb_list:
@@ -165,10 +165,10 @@ puppet_metrics_dashboard::postgres_host_list:
   - "postgres02.example.com"
 ```
 
-### Configure Master, Compiler running PuppetDB and a Dashboard node
+### Configure Primary Server, Compiler running PuppetDB and a Dashboard node
 
 ```puppet
-node 'master.example.com' {
+node 'primary.example.com' {
   include puppet_metrics_dashboard::profile::master::install
 }
 node 'dbcompiler.example.com' {
@@ -195,12 +195,12 @@ node 'dashboard.example.com' {
     overwrite_dashboards   => false,
     consume_graphite       => true,
     influxdb_database_name => ['graphite'],
-    master_list            => ['master', 'master02'],
+    master_list            => ['primary', 'compiler01'],
   }
 }
 ```
 
-* This method requires enabling Graphite on the Masters, as described [here](https://puppet.com/docs/pe/latest/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support).
+* This method requires enabling Graphite on the Primary Server and Compilers, as described [here](https://puppet.com/docs/pe/latest/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support).
 The hostnames that you use in `master_list` must match the value(s) that you used for `metrics_server_id` in the `puppet_enterprise::profile::master` class.
 You must use hostnames rather than fully-qualified domain names (no dots) both in this class and in the  `puppet_enterprise::profile::master` class.
 
@@ -241,10 +241,10 @@ The `--pattern` flag accepts a Ruby glob argument, which the script will interna
 
 ### Allow Telegraf to access PE-PostgreSQL
 
-The following class is required to be applied to the Master (or the PE Database node if using external PostgreSQL) for collection of PostgreSQL metrics via Telegraf.
+The following class is required to be applied to the Primary Server (or the PE Database node if using external PostgreSQL) for collection of PostgreSQL metrics via Telegraf.
 
 ```puppet
-node 'master.example.com' {
+node 'primary.example.com' {
   class { 'puppet_metrics_dashboard::profile::master::postgres_access':
     telegraf_host => 'grafana-server.example.com',
   }
@@ -258,7 +258,7 @@ If the PuppetDB lookup fails to find a Dashboard node, and you do not specify `t
 Refer to [Issue 72](https://github.com/puppetlabs/puppet_metrics_dashboard/issues/72) if the above generates the following error:
 
 ```
-Error: Could not retrieve catalog from remote server: Error 500 on SERVER: Server Error: Evaluation Error: Error while evaluating a Resource Statement, Evaluation Error: Error while evaluating a Function Call, 'versioncmp' parameter 'a' expects a String value, got Undef (file: /opt/puppetlabs/puppet/modules/pe_postgresql/manifests/server/role.pp, line: 66, column: 6) (file: /etc/puppetlabs/code/environments/production/modules/puppet_metrics_dashboard/manifests/profile/master/postgres_access.pp, line: 42) on node master.example.com
+Error: Could not retrieve catalog from remote server: Error 500 on SERVER: Server Error: Evaluation Error: Error while evaluating a Resource Statement, Evaluation Error: Error while evaluating a Function Call, 'versioncmp' parameter 'a' expects a String value, got Undef (file: /opt/puppetlabs/puppet/modules/pe_postgresql/manifests/server/role.pp, line: 66, column: 6) (file: /etc/puppetlabs/code/environments/production/modules/puppet_metrics_dashboard/manifests/profile/master/postgres_access.pp, line: 42) on node primary.example.com
 ```
 
 A workaround for that error is to apply the `puppet_metrics_dashboard::profile::master::postgres_access` class to the `PE Database` Node Group in the Console, if using Puppet Enterprise. 
