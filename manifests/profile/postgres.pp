@@ -1,4 +1,4 @@
-# @summary This class is deprecated.  Please use the Puppet_metrics_dashboard::Profile::Master::Postgres_access class.
+# @summary This class is deprecated.  Please use the Puppet_metrics_dashboard::Profile::Primary::Postgres_access class.
 #
 # @param grafana_host
 #   The FQDN of the host where telegraf runs.
@@ -8,6 +8,6 @@ class puppet_metrics_dashboard::profile::postgres (
   String $grafana_host = ''
 ){
 
-  fail('The Puppet_metrics_dashboard::Profile::Postgres class is deprecated.  Please use the Puppet_metrics_dashboard::Profile::Master::Postgres_access instead.')
+  fail('The Puppet_metrics_dashboard::Profile::Postgres class is deprecated.  Please use the Puppet_metrics_dashboard::Profile::Primary::Postgres_access instead.')
 
 }

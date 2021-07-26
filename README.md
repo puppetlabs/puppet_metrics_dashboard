@@ -47,7 +47,7 @@ Starting with version 2.3.0 of this module, PuppetDB metrics will not be setup b
 ### Upgrade notes
 
 * Version 2 and up now requires the `toml-rb` gem installed on the Primary Server and any/all Compilers.
-* The `puppet_metrics_dashboard::profile::postgres` class is deprecated in favor of the `puppet_metrics_dashboard::profile::master::postgres_access` class.
+* The `puppet_metrics_dashboard::profile::postgres` class is deprecated in favor of the `puppet_metrics_dashboard::profile::primary::postgres_access` class.
 * Parameters `telegraf_agent_interval` and `http_response_timeout` were previously Integers but are now Strings. The value should match a time interval, such as `5s`, `10m`, or `1h`.
 * `influxdb_urls` was previously a String, but is now an Array.
 
@@ -73,14 +73,14 @@ Apply the following class to the Primary Server and any/all Compilers to install
 
 ```puppet
 node 'primary.example.com' {
-  include puppet_metrics_dashboard::profile::master::install
+  include puppet_metrics_dashboard::profile::primary::install
 }
 node 'compiler.example.com' {
-  include puppet_metrics_dashboard::profile::master::install
+  include puppet_metrics_dashboard::profile::primary::install
 }
 ```
 
-Or, you can apply the `puppet_metrics_dashboard::profile::master::install` class to the `PE Master` Node Group, if using Puppet Enterprise. 
+Or, you can apply the `puppet_metrics_dashboard::profile::primary::install` class to the `PE Master` Node Group, if using Puppet Enterprise. 
 
 Or, you can manually install the gem using the following command.
 
@@ -98,8 +98,8 @@ If you are configuring the Dashboard node via a `puppet apply` workflow, you wil
 
 ```puppet
 node 'primary.example.com' {
-  include puppet_metrics_dashboard::profile::master::install
-  include puppet_metrics_dashboard::profile::master::postgres_access
+  include puppet_metrics_dashboard::profile::primary::install
+  include puppet_metrics_dashboard::profile::primary::postgres_access
 }
 
 node 'dashboard.example.com' {
@@ -119,19 +119,19 @@ Setting the `overwrite_dashboards` parameter to `true` disables overwriting your
 
 ```puppet
 node 'primary.example.com' {
-  include puppet_metrics_dashboard::profile::master::install
+  include puppet_metrics_dashboard::profile::primary::install
 }
 node 'compiler01.example.com' {
-  include puppet_metrics_dashboard::profile::master::install
+  include puppet_metrics_dashboard::profile::primary::install
 }
 node 'compiler02.example.com' {
-  include puppet_metrics_dashboard::profile::master::install
+  include puppet_metrics_dashboard::profile::primary::install
 }
 node 'postgres01.example.com' {
-  include puppet_metrics_dashboard::profile::master::postgres_access
+  include puppet_metrics_dashboard::profile::primary::postgres_access
 }
 node 'postgres02.example.com' {
-  include puppet_metrics_dashboard::profile::master::postgres_access
+  include puppet_metrics_dashboard::profile::primary::postgres_access
 }
 
 node 'dashboard.example.com' {
@@ -169,7 +169,7 @@ puppet_metrics_dashboard::postgres_host_list:
 
 ```puppet
 node 'primary.example.com' {
-  include puppet_metrics_dashboard::profile::master::install
+  include puppet_metrics_dashboard::profile::primary::install
 }
 node 'dbcompiler.example.com' {
   class { 'puppet_metrics_dashboard::profile::dbcompiler::install':
@@ -201,8 +201,8 @@ node 'dashboard.example.com' {
 ```
 
 * This method requires enabling Graphite on the Primary Server and Compilers, as described [here](https://puppet.com/docs/pe/latest/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support).
-The hostnames that you use in `master_list` must match the value(s) that you used for `metrics_server_id` in the `puppet_enterprise::profile::master` class.
-You must use hostnames rather than fully-qualified domain names (no dots) both in this class and in the  `puppet_enterprise::profile::master` class.
+The hostnames that you use in `master_list` must match the value(s) that you used for `metrics_server_id` in the `puppet_enterprise::profile::primary` class.
+You must use hostnames rather than fully-qualified domain names (no dots) both in this class and in the  `puppet_enterprise::profile::primary` class.
 
 ### Configure Telegraf, Graphite, and Archive
 
@@ -245,7 +245,7 @@ The following class is required to be applied to the Primary Server (or the PE D
 
 ```puppet
 node 'primary.example.com' {
-  class { 'puppet_metrics_dashboard::profile::master::postgres_access':
+  class { 'puppet_metrics_dashboard::profile::primary::postgres_access':
     telegraf_host => 'grafana-server.example.com',
   }
 }
@@ -258,10 +258,10 @@ If the PuppetDB lookup fails to find a Dashboard node, and you do not specify `t
 Refer to [Issue 72](https://github.com/puppetlabs/puppet_metrics_dashboard/issues/72) if the above generates the following error:
 
 ```
-Error: Could not retrieve catalog from remote server: Error 500 on SERVER: Server Error: Evaluation Error: Error while evaluating a Resource Statement, Evaluation Error: Error while evaluating a Function Call, 'versioncmp' parameter 'a' expects a String value, got Undef (file: /opt/puppetlabs/puppet/modules/pe_postgresql/manifests/server/role.pp, line: 66, column: 6) (file: /etc/puppetlabs/code/environments/production/modules/puppet_metrics_dashboard/manifests/profile/master/postgres_access.pp, line: 42) on node primary.example.com
+Error: Could not retrieve catalog from remote server: Error 500 on SERVER: Server Error: Evaluation Error: Error while evaluating a Resource Statement, Evaluation Error: Error while evaluating a Function Call, 'versioncmp' parameter 'a' expects a String value, got Undef (file: /opt/puppetlabs/puppet/modules/pe_postgresql/manifests/server/role.pp, line: 66, column: 6) (file: /etc/puppetlabs/code/environments/production/modules/puppet_metrics_dashboard/manifests/profile/primary/postgres_access.pp, line: 42) on node primary.example.com
 ```
 
-A workaround for that error is to apply the `puppet_metrics_dashboard::profile::master::postgres_access` class to the `PE Database` Node Group in the Console, if using Puppet Enterprise. 
+A workaround for that error is to apply the `puppet_metrics_dashboard::profile::primary::postgres_access` class to the `PE Database` Node Group in the Console, if using Puppet Enterprise. 
 
 ### Enable SSL
 

@@ -76,7 +76,7 @@ class puppet_metrics_dashboard::telegraf::config {
     }
 
     $_postgres_list.each |$postgres| {
-      puppet_metrics_dashboard::profile::master::postgres{ $postgres['host']:
+      puppet_metrics_dashboard::profile::primary::postgres{ $postgres['host']:
         postgres_host  => $postgres['host'],
         port           => $postgres['port'],
         query_interval => $puppet_metrics_dashboard::pg_query_interval,

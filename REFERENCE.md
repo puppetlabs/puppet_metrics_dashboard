@@ -11,9 +11,9 @@
 * [`puppet_metrics_dashboard`](#puppet_metrics_dashboard): Installs and configures a stack for collecting, storing, and displaying Puppet Infrastructure metrics
 * [`puppet_metrics_dashboard::profile::dbcompiler::install`](#puppet_metrics_dashboardprofiledbcompilerinstall): Apply this class to compilers running PuppetDB to configure Telegraf and collect puppetserver and puppetdb metrics
 * [`puppet_metrics_dashboard::profile::ldap_auth`](#puppet_metrics_dashboardprofileldap_auth): Apply this class to your dashboard node after enabling LDAP authentication
-* [`puppet_metrics_dashboard::profile::master::install`](#puppet_metrics_dashboardprofilemasterinstall): Install requirements for the voxpupuli/puppet-telegraf module
-* [`puppet_metrics_dashboard::profile::master::postgres_access`](#puppet_metrics_dashboardprofilemasterpostgres_access): Apply this class to a PE PostgreSQL node to allow access by Telegraf.
-* [`puppet_metrics_dashboard::profile::postgres`](#puppet_metrics_dashboardprofilepostgres): This class is deprecated.  Please use the Puppet_metrics_dashboard::Profile::Master::Postgres_access class.
+* [`puppet_metrics_dashboard::profile::primary::install`](#puppet_metrics_dashboardprofilemasterinstall): Install requirements for the voxpupuli/puppet-telegraf module
+* [`puppet_metrics_dashboard::profile::primary::postgres_access`](#puppet_metrics_dashboardprofilemasterpostgres_access): Apply this class to a PE PostgreSQL node to allow access by Telegraf.
+* [`puppet_metrics_dashboard::profile::postgres`](#puppet_metrics_dashboardprofilepostgres): This class is deprecated.  Please use the Puppet_metrics_dashboard::Profile::Primary::Postgres_access class.
 
 #### Private Classes
 
@@ -35,7 +35,7 @@
 
 * [`puppet_metrics_dashboard::certs`](#puppet_metrics_dashboardcerts): This class creates a certificates for Grafana and for connecting to PE Postgres.
 * [`puppet_metrics_dashboard::profile::compiler`](#puppet_metrics_dashboardprofilecompiler): Apply this class to a master or compiler to collect puppetserver metrics
-* [`puppet_metrics_dashboard::profile::master::postgres`](#puppet_metrics_dashboardprofilemasterpostgres): Apply this class to an agent running pe-postgresql to collect postgres metrics
+* [`puppet_metrics_dashboard::profile::primary::postgres`](#puppet_metrics_dashboardprofilemasterpostgres): Apply this class to an agent running pe-postgresql to collect postgres metrics
 * [`puppet_metrics_dashboard::profile::puppetdb`](#puppet_metrics_dashboardprofilepuppetdb): Apply this class to a node running puppetdb to collect puppetdb metrics
 
 ### Functions
@@ -657,7 +657,7 @@ Assign users one of the following roles: "Admin", "Editor" or "Viewer". Defaults
 
 Default value: `'Admin'`
 
-### <a name="puppet_metrics_dashboardprofilemasterinstall"></a>`puppet_metrics_dashboard::profile::master::install`
+### <a name="puppet_metrics_dashboardprofilemasterinstall"></a>`puppet_metrics_dashboard::profile::primary::install`
 
 Install requirements for the voxpupuli/puppet-telegraf module.
 
@@ -666,10 +666,10 @@ Install requirements for the voxpupuli/puppet-telegraf module.
 ##### Apply this class to the Master and any/all Compilers
 
 ```puppet
-include puppet_metrics_dashboard::profile::master::install
+include puppet_metrics_dashboard::profile::primary::install
 ```
 
-### <a name="puppet_metrics_dashboardprofilemasterpostgres_access"></a>`puppet_metrics_dashboard::profile::master::postgres_access`
+### <a name="puppet_metrics_dashboardprofilemasterpostgres_access"></a>`puppet_metrics_dashboard::profile::primary::postgres_access`
 
 Apply this class to a PE PostgreSQL node to allow access by Telegraf.
 
@@ -678,14 +678,14 @@ Apply this class to a PE PostgreSQL node to allow access by Telegraf.
 ##### Apply this class to PE PostgreSQL nodes
 
 ```puppet
-class { 'puppet_metrics_dashboard::profile::master::postgres_access':
+class { 'puppet_metrics_dashboard::profile::primary::postgres_access':
   telegraf_host => 'dashboard.example.com',
 }
 ```
 
 #### Parameters
 
-The following parameters are available in the `puppet_metrics_dashboard::profile::master::postgres_access` class:
+The following parameters are available in the `puppet_metrics_dashboard::profile::primary::postgres_access` class:
 
 * [`telegraf_host`](#telegraf_host)
 
@@ -700,7 +700,7 @@ Default value: ``undef``
 
 ### <a name="puppet_metrics_dashboardprofilepostgres"></a>`puppet_metrics_dashboard::profile::postgres`
 
-This class is deprecated.  Please use the Puppet_metrics_dashboard::Profile::Master::Postgres_access class.
+This class is deprecated.  Please use the Puppet_metrics_dashboard::Profile::Primary::Postgres_access class.
 
 #### Parameters
 
@@ -794,7 +794,7 @@ The frequency that telegraf will poll for metrics.  Defaults to '5s'
 
 Default value: `'5s'`
 
-### <a name="puppet_metrics_dashboardprofilemasterpostgres"></a>`puppet_metrics_dashboard::profile::master::postgres`
+### <a name="puppet_metrics_dashboardprofilemasterpostgres"></a>`puppet_metrics_dashboard::profile::primary::postgres`
 
 Apply this class to an agent running pe-postgresql to collect postgres metrics
 
@@ -803,14 +803,14 @@ Apply this class to an agent running pe-postgresql to collect postgres metrics
 ##### Add telegraf to a postgres server
 
 ```puppet
-puppet_metrics_dashboard::profile::master::postgres{ $facts['networking']['fqdn']:
+puppet_metrics_dashboard::profile::primary::postgres{ $facts['networking']['fqdn']:
   query_interval => '10m',
 }
 ```
 
 #### Parameters
 
-The following parameters are available in the `puppet_metrics_dashboard::profile::master::postgres` defined type:
+The following parameters are available in the `puppet_metrics_dashboard::profile::primary::postgres` defined type:
 
 * [`query_interval`](#query_interval)
 * [`postgres_host`](#postgres_host)

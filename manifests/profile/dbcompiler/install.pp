@@ -7,7 +7,7 @@
 #   Default timeout of http calls.  Defaults to 5 seconds
 #
 # @param compiler
-#   The FQDN of the compiler / master.  Defaults to the FQDN of the server where the profile is applied
+#   The FQDN of the compiler / primary.  Defaults to the FQDN of the server where the profile is applied
 #
 # @param puppetdb_host
 #   Where to query the puppetdb host.  Defaults to localhost.

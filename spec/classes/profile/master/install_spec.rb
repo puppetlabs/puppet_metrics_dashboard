@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'puppet_metrics_dashboard::profile::master::install' do
+describe 'puppet_metrics_dashboard::profile::primary::install' do
   on_supported_os.each do |os, facts|
     context "with facter #{RSpec.configuration.default_facter_version} on #{os}" do
       let(:node) do
