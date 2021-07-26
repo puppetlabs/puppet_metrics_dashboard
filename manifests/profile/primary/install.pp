@@ -3,9 +3,9 @@
 # Install requirements for the voxpupuli/puppet-telegraf module.
 #
 # @example Apply this class to the Primary Server and any/all Compilers
-#   include puppet_metrics_dashboard::profile::master::install
+#   include puppet_metrics_dashboard::profile::primary::install
 #
-class puppet_metrics_dashboard::profile::master::install (
+class puppet_metrics_dashboard::profile::primary::install (
   Boolean $manage_ldap_auth = true,
   ) {
 

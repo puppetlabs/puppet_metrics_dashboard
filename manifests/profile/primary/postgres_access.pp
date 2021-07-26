@@ -5,11 +5,11 @@
 #   You can define this parameter, otherwise this class will query PuppetDB for a dashboard host.
 #
 # @example Apply this class to PE PostgreSQL nodes
-#   class { 'puppet_metrics_dashboard::profile::master::postgres_access':
+#   class { 'puppet_metrics_dashboard::profile::primary::postgres_access':
 #     telegraf_host => 'dashboard.example.com',
 #   }
 #
-class puppet_metrics_dashboard::profile::master::postgres_access (
+class puppet_metrics_dashboard::profile::primary::postgres_access (
   Optional[String[1]] $telegraf_host = undef
 ){
 

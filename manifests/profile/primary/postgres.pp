@@ -13,11 +13,11 @@
 #   An Array of databases to query on. Defaults to `['pe-puppetdb','pe-rbac','pe-activity','pe-classifier']`
 #
 # @example Add telegraf to a postgres server
-#   puppet_metrics_dashboard::profile::master::postgres{ $facts['networking']['fqdn']:
+#   puppet_metrics_dashboard::profile::primary::postgres{ $facts['networking']['fqdn']:
 #     query_interval => '10m',
 #   }
 #
-define puppet_metrics_dashboard::profile::master::postgres (
+define puppet_metrics_dashboard::profile::primary::postgres (
   Variant[String,Tuple[String, Integer]] $postgres_host = $facts['networking']['fqdn'],
   String[2] $query_interval                             = lookup('puppet_metrics_dashboard::pg_query_interval'),
   Integer[1] $port                                      = 5432,
