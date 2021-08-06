@@ -125,7 +125,7 @@ jobs:
 
     - name: Provision test environment
       run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'rake litmus:provision ${{ matrix.platforms.image }}' -- bundle exec rake 'litmus:provision[${{matrix.platforms.provider}},${{ matrix.platforms.image }}]'
+        buildevents cmd $TRACE_ID $STEP_ID 'rake litmus:provision ${{ matrix.platforms.image }}' -- bundle exec rake 'litmus:provision[${{matrix.platforms.provider}},${{ matrix.platforms.image }},{docker_run_opts: ["-v /sys/fs/cgroup:/sys/fs/cgroup:ro"]}]'
         echo ::group::=== REQUEST ===
         cat request.json || true
         echo
