@@ -18,7 +18,7 @@ RSpec.configure do |c|
         provider => puppet_gem,
       }
       if $facts['os']['family'] == 'Debian' {
-        package{['lsb-release','iproute2']:
+        package{['lsb-release','iproute2','curl']:
           ensure => installed,
         }
       }
