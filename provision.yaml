@@ -20,4 +20,4 @@ release_checks:
 viewer:
   provisioner: docker
   images: ['litmusimage/centos:7']
-  vars: '{docker_run_opts: ["-p 8086:8086", "-p 3000:3000"]}'
+  vars: '{docker_run_opts: ["-p 8086:8086", "-p 3000:3000", "-v /sys/fs/cgroup:/sys/fs/cgroup:ro"]}'
