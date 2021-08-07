@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-puppet_metrics_dashboard",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "author": "puppetlabs",
   "summary": "A module for managing the installation and configuration of metrics dashboards for Puppet Infrastructure.",
   "license": "Apache-2.0",
