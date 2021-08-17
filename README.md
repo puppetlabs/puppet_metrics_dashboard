@@ -330,6 +330,10 @@ yum install curl nss --disablerepo influxdb
 
 PostgreSQL metrics collection requires Telegraf version 1.9.1 or later.
 
+### Puppet-Telegraf module version 4.0.0
+
+This module is not compatible with `puppet-telegraf` version 4.0.0. Please use 3.x or 4.1+. See (#158)[https://github.com/puppetlabs/puppet_metrics_dashboard/issues/158] for more details.
+
 ## Development
 
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
