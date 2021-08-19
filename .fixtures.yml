@@ -3,8 +3,7 @@ fixtures:
     stdlib: https://github.com/puppetlabs/puppetlabs-stdlib.git
     apt: https://github.com/puppetlabs/puppetlabs-apt.git
     inifile: https://github.com/puppetlabs/puppetlabs-inifile.git
-    grafana:
-      repo: https://github.com/voxpupuli/puppet-grafana.git
+    grafana: https://github.com/voxpupuli/puppet-grafana.git
     yumrepo:
       repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
       puppet_version: ">= 6.0.0"
