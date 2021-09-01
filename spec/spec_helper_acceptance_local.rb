@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 
+require 'singleton'
 require 'puppetlabs_spec_helper/module_spec_helper'
 require 'serverspec'
 include PuppetLitmus
 
+class LitmusHelper
+  include Singleton
+  include PuppetLitmus
+end
+
 RSpec.configure do |c|
   c.mock_with :rspec
   c.before :suite do
-    # Fake the SSL certificates
-    run_shell('mkdir -p /etc/puppetlabs/puppet/ssl/{certs,private_keys}')
-    run_shell('touch $(/opt/puppetlabs/bin/puppet config print localcacert) \
-                $(/opt/puppetlabs/bin/puppet config print hostcert) \
-                $(/opt/puppetlabs/bin/puppet config print hostprivkey)')
     pp = <<-PUPPETCODE
       package{'toml-rb':
         ensure   => installed,
