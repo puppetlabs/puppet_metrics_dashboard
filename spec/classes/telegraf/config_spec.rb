@@ -109,11 +109,11 @@ describe 'puppet_metrics_dashboard::telegraf::config' do
         it { is_expected.to contain_tidy('clean /etc/telegraf/telegraf.d') }
       end
 
-      context 'when master_list includes entries with port numbers' do
+      context 'when pe_server_list includes entries with port numbers' do
         let(:pre_condition) do
           <<-PRE_COND
             class { 'puppet_metrics_dashboard':
-              master_list        => ['some-host.test',
+              pe_server_list        => ['some-host.test',
                                      ['some-other.host.test', 9140]],
               puppetdb_list      => [],
               postgres_host_list => [],
@@ -133,7 +133,7 @@ describe 'puppet_metrics_dashboard::telegraf::config' do
         let(:pre_condition) do
           <<-PRE_COND
             class { 'puppet_metrics_dashboard':
-              master_list        => [],
+              pe_server_list        => [],
               puppetdb_list      => ['some-host.test',
                                      ['some-other.host.test', 8100]],
               postgres_host_list => [],
@@ -153,7 +153,7 @@ describe 'puppet_metrics_dashboard::telegraf::config' do
         let(:pre_condition) do
           <<-PRE_COND
             class { 'puppet_metrics_dashboard':
-              master_list        => [],
+              pe_server_list        => [],
               puppetdb_list      => [],
               postgres_host_list => ['some-host.test',
                                      ['some-other.host.test', 9000]],

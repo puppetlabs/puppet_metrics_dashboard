@@ -9,11 +9,11 @@
                         'memory',
                         'num-cpus',
                         'uptime'],
-      Array $master_list
+      Array $pe_server_list
 | -%>
 
 <%
-$serverarray = $master_list.map |$host| { 
+$serverarray = $pe_server_list.map |$host| { 
   $server_tag = join(split($host,"[.]").map | $element | { "server" },'.') 
   $wildcards = join(split($host,"[.]").map | $element | { "*" },'.') 
   "puppetlabs.${wildcards}.placeholder .${server_tag}.measurement*" 

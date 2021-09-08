@@ -33,7 +33,7 @@ class puppet_metrics_dashboard::telegraf::config {
 
     # Transform the host lists into arrays of "hostname:port", using a
     # service's default port if no alternate was specified.
-    $_master_list = $puppet_metrics_dashboard::master_list.map |$entry| {
+    $_pe_server_list = $puppet_metrics_dashboard::pe_server_list.map |$entry| {
       $entry ? {
         Tuple[String, Integer] => { 'host' => $entry[0], 'port' => $entry[1] },
         String                 => { 'host' => $entry, 'port' => 8140 },
@@ -52,7 +52,7 @@ class puppet_metrics_dashboard::telegraf::config {
       }
     }
 
-    $_master_list.each |$master| {
+    $_pe_server_list.each |$master| {
       puppet_metrics_dashboard::profile::compiler{ $master['host']:
         compiler => $master['host'],
         port     => $master['port'],

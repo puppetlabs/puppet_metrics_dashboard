@@ -1,6 +1,6 @@
 <%- | Integer[1] $http_response_timeout,
       Array[Hash] $puppetdb_metrics,
-      Array[String] $master_list,
+      Array[String] $pe_server_list,
       Array[String] $puppetdb_list,
       Array[String] $postgres_host_list,
 | -%>
@@ -16,8 +16,8 @@
   name = 'puppet_stats'
   servers = [
     <%# -%>
-    <% unless $master_list.empty {-%>
-    <% $master_list.each |$master| {-%>
+    <% unless $pe_server_list.empty {-%>
+    <% $pe_server_list.each |$master| {-%>
     "https://<%= $master %>/status/v1/services?level=debug",
     <% } -%>
     <% } -%>
@@ -30,8 +30,8 @@
 [[inputs.http]]
   urls = [
     <%# -%>
-    <% unless $master_list.empty {-%>
-    <% $master_list.each |$master| {-%>
+    <% unless $pe_server_list.empty {-%>
+    <% $pe_server_list.each |$master| {-%>
     "https://<%= $master %>/status/v1/services/file-sync-client-service?level=debug",
     <% } -%>
     <% } -%>

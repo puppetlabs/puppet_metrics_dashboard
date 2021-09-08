@@ -81,7 +81,7 @@ class { 'puppet_metrics_dashboard':
   overwrite_dashboards   => false,
   configure_telegraf     => true,
   enable_telegraf        => true,
-  master_list            => ['master.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
+  pe_server_list            => ['master.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
   puppetdb_list          => ['puppetdb01.example.com', 'puppetdb02.example.com'],
   postgres_host_list     => ['postgres01.example.com', 'postgres02.example.com'],
 }
@@ -95,7 +95,7 @@ class { 'puppet_metrics_dashboard':
   overwrite_dashboards   => false,
   consume_graphite       => true,
   influxdb_database_name => ['graphite'],
-  master_list            => ['master', 'master02'],
+  pe_server_list            => ['master', 'master02'],
 }
 ```
 
@@ -142,7 +142,7 @@ The following parameters are available in the `puppet_metrics_dashboard` class:
 * [`grafana_version`](#grafana_version)
 * [`overwrite_dashboards_file`](#overwrite_dashboards_file)
 * [`grafana_config`](#grafana_config)
-* [`master_list`](#master_list)
+* [`pe_server_list`](#pe_server_list)
 * [`puppetdb_list`](#puppetdb_list)
 * [`postgres_host_list`](#postgres_host_list)
 * [`puppetdb_metrics`](#puppetdb_metrics)
@@ -333,7 +333,7 @@ Data type: `Hash`
 Hash of arbitrary configuration settings to pass to Grafana.
 These are added to `grafana.ini` with top-level keys becoming sections and their key-value children becoming settings.
 
-##### <a name="master_list"></a>`master_list`
+##### <a name="pe_server_list"></a>`pe_server_list`
 
 Data type: `Puppet_metrics_dashboard::HostList`
 

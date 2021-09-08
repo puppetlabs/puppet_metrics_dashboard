@@ -123,7 +123,7 @@
 #     },
 #   }
 #
-# @param master_list
+# @param pe_server_list
 #   An Array of servers that Telegraf will collect Puppet Server metrics from. 
 #   Entries may be:
 #     - A String that contains a hostname or IP address.
@@ -160,7 +160,7 @@
 #     overwrite_dashboards   => false,
 #     configure_telegraf     => true,
 #     enable_telegraf        => true,
-#     master_list            => ['primary.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
+#     pe_server_list            => ['primary.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
 #     puppetdb_list          => ['puppetdb01.example.com', 'puppetdb02.example.com'],
 #     postgres_host_list     => ['postgres01.example.com', 'postgres02.example.com'],
 #   }
@@ -171,7 +171,7 @@
 #     overwrite_dashboards   => false,
 #     consume_graphite       => true,
 #     influxdb_database_name => ['graphite'],
-#     master_list            => ['primary', 'compiler01'],
+#     pe_server_list            => ['primary', 'compiler01'],
 #   }
 #
 # @example Configure Telegraf, Graphite, and Archive
@@ -222,7 +222,7 @@ class puppet_metrics_dashboard (
 
   Hash $grafana_config,
 
-  Puppet_metrics_dashboard::HostList $master_list        = puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile('master'),
+  Puppet_metrics_dashboard::HostList $pe_server_list        = puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile('master'),
   Puppet_metrics_dashboard::HostList $puppetdb_list      = puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile('puppetdb'),
   Puppet_metrics_dashboard::HostList $postgres_host_list = puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile('database'),
 

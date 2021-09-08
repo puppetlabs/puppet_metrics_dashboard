@@ -10,7 +10,7 @@ class puppet_metrics_dashboard::config {
       owner   => 0,
       group   => 0,
       content => epp('puppet_metrics_dashboard/influxdb.conf.epp', {
-        master_list => $puppet_metrics_dashboard::master_list,
+        pe_server_list => $puppet_metrics_dashboard::pe_server_list,
       }),
       notify  => Service[$puppet_metrics_dashboard::influx_db_service_name],
       require => Package['influxdb'],

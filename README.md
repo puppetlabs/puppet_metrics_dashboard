@@ -59,7 +59,7 @@ Telegraf will continue to work if you do not remove them, however, the old `[[in
 
 Telegraf can be configured to run on the Dashboard node, or on each Puppet Infrastructure node.
 By default, this module configures Telegraf on the Dashboard node by querying PuppetDB to identify each Puppet Infrastructure node.
-To manually configure Telegraf on the Dashboard node, define the following `puppet_metrics_dashboard` class parameters: `master_list`, `puppetdb_list` and `postgres_host_list`.
+To manually configure Telegraf on the Dashboard node, define the following `puppet_metrics_dashboard` class parameters: `pe_server_list`, `puppetdb_list` and `postgres_host_list`.
 
 To configure Telegraf to run on each Puppet Infrastructure node, use the corresponding profiles for those nodes.
 See [Profile defined types](#profile-defined-types).
@@ -140,7 +140,7 @@ node 'dashboard.example.com' {
     overwrite_dashboards   => false,
     configure_telegraf     => true,
     enable_telegraf        => true,
-    master_list            => ['primary.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
+    pe_server_list            => ['primary.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
     puppetdb_list          => ['puppetdb01.example.com', 'puppetdb02.example.com'],
     postgres_host_list     => ['postgres01.example.com', 'postgres02.example.com'],
   }
@@ -153,7 +153,7 @@ Note that the defaults for this module's class parameters are defined in its `da
 The `*_list` parameters can be defined in the class declaration, or elsewhere in Hiera. For example:
 
 ```
-puppet_metrics_dashboard::master_list:
+puppet_metrics_dashboard::pe_server_list:
   - "primary.example.com"
   - ["compiler01.example.com", 9140]
   - ["compiler02.example.com", 9140]
@@ -195,13 +195,13 @@ node 'dashboard.example.com' {
     overwrite_dashboards   => false,
     consume_graphite       => true,
     influxdb_database_name => ['graphite'],
-    master_list            => ['primary', 'compiler01'],
+    pe_server_list            => ['primary', 'compiler01'],
   }
 }
 ```
 
 * This method requires enabling Graphite on the Primary Server and Compilers, as described [here](https://puppet.com/docs/pe/latest/puppet_server_metrics/getting_started_with_graphite.html#enabling-puppet-server-graphite-support).
-The hostnames that you use in `master_list` must match the value(s) that you used for `metrics_server_id` in the `puppet_enterprise::profile::master` class.
+The hostnames that you use in `pe_server_list` must match the value(s) that you used for `metrics_server_id` in the `puppet_enterprise::profile::master` class.
 You must use hostnames rather than fully-qualified domain names (no dots) both in this class and in the  `puppet_enterprise::profile::master` class.
 
 ### Configure Telegraf, Graphite, and Archive

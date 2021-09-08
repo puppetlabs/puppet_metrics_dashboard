@@ -54,7 +54,7 @@ describe 'puppet_metrics_dashboard' do
             .with_enable_telegraf(true)
             .with_configure_telegraf(true)
             .with_consume_graphite(false)
-            .with_master_list(['testhost.example.com'])
+            .with_pe_server_list(['testhost.example.com'])
             .with_puppetdb_list([])
             .with_influxdb_urls(['http://localhost:8086'])
             .with_telegraf_db_name('telegraf')
@@ -262,7 +262,7 @@ describe 'puppet_metrics_dashboard' do
         let(:pre_condition) do
           <<-PRE_COND
             class {'puppet_metrics_dashboard':
-              master_list => [],
+              pe_server_list => [],
             }
           PRE_COND
         end
@@ -274,7 +274,7 @@ describe 'puppet_metrics_dashboard' do
         let(:pre_condition) do
           <<-PRE_COND
             class {'puppet_metrics_dashboard':
-              master_list   => [
+              pe_server_list   => [
                 'master.example.com',
                 'compiler1.example.com',
                 'compiler2.example.com',
