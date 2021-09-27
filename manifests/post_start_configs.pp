@@ -30,6 +30,19 @@ class puppet_metrics_dashboard::post_start_configs {
     # lint:endignore
   }
 
+  if $puppet_metrics_dashboard::telegraf_db_retention_duration =~ NotUndef {
+    exec { "create default telegraf database retention policy":
+      command => "/usr/bin/influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"CREATE RETENTION POLICY telegraf_default ON ${puppet_metrics_dashboard::telegraf_db_name} DURATION ${puppet_metrics_dashboard::telegraf_db_retention_duration} REPLICATION 1 DEFAULT\"",
+      unless => "/usr/bin/influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"SHOW RETENTION POLICIES ON ${puppet_metrics_dashboard::telegraf_db_name}\" | grep -w telegraf_default",
+      require => Exec["create influxdb puppet_metrics database ${puppet_metrics_dashboard::telegraf_db_name}"],
+    }
+  } else {
+    exec { "drop existing retention policy if ever created":
+      command => "/usr/bin/influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"DROP RETENTION POLICY telegraf_default ON ${puppet_metrics_dashboard::telegraf_db_name}\"",
+      onlyif => "/usr/bin/influx -username admin -password ${puppet_metrics_dashboard::influx_db_password} -execute \"SHOW RETENTION POLICIES ON ${puppet_metrics_dashboard::telegraf_db_name}\" | grep -w telegraf_default",
+    }
+  }
+
   $_uri = $puppet_metrics_dashboard::use_dashboard_ssl ? {
     true    => 'https',
     default => 'http',
