@@ -8,12 +8,13 @@ class puppet_metrics_dashboard::repos {
     case $facts['os']['family'] {
       'RedHat': {
         yumrepo {'influxdb':
-          ensure   => present,
-          descr    => 'influxdb-repository',
-          enabled  => 1,
-          gpgcheck => 1,
-          baseurl  => 'https://repos.influxdata.com/rhel/$releasever/$basearch/stable',
-          gpgkey   => 'https://repos.influxdata.com/influxdb.key',
+          ensure        => 'present',
+          descr         => 'influxdb-repository',
+          enabled       => '1',
+          repo_gpgcheck => '1',
+          gpgcheck      => '1',
+          baseurl       => 'https://repos.influxdata.com/rhel/$releasever/$basearch/stable',
+          gpgkey        => 'https://repos.influxdata.com/influxdb.key',
         }
 
         yumrepo { 'grafana-repo':
