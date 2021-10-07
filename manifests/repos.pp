@@ -11,7 +11,7 @@ class puppet_metrics_dashboard::repos {
           ensure        => 'present',
           descr         => 'influxdb-repository',
           enabled       => '1',
-          repo_gpgcheck => '1',
+          repo_gpgcheck => '0',
           gpgcheck      => '1',
           baseurl       => 'https://repos.influxdata.com/rhel/$releasever/$basearch/stable',
           gpgkey        => 'https://repos.influxdata.com/influxdb.key',
