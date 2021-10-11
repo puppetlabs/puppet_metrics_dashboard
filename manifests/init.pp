@@ -61,6 +61,11 @@
 # @param telegraf_db_name
 #   The InfluxDB database where Telegraf metrics are stored.
 #
+# @param telegraf_db_retention_duration
+#   The retention duration for database used for Telegraf metrics. Defaults to undef. 
+#   Specify a value to setup retention duration. Example: `4w` is 4 weeks. 
+#   To update a new duration, set it as undef first and run puppet agent to reset. Then, specify the new value.
+#
 # @param http_response_timeout
 #   Timeout for Telegraf HTTP requests. Defaults to `5s`
 #
@@ -203,6 +208,7 @@ class puppet_metrics_dashboard (
   String $influx_db_password,
 
   String $telegraf_db_name,
+  Optional[String[1]] $telegraf_db_retention_duration = undef,
   String[2] $telegraf_agent_interval,
   String[2] $http_response_timeout,
   String[2] $pg_query_interval,
