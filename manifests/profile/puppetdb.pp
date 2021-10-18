@@ -64,6 +64,11 @@ define puppet_metrics_dashboard::profile::puppetdb (
         $metrics_version = 'v1/mbeans'
       }
 
+  $server_name = $puppetdb_host ? {
+    'localhost' => $clientcert,
+    default => $puppetdb_host,
+  }
+
   $puppetdb_metrics.each |$metric| {
     telegraf::input { "puppetdb_${metric['name']}_${puppetdb_host}":
       plugin_type => 'http',
@@ -74,7 +79,7 @@ define puppet_metrics_dashboard::profile::puppetdb (
         'urls'          => [ "${protocol}://${puppetdb_host}:${port}/metrics/${metrics_version}/${metric['url']}" ],
         'timeout'       => $timeout,
         'tags'          => {
-          'server' => $clientcert,
+          'server' => $server_name,
         }
         } + $default_options
       ],
@@ -91,7 +96,7 @@ define puppet_metrics_dashboard::profile::puppetdb (
       'urls'          => [ "${protocol}://${puppetdb_host}:${port}/status/v1/services?level=debug" ],
       'timeout'       => $timeout,
       'tags'          => {
-        'server' => $clientcert,
+        'server' => $server_name,
       }
       } + $default_options
     ],
