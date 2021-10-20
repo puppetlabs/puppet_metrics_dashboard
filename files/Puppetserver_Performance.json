@@ -24,7 +24,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": "$datasource",
       "description": "A decrease in \"free\" and an increase in \"wait\" mean puppetserver is falling behind the workload",
       "fill": 1,
       "gridPos": {
@@ -346,7 +346,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": "$datasource",
       "fill": 1,
       "gridPos": {
         "h": 5,
@@ -478,7 +478,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": "$datasource",
       "fill": 1,
       "gridPos": {
         "h": 5,
@@ -613,7 +613,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": "$datasource",
       "fill": 1,
       "gridPos": {
         "h": 5,
@@ -873,7 +873,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": "$datasource",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1008,7 +1008,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": "$datasource",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1201,7 +1201,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": "$datasource",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1336,7 +1336,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb_puppet_metrics",
+      "datasource": "$datasource",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1477,9 +1477,24 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "tags": [],
+          "text": "influxdb_puppet_metrics",
+          "value": "influxdb_puppet_metrics"
+        },
+        "hide": 0,
+        "label": "datasource",
+        "name": "datasource",
+        "options": [],
+        "query": "influxdb",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {},
-        "datasource": "influxdb_puppet_metrics",
+        "datasource": "$datasource",
         "hide": 0,
         "includeAll": true,
         "label": "server",
