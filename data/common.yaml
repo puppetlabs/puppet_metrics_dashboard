@@ -31,7 +31,7 @@ puppet_metrics_dashboard::enable_ldap_auth: false
 
 puppet_metrics_dashboard::grafana_http_port: 3000
 puppet_metrics_dashboard::grafana_password: "admin"
-puppet_metrics_dashboard::grafana_version: "5.1.4"
+puppet_metrics_dashboard::grafana_version: "8.2.2"
 
 puppet_metrics_dashboard::overwrite_dashboards_file: "/opt/puppetlabs/puppet/cache/state/overwrite_dashboards_disabled"
 
