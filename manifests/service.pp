@@ -9,9 +9,9 @@ class puppet_metrics_dashboard::service {
       systemd::unit_file { "${puppet_metrics_dashboard::influx_db_service_name}.service":
         source => "puppet:///modules/${module_name}/influxdb.service",
       }
-      service {"${puppet_metrics_dashboard::influx_db_service_name}":
-        ensure => running,
-        enable => true,
+      service {$puppet_metrics_dashboard::influx_db_service_name:
+        ensure  => running,
+        enable  => true,
         require => Systemd::Unit_file["${puppet_metrics_dashboard::influx_db_service_name}.service"],
       }
     }

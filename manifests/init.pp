@@ -225,7 +225,6 @@ class puppet_metrics_dashboard (
   String $influx_db_password,
 
   String $telegraf_db_name,
-  Optional[String[1]] $telegraf_db_retention_duration = undef,
   String[2] $telegraf_agent_interval,
   String[2] $http_response_timeout,
   String[2] $pg_query_interval,
@@ -246,8 +245,6 @@ class puppet_metrics_dashboard (
   Hash $grafana_config,
 
   Boolean             $grafana_manage_repo = $manage_repos,
-  Optional[Stdlib::Httpsurl] $influx_archive_source = undef,
-  Optional[Stdlib::Httpsurl] $grafana_archive_source = undef,
   Enum['docker', 'archive', 'package', 'repo'] $grafana_install_method = 'repo',
 
   Puppet_metrics_dashboard::HostList $master_list        = puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile('master'),
@@ -255,6 +252,10 @@ class puppet_metrics_dashboard (
   Puppet_metrics_dashboard::HostList $postgres_host_list = puppet_metrics_dashboard::localhost_or_hosts_with_pe_profile('database'),
 
   Puppet_metrics_dashboard::Puppetdb_metric $puppetdb_metrics = puppet_metrics_dashboard::puppetdb_metrics(),
+
+  Optional[String[1]] $telegraf_db_retention_duration = undef,
+  Optional[Stdlib::Httpsurl] $influx_archive_source = undef,
+  Optional[Stdlib::Httpsurl] $grafana_archive_source = undef,
   ) {
 
   unless $facts['os']['family'] =~ /^(RedHat|Debian|Suse)$/ {

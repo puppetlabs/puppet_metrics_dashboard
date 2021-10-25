@@ -19,8 +19,6 @@ describe 'puppet_metrics_dashboard::repos' do
           PRE_COND
         end
 
-        it { is_expected.to compile }
-
         # rubocop:disable RSpec/ExampleWording
         # rubocop:disable RSpec/RepeatedDescription
         # rubocop:disable RSpec/RepeatedExample
@@ -104,8 +102,6 @@ describe 'puppet_metrics_dashboard::repos' do
             }
           PRE_COND
         end
-
-        it { is_expected.to compile }
 
         case facts[:os]['family']
         when 'RedHat'

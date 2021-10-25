@@ -54,7 +54,7 @@ describe 'puppet_metrics_dashboard::grafana' do
           when 'Suse'
             is_expected.to contain_class('grafana')
               .with_install_method('package')
-              .with_manage_package_repo(true)
+              .with_manage_package_repo(false)
               .with_version('8.2.2')
               .with_require('Service[influxdb]')
           end

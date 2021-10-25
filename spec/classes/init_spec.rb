@@ -35,12 +35,12 @@ describe 'puppet_metrics_dashboard' do
         # verify the defualts have not changed
         # rubocop:disable RSpec/ExampleWording
         it 'should have all the expected default vaulues for parameters' do
-          case facts[:os]['family']
-          when 'Suse'
-            manage_repos = false
-          else
-            manage_repos = true
-          end
+          manage_repos = case facts[:os]['family']
+                         when 'Suse'
+                           false
+                         else
+                           true
+                         end
           is_expected.to contain_class('puppet_metrics_dashboard')
             .with_add_dashboard_examples(false)
             .with_manage_repos(manage_repos)

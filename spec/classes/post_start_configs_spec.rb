@@ -2,12 +2,7 @@ require 'spec_helper'
 
 describe 'puppet_metrics_dashboard::post_start_configs' do
   on_supported_os.each do |os, facts|
-    influx_command = case facts[:os]['family']
-                     when 'Suse'
-                       '/opt/influxdb/usr/bin/influx'
-                     else
-                       '/usr/bin/influx'
-                     end
+    influx_command = 'influx'
     context "with facter #{RSpec.configuration.default_facter_version} on #{os}" do
       let(:node) do
         'testhost.example.com'
