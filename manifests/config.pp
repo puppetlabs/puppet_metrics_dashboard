@@ -13,7 +13,7 @@ class puppet_metrics_dashboard::config {
         master_list => $puppet_metrics_dashboard::master_list,
       }),
       notify  => Service[$puppet_metrics_dashboard::influx_db_service_name],
-      require => Package['influxdb'],
+      require => Class['puppet_metrics_dashboard::install'],
     }
   }
 }

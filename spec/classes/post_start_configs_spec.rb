@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'puppet_metrics_dashboard::post_start_configs' do
   on_supported_os.each do |os, facts|
+    influx_command = 'influx'
     context "with facter #{RSpec.configuration.default_facter_version} on #{os}" do
       let(:node) do
         'testhost.example.com'
@@ -24,27 +25,27 @@ describe 'puppet_metrics_dashboard::post_start_configs' do
           when 'Debian'
             is_expected.to contain_exec('wait for influxdb')
               .with_command('/bin/sleep 10')
-              .with_unless('/usr/bin/influx -execute "SHOW DATABASES"')
+              .with_unless("#{influx_command} -execute \"SHOW DATABASES\"")
               .with_require('Service[influxd]')
           when 'RedHat'
             is_expected.to contain_exec('wait for influxdb')
               .with_command('/bin/sleep 10')
-              .with_unless('/usr/bin/influx -execute "SHOW DATABASES"')
+              .with_unless("#{influx_command} -execute \"SHOW DATABASES\"")
               .with_require('Service[influxdb]')
           end
         end
 
         it 'should contain Exec[create influxdb admin user]' do
           is_expected.to contain_exec('create influxdb admin user')
-            .with_command("/usr/bin/influx -execute \"CREATE USER admin WITH PASSWORD 'puppet' WITH ALL PRIVILEGES\"")
-            .with_unless("/usr/bin/influx -username admin -password puppet -execute 'show users' | grep 'admin true'")
+            .with_command("#{influx_command} -execute \"CREATE USER admin WITH PASSWORD 'puppet' WITH ALL PRIVILEGES\"")
+            .with_unless("#{influx_command} -username admin -password puppet -execute 'show users' | grep 'admin true'")
         end
 
         it 'should contain Exec[create influxdb puppet_metrics database telegraf]' do
           is_expected.to contain_exec('create influxdb puppet_metrics database telegraf')
             .with(
-              'command' => '/usr/bin/influx -username admin -password puppet -execute "create database telegraf"',
-              'unless' => "/usr/bin/influx -username admin -password puppet -execute 'show databases' | grep telegraf",
+              'command' => "#{influx_command} -username admin -password puppet -execute \"create database telegraf\"",
+              'unless' => "#{influx_command} -username admin -password puppet -execute 'show databases' | grep telegraf",
             )
         end
 

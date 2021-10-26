@@ -26,7 +26,7 @@ define puppet_metrics_dashboard::profile::master::postgres (
 
   ensure_resource( 'puppet_metrics_dashboard::certs', 'telegraf', {
       notify  => Service['telegraf'],
-      require => Package['telegraf'],
+      require => Class['telegraf::install'],
       before  => Service['telegraf'],
   })
 
@@ -34,7 +34,7 @@ define puppet_metrics_dashboard::profile::master::postgres (
     plugin_type => 'postgresql_extensible',
     options     => [{
       'interval'      => $query_interval,
-      'address'       => "postgres://telegraf@${postgres_host}:${port}/pe-puppetdb?sslmode=require&sslkey=/etc/telegraf/${trusted['certname']}_key.pem&sslcert=/etc/telegraf/${trusted['certname']}_cert.pem&sslrootcert=/etc/telegraf/ca.pem",
+      'address'       => "postgres://telegraf@${postgres_host}:${port}/pe-puppetdb?sslmode=require&sslkey=/etc/telegraf/${trusted['certname']}_key.pem&sslcert=/etc/telegraf/${trusted['certname']}_cert.pem&sslrootcert=/etc/telegraf/ca.pem", #lint:ignore:140chars
       'outputaddress' => $postgres_host,
       'databases'     => $databases,
       'query'         => [{
@@ -42,7 +42,7 @@ define puppet_metrics_dashboard::profile::master::postgres (
         'version'    => 901,
         'withdbname' => false,
         },{
-        'sqlquery'   => 'SELECT relname as s_table, pg_relation_size(relid) as size FROM pg_catalog.pg_statio_user_tables ORDER BY pg_total_relation_size(relid) DESC',
+        'sqlquery'   => 'SELECT relname as s_table, pg_relation_size(relid) as size FROM pg_catalog.pg_statio_user_tables ORDER BY pg_total_relation_size(relid) DESC', #lint:ignore:140chars
         'version'    => 901,
         'withdbname' => false,
         'tagvalue'   => 's_table',
@@ -52,13 +52,13 @@ define puppet_metrics_dashboard::profile::master::postgres (
         'withdbname' => false,
         'tagvalue'   => 'v_table',
         },{
-        'sqlquery'   => 'SELECT relname as io_table, heap_blks_read, heap_blks_hit, idx_blks_read, idx_blks_hit, toast_blks_read, toast_blks_hit, tidx_blks_read, tidx_blks_hit FROM pg_statio_user_tables',
+        'sqlquery'   => 'SELECT relname as io_table, heap_blks_read, heap_blks_hit, idx_blks_read, idx_blks_hit, toast_blks_read, toast_blks_hit, tidx_blks_read, tidx_blks_hit FROM pg_statio_user_tables', #lint:ignore:140chars
         'version'    => 901,
         'withdbname' => false,
         'tagvalue'   => 'io_table',
         }]
     }],
     notify      => Service['telegraf'],
-    require     => Package['telegraf'],
+    require     => Class['telegraf::install'],
   }
 }

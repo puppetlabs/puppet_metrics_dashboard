@@ -18,7 +18,8 @@
 #   Set to false if you do not want to skip SSL cert validation. Defaults to true.
 #
 # @param ldap_bind_dn
-#   Search user bind dn. If you can provide a single bind expression that matches all possible users, you can skip specifying ldap_bind_password.
+#   Search user bind dn. If you can provide a single bind expression that matches all possible users,
+#   you can skip specifying ldap_bind_password.
 #
 # @param ldap_bind_password
 #   Search user bind password. If the password contains # or ; you have to wrap it with triple quotes. Ex """#password;"""
