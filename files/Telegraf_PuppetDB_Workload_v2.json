@@ -96,7 +96,7 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
                   "value": "/$server/"
                 }
@@ -228,7 +228,7 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
                   "value": "/$server/"
                 }
@@ -345,7 +345,7 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
                   "value": "/$server/"
                 }
@@ -462,7 +462,7 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
                   "value": "/$server/"
                 }
@@ -591,7 +591,7 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
                   "value": "/$server/"
                 }
@@ -708,7 +708,7 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
                   "value": "/$server/"
                 }
@@ -825,7 +825,7 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
                   "value": "/$server/"
                 }
@@ -954,7 +954,7 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
                   "value": "/$server/"
                 }
@@ -1071,7 +1071,7 @@
               ],
               "tags": [
                 {
-                  "key": "host",
+                  "key": "server",
                   "operator": "=~",
                   "value": "/$server/"
                 }
@@ -1144,7 +1144,7 @@
         "multi": true,
         "name": "server",
         "options": [],
-        "query": "SHOW TAG VALUES WITH KEY = \"host\"",
+        "query": "SHOW TAG VALUES WITH KEY = \"server\"",
         "refresh": 1,
         "regex": "",
         "sort": 0,
