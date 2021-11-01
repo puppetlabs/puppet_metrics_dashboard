@@ -6,10 +6,6 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.5.0...v3.0.0)
 
-### Changed
-
-- \(SUP-2764\) Remove EOL OS versions [\#196](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/196) ([suckatrash](https://github.com/suckatrash))
-
 ### Added
 
 - \(SUP-2769\) Bump default Grafana version from 5.1.4 to 8.2.2 [\#197](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/197) ([suckatrash](https://github.com/suckatrash))
