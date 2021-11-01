@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v3.0.0](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v3.0.0) (2021-11-01)
+
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.5.0...v3.0.0)
+
+### Changed
+
+- \(SUP-2764\) Remove EOL OS versions [\#196](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/196) ([suckatrash](https://github.com/suckatrash))
+
+### Added
+
+- \(SUP-2769\) Bump default Grafana version from 5.1.4 to 8.2.2 [\#197](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/197) ([suckatrash](https://github.com/suckatrash))
+- \(Sup-2754\) Adding SLES support [\#194](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/194) ([m0dular](https://github.com/m0dular))
+- \(SUP-2194\) To add datasource variable for Archive Dashboards - PR 185 Replacement [\#192](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/192) ([henrywangpuppet](https://github.com/henrywangpuppet))
+- Added repo\_gpgcheck and single quotes to influxdb [\#189](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/189) ([di2ejenkins](https://github.com/di2ejenkins))
+- \(SUP-2137\) To add parameters to configure telegraf database retention policy [\#188](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/188) ([henrywangpuppet](https://github.com/henrywangpuppet))
+- \(GH-158\) Add support for puppet-telegraf 4.1+ [\#166](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/166) ([jarretlavallee](https://github.com/jarretlavallee))
+- \(\#151\) Install toml gem by default. [\#154](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/154) ([coreymbe](https://github.com/coreymbe))
+
+### Fixed
+
+- \(SUP-2732\) Fix PDB data tagged onto dashboard server issue and templa… [\#191](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/191) ([henrywangpuppet](https://github.com/henrywangpuppet))
+
+### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+
+- \(GH-172\) Add cgroup mapping for viewer [\#173](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/173) ([jarretlavallee](https://github.com/jarretlavallee))
+
 ## [v2.5.0](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v2.5.0) (2021-05-27)
 
 [Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.4.0...v2.5.0)
