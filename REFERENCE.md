@@ -34,7 +34,7 @@
 ### Defined types
 
 * [`puppet_metrics_dashboard::certs`](#puppet_metrics_dashboardcerts): This class creates a certificates for Grafana and for connecting to PE Postgres.
-* [`puppet_metrics_dashboard::profile::compiler`](#puppet_metrics_dashboardprofilecompiler): Apply this class to a master or compiler to collect puppetserver metrics
+* [`puppet_metrics_dashboard::profile::compiler`](#puppet_metrics_dashboardprofilecompiler): Apply this class to a Primary Server or Compiler to collect puppetserver metrics
 * [`puppet_metrics_dashboard::profile::master::postgres`](#puppet_metrics_dashboardprofilemasterpostgres): Apply this class to an agent running pe-postgresql to collect postgres metrics
 * [`puppet_metrics_dashboard::profile::puppetdb`](#puppet_metrics_dashboardprofilepuppetdb): Apply this class to a node running puppetdb to collect puppetdb metrics
 
@@ -73,7 +73,7 @@ class { 'puppet_metrics_dashboard':
 }
 ```
 
-##### Configure Telegraf to collect metrics from a list of Masters, PuppetDB, and PostgreSQL servers
+##### Configure Telegraf to collect metrics from a list of Primary Server, Compilers, PuppetDB, and PostgreSQL servers
 
 ```puppet
 class { 'puppet_metrics_dashboard':
@@ -81,13 +81,13 @@ class { 'puppet_metrics_dashboard':
   overwrite_dashboards   => false,
   configure_telegraf     => true,
   enable_telegraf        => true,
-  master_list            => ['master.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
+  master_list            => ['primary.example.com', ['compiler01.example.com', 9140], ['compiler02.example.com', 9140]],
   puppetdb_list          => ['puppetdb01.example.com', 'puppetdb02.example.com'],
   postgres_host_list     => ['postgres01.example.com', 'postgres02.example.com'],
 }
 ```
 
-##### Configure Graphite to accept metrics from a list of Masters
+##### Configure Graphite to accept metrics from a list of Primary Server and Compilers
 
 ```puppet
 class { 'puppet_metrics_dashboard':
@@ -95,7 +95,7 @@ class { 'puppet_metrics_dashboard':
   overwrite_dashboards   => false,
   consume_graphite       => true,
   influxdb_database_name => ['graphite'],
-  master_list            => ['master', 'master02'],
+  master_list            => ['primary', 'compiler01'],
 }
 ```
 
@@ -128,7 +128,9 @@ The following parameters are available in the `puppet_metrics_dashboard` class:
 * [`influxdb_urls`](#influxdb_urls)
 * [`influx_db_service_name`](#influx_db_service_name)
 * [`influx_db_password`](#influx_db_password)
+* [`influx_archive_source`](#influx_archive_source)
 * [`telegraf_db_name`](#telegraf_db_name)
+* [`telegraf_db_retention_duration`](#telegraf_db_retention_duration)
 * [`http_response_timeout`](#http_response_timeout)
 * [`telegraf_agent_interval`](#telegraf_agent_interval)
 * [`pg_query_interval`](#pg_query_interval)
@@ -142,6 +144,9 @@ The following parameters are available in the `puppet_metrics_dashboard` class:
 * [`grafana_version`](#grafana_version)
 * [`overwrite_dashboards_file`](#overwrite_dashboards_file)
 * [`grafana_config`](#grafana_config)
+* [`grafana_manage_repo`](#grafana_manage_repo)
+* [`grafana_archive_source`](#grafana_archive_source)
+* [`grafana_install_method`](#grafana_install_method)
 * [`master_list`](#master_list)
 * [`puppetdb_list`](#puppetdb_list)
 * [`postgres_host_list`](#postgres_host_list)
@@ -238,11 +243,29 @@ Data type: `String`
 The password for the InfluxDB `admin` user.
 Defaults to `puppet`
 
+##### <a name="influx_archive_source"></a>`influx_archive_source`
+
+Data type: `Optional[Stdlib::Httpsurl]`
+
+URL if you want to install influx from tar.gz file
+
+Default value: ``undef``
+
 ##### <a name="telegraf_db_name"></a>`telegraf_db_name`
 
 Data type: `String`
 
 The InfluxDB database where Telegraf metrics are stored.
+
+##### <a name="telegraf_db_retention_duration"></a>`telegraf_db_retention_duration`
+
+Data type: `Optional[String[1]]`
+
+The retention duration for database used for Telegraf metrics. Defaults to undef.
+Specify a value to setup retention duration. Example: `4w` is 4 weeks.
+To update a new duration, set it as undef first and run puppet agent to reset. Then, specify the new value.
+
+Default value: ``undef``
 
 ##### <a name="http_response_timeout"></a>`http_response_timeout`
 
@@ -332,6 +355,35 @@ Data type: `Hash`
 
 Hash of arbitrary configuration settings to pass to Grafana.
 These are added to `grafana.ini` with top-level keys becoming sections and their key-value children becoming settings.
+
+##### <a name="grafana_manage_repo"></a>`grafana_manage_repo`
+
+Data type: `Boolean`
+
+Whether to configure apt / yum repositories for grafana packages.
+
+Default value: `$manage_repos`
+
+##### <a name="grafana_archive_source"></a>`grafana_archive_source`
+
+Data type: `Optional[Stdlib::Httpsurl]`
+
+URL if you want to install grafana from tar.gz file
+
+Default value: ``undef``
+
+##### <a name="grafana_install_method"></a>`grafana_install_method`
+
+Data type: `Enum['docker', 'archive', 'package', 'repo']`
+
+grafana module allows to specify the installation method.
+Set to 'archive' to install Grafana using the tar archive.
+Set to 'docker' to install Grafana using the official Docker container.
+Set to 'package' to install Grafana using .deb or .rpm packages.
+Set to 'repo' to install Grafana using an apt or yum repository.
+Defaults to 'package'.
+
+Default value: `'repo'`
 
 ##### <a name="master_list"></a>`master_list`
 
@@ -557,7 +609,8 @@ Default value: ``true``
 
 Data type: `String`
 
-Search user bind dn. If you can provide a single bind expression that matches all possible users, you can skip specifying ldap_bind_password.
+Search user bind dn. If you can provide a single bind expression that matches all possible users,
+you can skip specifying ldap_bind_password.
 
 ##### <a name="ldap_bind_password"></a>`ldap_bind_password`
 
@@ -663,11 +716,25 @@ Install requirements for the voxpupuli/puppet-telegraf module.
 
 #### Examples
 
-##### Apply this class to the Master and any/all Compilers
+##### Apply this class to the Primary Server and any/all Compilers
 
 ```puppet
 include puppet_metrics_dashboard::profile::master::install
 ```
+
+#### Parameters
+
+The following parameters are available in the `puppet_metrics_dashboard::profile::master::install` class:
+
+* [`manage_ldap_auth`](#manage_ldap_auth)
+
+##### <a name="manage_ldap_auth"></a>`manage_ldap_auth`
+
+Data type: `Boolean`
+
+
+
+Default value: ``true``
 
 ### <a name="puppet_metrics_dashboardprofilemasterpostgres_access"></a>`puppet_metrics_dashboard::profile::master::postgres_access`
 
@@ -712,8 +779,9 @@ The following parameters are available in the `puppet_metrics_dashboard::profile
 
 Data type: `String`
 
-The FQDN of the host where telegraf runs.
-Defaults to an empty string.  You can explicitly set this parameter or the class attempts to lookup which host has the puppet_metrics_dashboard class applied in PuppetDB.  If the parameter is not set and the lookup does not return anything we issue a warning.
+The FQDN of the host where telegraf runs.  Defaults to an empty string.
+You can explicitly set this parameter or the class attempts to lookup which host has the puppet_metrics_dashboard class applied
+in PuppetDB.  If the parameter is not set and the lookup does not return anything we issue a warning.
 
 Default value: `''`
 
@@ -741,11 +809,11 @@ Default value: `$name`
 
 ### <a name="puppet_metrics_dashboardprofilecompiler"></a>`puppet_metrics_dashboard::profile::compiler`
 
-Apply this class to a master or compiler to collect puppetserver metrics
+Apply this class to a Primary Server or Compiler to collect puppetserver metrics
 
 #### Examples
 
-##### Add telegraf to a master / compiler
+##### Add telegraf to a Primary Server / Compiler
 
 ```puppet
 puppet_metrics_dashboard::profile::compiler{ $facts['networking']['fqdn']:
@@ -774,7 +842,7 @@ Default value: `lookup('puppet_metrics_dashboard::http_response_timeout')`
 
 Data type: `Variant[String,Tuple[String, Integer]]`
 
-The FQDN of the compiler / master.  Defaults to the FQDN of the server where the profile is applied
+The FQDN of the Compiler / Primary Server.  Defaults to the FQDN of the server where the profile is applied
 
 Default value: `$facts['networking']['fqdn']`
 
