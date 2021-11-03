@@ -34,7 +34,7 @@ define puppet_metrics_dashboard::profile::master::postgres (
     plugin_type => 'postgresql_extensible',
     options     => [{
       'interval'      => $query_interval,
-      'address'       => "postgres://telegraf@${postgres_host}:${port}/pe-puppetdb?sslmode=require&sslkey=/etc/telegraf/${trusted['certname']}_key.pem&sslcert=/etc/telegraf/${trusted['certname']}_cert.pem&sslrootcert=/etc/telegraf/ca.pem", #lint:ignore:140chars
+      'address'       => "postgres://telegraf@${postgres_host}:${port}/pe-puppetdb?sslmode=verify-full&sslkey=/etc/telegraf/${trusted['certname']}_key.pem&sslcert=/etc/telegraf/${trusted['certname']}_cert.pem&sslrootcert=/etc/telegraf/ca.pem", #lint:ignore:140chars
       'outputaddress' => $postgres_host,
       'databases'     => $databases,
       'query'         => [{
