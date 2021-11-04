@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v2.6.1](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v2.6.1) (2021-11-04)
+
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.6.0...v2.6.1)
+
+### Fixed
+
+- \(SUP-2779\) Fix the bug - telegraf postgres metrics unable to obtain data [\#200](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/200) ([henrywangpuppet](https://github.com/henrywangpuppet))
+
 ## [v2.6.0](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v2.6.0) (2021-11-01)
 
 [Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.5.0...v2.6.0)
