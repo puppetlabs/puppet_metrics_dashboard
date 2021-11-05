@@ -68,7 +68,7 @@ class puppet_metrics_dashboard::profile::dbcompiler::install (
     puppetdb_metrics   => $puppetdb_metrics,
     port               => $db_port,
     interval           => $interval,
-    enable_client_cert => false,
+    enable_client_cert => true,
   }
 
   if $tidy_telegraf_configs {
