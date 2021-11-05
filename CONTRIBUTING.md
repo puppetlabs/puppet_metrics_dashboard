@@ -191,32 +191,6 @@ and then run all the tests under [spec/acceptance](./spec/acceptance). Below wil
 % bundle exec rake litmus:tear_down
 ```
 
-### Manual Local Testing
-
-This module comes with a the ability to do manual testing, which uses [litmus](https://github.com/puppetlabs/puppet_litmus). This capability spins up containers under
-[Docker](https://www.docker.com/) to allow for some manual testing. In order to run this, you need Docker installed on your system.
-
-The following command will provision a local docker instance of the applied module and import some metrics collected by the 'puppetlabs-puppet_metrics_collector'.
-
-```shell
-% bundle install
-% bundle exec rake 'viewer[/path/to/offline/metrics]'
-```
-
-This will now download a CentOS 7 container configured in the [viewer node-set](./provision.yaml), install Puppet 6.x, copy this module, and apply the module, and import metrics from the specified directory. The UI will be available on <http://localhost:3000>. This only uses the `pe_metrics` database and associated dashboards. To limit the number of days to import metrics, an optional day parameter can be passed into the `bundle exec rake 'litmus:viewer[/path/to/offline/metrics,20]'` command.
-
-The following command can be used to import additional metrics into the existing instance.
-
-```shell
-% bundle exec rake 'viewer:import[/path/to/offline/metrics]'
-```
-
-The following command can be run to destroy the local instance.
-
-```shell
-% bundle exec rake viewer:destroy
-```
-
 ## Writing Tests
 
 ### Unit Tests

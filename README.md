@@ -8,17 +8,21 @@
 - [Usage](#usage)
   - [Configure a Standard Primary Server and a Dashboard node](#configure-a-standard-primary-server-and-a-dashboard-node)
   - [Manual configuration of a complex Puppet Infrastructure](#manual-configuration-of-a-complex-puppet-infrastructure)
+  - [Configure Primary Server, Compiler running PuppetDB and a Dashboard node](#configure-primary-server-compiler-running-puppetdb-and-a-dashboard-node)
   - [Configure Graphite](#configure-graphite)
   - [Configure Telegraf, Graphite, and Archive](#configure-telegraf-graphite-and-archive)
-  - [Import Archive Metrics](#import-archive-metrics)
   - [Allow Telegraf to access PE-PostgreSQL](#allow-telegraf-to-access-pe-postgresql)
   - [Enable SSL](#enable-ssl)
   - [Profile defined types](#profile-defined-types)
   - [Other possibilities](#other-possibilities)
+- [Using Archive Metrics](#using-archive-metrics)
+  - [Viewing Archive Metrics using Docker](#viewing-archive-metrics-using-docker)
+  - [Import Archive Metrics into InfluxDB](#import-archive-metrics-into-influxdb)
 - [Reference](#reference)
 - [Limitations](#limitations)
   - [Repository failure for InfluxDB packages](#repository-failure-for-influxdb-packages)
   - [PostgreSQL metrics collection with older versions of Telegraf](#postgresql-metrics-collection-with-older-versions-of-telegraf)
+  - [Puppet-Telegraf module version 4.0.0](#puppet-telegraf-module-version-400)
 - [Development](#development)
 
 ## Description
@@ -152,7 +156,7 @@ Note that the defaults for this module's class parameters are defined in its `da
 
 The `*_list` parameters can be defined in the class declaration, or elsewhere in Hiera. For example:
 
-```
+```yaml
 puppet_metrics_dashboard::master_list:
   - "primary.example.com"
   - ["compiler01.example.com", 9140]
@@ -221,24 +225,6 @@ node 'dashboard.example.com' {
 }
 ```
 
-### Import Archive Metrics
-
-The `json2timeseriesdb` script from the [puppetlabs/puppet_metrics_collector](https://forge.puppet.com/puppetlabs/puppet_metrics_collector) module can be used to transform its data and import it into InfluxDB.
-
-Examples:
-
-```bash
-./json2timeseriesdb /opt/puppetlabs/puppet-metrics-collector/puppetserver/*/*.json --convert-to influxdb --influx-db puppet_metrics --netcat dashboard.example.com
-```
-
-This simple example can be used for small number of files. For a large number of files, use `--pattern`.
-
-```bash
-./json2timeseriesdb  --pattern '/opt/puppetlabs/puppet-metrics-collector/puppetserver/*/*.json' --convert-to influxdb --influx-db puppet_metrics --netcat dashboard.example.com
-```
-
-The `--pattern` flag accepts a Ruby glob argument, which the script will internally expand into a list of files.
-
 ### Allow Telegraf to access PE-PostgreSQL
 
 The following class is required to be applied to the Primary Server (or the PE Database node if using external PostgreSQL) for collection of PostgreSQL metrics via Telegraf.
@@ -302,6 +288,51 @@ node 'dashboard.example.com' {
   }
 }
 ```
+
+## Using Archive Metrics
+
+### Viewing Archive Metrics using Docker
+
+This module comes with a the ability to view archive metrics using [litmus](https://github.com/puppetlabs/puppet_litmus), [Docker](https://www.docker.com/), and [PDK](https://puppet.com/docs/pdk/latest/pdk.html). This process provisions a [Docker](https://www.docker.com/) container with the module applied, and imports `pe_metrics` metrics from the [puppetlabs-puppet_metrics_collector module](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_collector). In order to run this, you need [Docker](https://www.docker.com/) and [PDK](https://puppet.com/docs/pdk/latest/pdk.html) installed on your system.
+
+The following command will provision a local docker container with the local version of this module applied and import the last 30 days of metrics collected by the [puppetlabs-puppet_metrics_collector module](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_collector).
+
+```shell
+pdk bundle install
+pdk bundle exec rake 'viewer[/path/to/offline/metrics]'
+```
+
+The command above will download a CentOS 7 container image configured in the [viewer node-set](./provision.yaml), install Puppet 6.x, copy this module, and apply the module, and import metrics from the specified directory. The UI will be available on <http://localhost:3000> with the default `admin` credentials. This method only uses the `pe_metrics` database and associated dashboards. To limit the number of days to import metrics, an optional day parameter can be passed into the `pdk bundle exec rake 'litmus:viewer[/path/to/offline/metrics,20]'` command.
+
+The following command can be used to import additional metrics into a running instance.
+
+```shell
+pdk bundle exec rake 'viewer:import[/path/to/offline/metrics]'
+```
+
+The following command can be run to destroy the local instance.
+
+```shell
+pdk bundle exec rake viewer:destroy
+```
+
+### Import Archive Metrics into InfluxDB
+
+The `json2timeseriesdb` script from the [puppetlabs/puppet_metrics_collector](https://forge.puppet.com/puppetlabs/puppet_metrics_collector) module can be used to transform its data and import it into InfluxDB.
+
+Examples:
+
+```bash
+./json2timeseriesdb /opt/puppetlabs/puppet-metrics-collector/puppetserver/*/*.json --convert-to influxdb --influx-db puppet_metrics --netcat dashboard.example.com
+```
+
+This simple example can be used for small number of files. For a large number of files, use `--pattern`.
+
+```bash
+./json2timeseriesdb  --pattern '/opt/puppetlabs/puppet-metrics-collector/puppetserver/*/*.json' --convert-to influxdb --influx-db puppet_metrics --netcat dashboard.example.com
+```
+
+The `--pattern` flag accepts a Ruby glob argument, which the script will internally expand into a list of files.
 
 ## Reference
 
