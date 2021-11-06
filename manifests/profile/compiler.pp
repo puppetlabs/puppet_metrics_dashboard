@@ -32,6 +32,9 @@ define puppet_metrics_dashboard::profile::compiler (
       'urls'                 => [ "https://${compiler}:${port}/status/v1/services?level=debug" ],
       'method'               => 'GET',
       'insecure_skip_verify' => true,
+      # The /status/v1 API will respond with a 503 code if a single
+      # sub-service is in an unhealthy state, but will still return metrics.
+      'success_status_codes' => [200, 503],
       'timeout'              => $timeout,
       'tags'                 => {
         'server' => $compiler,
@@ -49,6 +52,7 @@ if $facts['pe_server_version'] {
         'insecure_skip_verify' => true,
         'data_format'          => 'json',
         'json_string_fields'   => ['status_repos_puppet-code_latest_commit_date'],
+        'success_status_codes' => [200, 503],
         'timeout'              => $timeout,
       }],
       notify      => Service['telegraf'],
