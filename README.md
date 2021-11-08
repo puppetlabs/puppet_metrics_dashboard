@@ -15,6 +15,7 @@
   - [Enable SSL](#enable-ssl)
   - [Profile defined types](#profile-defined-types)
   - [Other possibilities](#other-possibilities)
+  - [Default dashboards](#default-dashboards)
 - [Using Archive Metrics](#using-archive-metrics)
   - [Viewing Archive Metrics using Docker](#viewing-archive-metrics-using-docker)
   - [Import Archive Metrics into InfluxDB](#import-archive-metrics-into-influxdb)
@@ -288,6 +289,9 @@ node 'dashboard.example.com' {
   }
 }
 ```
+### Default dashboards
+
+This module comes with a few default dashboards. For reference, please check [Default Dashboards](./files).
 
 ## Using Archive Metrics
 
