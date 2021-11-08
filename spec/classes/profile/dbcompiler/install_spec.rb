@@ -42,7 +42,7 @@ describe 'puppet_metrics_dashboard::profile::dbcompiler::install' do
             puppetdb_metrics: [{ 'name' => 'metric_name', 'url' => 'metrics_url' }],
             port: 8081,
             interval: '5s',
-            enable_client_cert: false,
+            enable_client_cert: true,
           )
         end
         it 'does not contain a tidy resource' do
