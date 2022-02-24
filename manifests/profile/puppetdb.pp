@@ -91,14 +91,14 @@ define puppet_metrics_dashboard::profile::puppetdb (
   telegraf::input { "puppetdb_command_queue_${puppetdb_host}":
     plugin_type => 'http',
     options     => [{
-      'data_format'   => 'json',
-      'name_override' => 'httpjson_puppetdb_command_queue',
-      'urls'          => [ "${protocol}://${puppetdb_host}:${port}/status/v1/services?level=debug" ],
+      'data_format'          => 'json',
+      'name_override'        => 'httpjson_puppetdb_command_queue',
+      'urls'                 => [ "${protocol}://${puppetdb_host}:${port}/status/v1/services?level=debug" ],
       # The /status/v1 API will respond with a 503 code if a single
       # sub-service is in an unhealthy state, but will still return metrics.
       'success_status_codes' => [200, 503],
-      'timeout'       => $timeout,
-      'tags'          => {
+      'timeout'              => $timeout,
+      'tags'                 => {
         'server' => $server_name,
       }
       } + $default_options

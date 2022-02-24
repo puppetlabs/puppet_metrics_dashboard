@@ -9,31 +9,30 @@ Gemfile:
   optional:
     ":development":
     - gem: github_changelog_generator
-    - gem: puppet_litmus
-      git: https://github.com/puppetlabs/puppet_litmus
-      ref: main
-      condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.5.0')
   required:
     ':development':
       - gem: 'toml-rb'
+      - gem: 'octokit'
+        version:
+          '= 4.21.0'
 spec/spec_helper.rb:
   mock_with: ":rspec"
   coverage_report: true
 .gitpod.Dockerfile:
-  unmanaged: false
+  unmanaged: true
 .gitpod.yml:
-  unmanaged: false
+  unmanaged: true
 .github/workflows/nightly.yml:
   unmanaged: true
 .github/workflows/auto_release.yml:
-  unmanaged: false
+  unmanaged: true
 .github/workflows/spec.yml:
   checks: 'syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop'
   unmanaged: true
 .github/workflows/release.yml:
-  unmanaged: false
+  unmanaged: true
 .github/workflows/pr_test.yml:
-  unmanaged: false
+  unmanaged: true
 .travis.yml:
   delete: true
 Rakefile:
