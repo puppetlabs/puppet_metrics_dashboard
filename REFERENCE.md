@@ -33,7 +33,7 @@
 
 ### Defined types
 
-* [`puppet_metrics_dashboard::certs`](#puppet_metrics_dashboardcerts): This class creates a certificates for Grafana and for connecting to PE Postgres.
+* [`puppet_metrics_dashboard::certs`](#puppet_metrics_dashboardcerts): Copy Puppet Agent keypair for use by metric services.
 * [`puppet_metrics_dashboard::profile::compiler`](#puppet_metrics_dashboardprofilecompiler): Apply this class to a Primary Server or Compiler to collect puppetserver metrics
 * [`puppet_metrics_dashboard::profile::master::postgres`](#puppet_metrics_dashboardprofilemasterpostgres): Apply this class to an agent running pe-postgresql to collect postgres metrics
 * [`puppet_metrics_dashboard::profile::puppetdb`](#puppet_metrics_dashboardprofilepuppetdb): Apply this class to a node running puppetdb to collect puppetdb metrics
@@ -789,23 +789,37 @@ Default value: `''`
 
 ### <a name="puppet_metrics_dashboardcerts"></a>`puppet_metrics_dashboard::certs`
 
-This class creates a set of certificates in /etc/${service}. These certificates
-are used when configuring Grafana to use SSL and to connect to PE Postgres.
-The certificates are based on the agent's own Puppet certificates.
+This type creates copies of the Puppet Agent's SSL keypair in `/etc/${service}`
+with user+group ownership set to `${service}`. These certificates are used
+when configuring Grafana to use SSL and to connect Telegraf with PE Services.
 
 #### Parameters
 
 The following parameters are available in the `puppet_metrics_dashboard::certs` defined type:
 
 * [`service`](#service)
+* [`ssl_dir`](#ssl_dir)
 
 ##### <a name="service"></a>`service`
 
 Data type: `Any`
 
-The service name associated with these certificates.
+The service name to associate with the keypair copy.
 
 Default value: `$name`
+
+##### <a name="ssl_dir"></a>`ssl_dir`
+
+Data type: `Any`
+
+The directory to copy Puppet Agent SSL files from. Defaults to the
+value of `puppet config print --section server ssldir` used by the
+Puppet Server, often `/etc/puppetlabs/puppet/ssl`. Use Hiera to
+override this value if agents have a different `ssldir` setting
+or if `bolt apply` is being used.
+
+Default value: `lookup('puppet_metrics_dashboard::certs::ssl_dir',
+                    {default_value => $settings::ssldir})`
 
 ### <a name="puppet_metrics_dashboardprofilecompiler"></a>`puppet_metrics_dashboard::profile::compiler`
 

@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v2.7.0](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v2.7.0) (2022-02-24)
+
+[Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.6.1...v2.7.0)
+
+### Added
+
+- Allow ssl\_dir to be configured via Hiera [\#205](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/205) ([Sharpie](https://github.com/Sharpie))
+- Enable PuppetDB SSL in dbcompiler profile [\#203](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/203) ([Sharpie](https://github.com/Sharpie))
+
+### Fixed
+
+- Accept 503 responses from PE /status APIs [\#204](https://github.com/puppetlabs/puppet_metrics_dashboard/pull/204) ([Sharpie](https://github.com/Sharpie))
+
 ## [v2.6.1](https://github.com/puppetlabs/puppet_metrics_dashboard/tree/v2.6.1) (2021-11-04)
 
 [Full Changelog](https://github.com/puppetlabs/puppet_metrics_dashboard/compare/v2.6.0...v2.6.1)
