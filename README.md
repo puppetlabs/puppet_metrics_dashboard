@@ -1,3 +1,10 @@
+# ⚠ WARNING ⚠
+
+This Module and Repository has been deprecated and is no longer maintained
+
+For the functional replacement of this module, please see [puppet_operational_dashboards](https://github.com/puppetlabs/puppet_operational_dashboards).
+
+
 # puppet_metrics_dashboard
 
 - [Description](#description)
